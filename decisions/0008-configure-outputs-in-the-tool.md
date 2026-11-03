@@ -19,7 +19,7 @@ Follow each tool's documentation. Pandora runs with `-o "<absolute path to Pando
 
 ## Consequences
 
-- Pandora needs a rerun to confirm the new arguments. It's save-safe as long as the animations don't change.
+- Pandora 5.0.0-beta ran with these arguments through MO2 on 2026-11-02, wrote only to `Pandora - Outputs`, and left Overwrite empty.
 - Pandora hadn't changed any source mod: none of the files in `Pandora - Outputs` exist in another mod.
 
 ## Confirmation

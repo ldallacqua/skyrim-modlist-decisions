@@ -53,7 +53,7 @@ flowchart LR
 | [0002](decisions/0002-separate-stock-game-folder.md) | Run from a separate game folder and test on a cloned profile | Accepted, after the fact |
 | [0003](decisions/0003-function-based-unnumbered-separators.md) | Use function-based separators without numbers | Accepted |
 | [0004](decisions/0004-character-pipeline-3ba-bodyslide-obody.md) | Build characters on CBBE 3BA, BodySlide and OBody NG | Accepted, after the fact |
-| [0005](decisions/0005-pandora-behavior-engine.md) | Generate behaviors with Pandora; version 5 is its own decision | Accepted, after the fact |
+| [0005](decisions/0005-pandora-behavior-engine.md) | Generate behaviors with Pandora | Accepted, after the fact |
 | [0006](decisions/0006-community-shaders-renderer.md) | Render with Community Shaders | Accepted, after the fact |
 | [0007](decisions/0007-one-output-mod-per-generator.md) | Give each generator its own output mod | Accepted |
 | [0008](decisions/0008-configure-outputs-in-the-tool.md) | Set each generator's output in the tool, not only in MO2 | Accepted |

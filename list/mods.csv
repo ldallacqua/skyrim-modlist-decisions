@@ -152,25 +152,27 @@ position,type,name,enabled,separator,version,nexus_id
 151,mod,[Dint999] HairPack02 SSE 1.12 (base),yes,Hair,d2026.8.31.0,
 152,mod,[Dint999] BDOR Hairs SSE 0.24,yes,Hair,d2026.8.31.0,
 153,separator,Animation,,Animation,,
-154,mod,Open Animation Replacer,yes,Animation,3.2.0.0,92109
-155,mod,Dyn FNIS AA functions,yes,Animation,3.0.0.0,175362
+154,mod,Open Animation Replacer,yes,Animation,3.2.1.0,92109
+155,mod,Dyn FNIS AA functions,yes,Animation,3.1.1.0,175362
 156,mod,OStim Standalone - Advanced Adult Animation Framework,yes,Animation,7.5.0.0c,98163
 157,mod,Momentary Solitude - Ladies for OStim Standalone,yes,Animation,1.0.0.0,107982
-158,separator,Armor,,Armor,,
-159,mod,CBBE 3BA Vanilla Outfits Redone,yes,Armor,5.5.1.0,109194
-160,separator,Gameplay,,Gameplay,,
-161,mod,True Directional Movement - Modernized Third Person Gameplay,yes,Gameplay,2.2.7.0,51614
-162,mod,Game Collision Options,yes,Gameplay,1.1.0.0,87426
-163,mod,Skyrim Unbound Reborn,yes,Gameplay,3.0.17.0,27962
-164,separator,Tools,,Tools,,
-165,mod,Pandora Behaviour Engine Plus,yes,Tools,4.4.0.0b-,133232
-166,mod,BodySlide and Outfit Studio,yes,Tools,5.8.2.0,201
-167,mod,PGPatcher,yes,Tools,2.3.1.0,120946
-168,separator,Outputs,,Outputs,,
-169,mod,ROOT - Outputs,yes,Outputs,,
-170,mod,SKSE - Outputs,yes,Outputs,,
-171,mod,ShaderCache - Outputs,yes,Outputs,,
-172,mod,Pandora - Outputs,yes,Outputs,,
-173,mod,Bodyslide - Outputs,yes,Outputs,,
-174,mod,PGPatcher - Outputs,yes,Outputs,,
-175,separator,Recently Added,,Recently Added,,
+158,mod,Animation Queue Fix,yes,Animation,1.0.2.0,82395
+159,mod,Paired Animation Improvements,yes,Animation,1.0.3.0,99621
+160,separator,Armor,,Armor,,
+161,mod,CBBE 3BA Vanilla Outfits Redone,yes,Armor,5.5.1.0,109194
+162,separator,Gameplay,,Gameplay,,
+163,mod,True Directional Movement - Modernized Third Person Gameplay,yes,Gameplay,2.2.7.0,51614
+164,mod,Game Collision Options,yes,Gameplay,1.1.0.0,87426
+165,mod,Skyrim Unbound Reborn,yes,Gameplay,3.0.17.0,27962
+166,separator,Tools,,Tools,,
+167,mod,Pandora Behaviour Engine Plus,yes,Tools,5.0.0.0b-,133232
+168,mod,BodySlide and Outfit Studio,yes,Tools,5.8.2.0,201
+169,mod,PGPatcher,yes,Tools,2.3.1.0,120946
+170,separator,Outputs,,Outputs,,
+171,mod,ROOT - Outputs,yes,Outputs,,
+172,mod,SKSE - Outputs,yes,Outputs,,
+173,mod,ShaderCache - Outputs,yes,Outputs,,
+174,mod,Pandora - Outputs,yes,Outputs,,
+175,mod,Bodyslide - Outputs,yes,Outputs,,
+176,mod,PGPatcher - Outputs,yes,Outputs,,
+177,separator,Recently Added,,Recently Added,,

@@ -17,6 +17,8 @@
 -Gameplay_separator
 +CBBE 3BA Vanilla Outfits Redone
 -Armor_separator
++Paired Animation Improvements
++Animation Queue Fix
 +Momentary Solitude - Ladies for OStim Standalone
 +OStim Standalone - Advanced Adult Animation Framework
 +Dyn FNIS AA functions
