@@ -1,0 +1,176 @@
+position,type,name,enabled,separator,version,nexus_id
+1,separator,DLC & CC,,DLC & CC,,
+2,unmanaged,Unmanaged: ccvsvsse004-beafarmer,yes,DLC & CC,,
+3,unmanaged,Unmanaged: cckrtsse001_altar,yes,DLC & CC,,
+4,unmanaged,Unmanaged: cceejsse005-cave,yes,DLC & CC,,
+5,unmanaged,Unmanaged: ccedhsse003-redguard,yes,DLC & CC,,
+6,unmanaged,Unmanaged: cccbhsse001-gaunt,yes,DLC & CC,,
+7,unmanaged,Unmanaged: ccbgssse069-contest,yes,DLC & CC,,
+8,unmanaged,Unmanaged: ccbgssse068-bloodfall,yes,DLC & CC,,
+9,unmanaged,Unmanaged: ccbgssse067-daedinv,yes,DLC & CC,,
+10,unmanaged,Unmanaged: ccbgssse066-staves,yes,DLC & CC,,
+11,unmanaged,Unmanaged: ccbgssse038-bowofshadows,yes,DLC & CC,,
+12,unmanaged,Unmanaged: ccbgssse012-hrsarmrstl,yes,DLC & CC,,
+13,unmanaged,Unmanaged: ccbgssse011-hrsarmrelvn,yes,DLC & CC,,
+14,unmanaged,Unmanaged: ccbgssse005-goldbrand,yes,DLC & CC,,
+15,unmanaged,Unmanaged: ccbgssse001-fish,yes,DLC & CC,,
+16,unmanaged,Unmanaged: ccasvsse001-almsivi,yes,DLC & CC,,
+17,unmanaged,Unmanaged: ccafdsse001-dwesanctuary,yes,DLC & CC,,
+18,unmanaged,Unmanaged: _ResourcePack,yes,DLC & CC,,
+19,unmanaged,Creation Club: ccvsvsse003-necroarts,yes,DLC & CC,,
+20,unmanaged,Creation Club: ccvsvsse002-pets,yes,DLC & CC,,
+21,unmanaged,Creation Club: ccvsvsse001-winter,yes,DLC & CC,,
+22,unmanaged,Creation Club: cctwbsse001-puzzledungeon,yes,DLC & CC,,
+23,unmanaged,Creation Club: ccrmssse001-necrohouse,yes,DLC & CC,,
+24,unmanaged,Creation Club: ccqdrsse002-firewood,yes,DLC & CC,,
+25,unmanaged,Creation Club: ccqdrsse001-survivalmode,yes,DLC & CC,,
+26,unmanaged,Creation Club: ccpewsse002-armsofchaos,yes,DLC & CC,,
+27,unmanaged,Creation Club: ccmtysse002-ve,yes,DLC & CC,,
+28,unmanaged,Creation Club: ccmtysse001-knightsofthenine,yes,DLC & CC,,
+29,unmanaged,Creation Club: ccfsvsse001-backpacks,yes,DLC & CC,,
+30,unmanaged,Creation Club: ccffbsse002-crossbowpack,yes,DLC & CC,,
+31,unmanaged,Creation Club: ccffbsse001-imperialdragon,yes,DLC & CC,,
+32,unmanaged,Creation Club: cceejsse004-hall,yes,DLC & CC,,
+33,unmanaged,Creation Club: cceejsse003-hollow,yes,DLC & CC,,
+34,unmanaged,Creation Club: cceejsse002-tower,yes,DLC & CC,,
+35,unmanaged,Creation Club: cceejsse001-hstead,yes,DLC & CC,,
+36,unmanaged,Creation Club: ccedhsse002-splkntset,yes,DLC & CC,,
+37,unmanaged,Creation Club: ccedhsse001-norjewel,yes,DLC & CC,,
+38,unmanaged,Creation Club: ccbgssse064-ba_elven,yes,DLC & CC,,
+39,unmanaged,Creation Club: ccbgssse063-ba_ebony,yes,DLC & CC,,
+40,unmanaged,Creation Club: ccbgssse062-ba_dwarvenmail,yes,DLC & CC,,
+41,unmanaged,Creation Club: ccbgssse061-ba_dwarven,yes,DLC & CC,,
+42,unmanaged,Creation Club: ccbgssse060-ba_dragonscale,yes,DLC & CC,,
+43,unmanaged,Creation Club: ccbgssse059-ba_dragonplate,yes,DLC & CC,,
+44,unmanaged,Creation Club: ccbgssse058-ba_steel,yes,DLC & CC,,
+45,unmanaged,Creation Club: ccbgssse057-ba_stalhrim,yes,DLC & CC,,
+46,unmanaged,Creation Club: ccbgssse056-ba_silver,yes,DLC & CC,,
+47,unmanaged,Creation Club: ccbgssse055-ba_orcishscaled,yes,DLC & CC,,
+48,unmanaged,Creation Club: ccbgssse054-ba_orcish,yes,DLC & CC,,
+49,unmanaged,Creation Club: ccbgssse053-ba_leather,yes,DLC & CC,,
+50,unmanaged,Creation Club: ccbgssse052-ba_iron,yes,DLC & CC,,
+51,unmanaged,Creation Club: ccbgssse051-ba_daedricmail,yes,DLC & CC,,
+52,unmanaged,Creation Club: ccbgssse050-ba_daedric,yes,DLC & CC,,
+53,unmanaged,Creation Club: ccbgssse045-hasedoki,yes,DLC & CC,,
+54,unmanaged,Creation Club: ccbgssse043-crosselv,yes,DLC & CC,,
+55,unmanaged,Creation Club: ccbgssse041-netchleather,yes,DLC & CC,,
+56,unmanaged,Creation Club: ccbgssse040-advobgobs,yes,DLC & CC,,
+57,unmanaged,Creation Club: ccbgssse037-curios,yes,DLC & CC,,
+58,unmanaged,Creation Club: ccbgssse036-petbwolf,yes,DLC & CC,,
+59,unmanaged,Creation Club: ccbgssse035-petnhound,yes,DLC & CC,,
+60,unmanaged,Creation Club: ccbgssse034-mntuni,yes,DLC & CC,,
+61,unmanaged,Creation Club: ccbgssse031-advcyrus,yes,DLC & CC,,
+62,unmanaged,Creation Club: ccbgssse025-advdsgs,yes,DLC & CC,,
+63,unmanaged,Creation Club: ccbgssse021-lordsmail,yes,DLC & CC,,
+64,unmanaged,Creation Club: ccbgssse020-graycowl,yes,DLC & CC,,
+65,unmanaged,Creation Club: ccbgssse019-staffofsheogorath,yes,DLC & CC,,
+66,unmanaged,Creation Club: ccbgssse018-shadowrend,yes,DLC & CC,,
+67,unmanaged,Creation Club: ccbgssse016-umbra,yes,DLC & CC,,
+68,unmanaged,Creation Club: ccbgssse014-spellpack01,yes,DLC & CC,,
+69,unmanaged,Creation Club: ccbgssse013-dawnfang,yes,DLC & CC,,
+70,unmanaged,Creation Club: ccbgssse010-petdwarvenarmoredmudcrab,yes,DLC & CC,,
+71,unmanaged,Creation Club: ccbgssse008-wraithguard,yes,DLC & CC,,
+72,unmanaged,Creation Club: ccbgssse007-chrysamere,yes,DLC & CC,,
+73,unmanaged,Creation Club: ccbgssse006-stendarshammer,yes,DLC & CC,,
+74,unmanaged,Creation Club: ccbgssse004-ruinsedge,yes,DLC & CC,,
+75,unmanaged,Creation Club: ccbgssse003-zombies,yes,DLC & CC,,
+76,unmanaged,Creation Club: ccbgssse002-exoticarrows,yes,DLC & CC,,
+77,unmanaged,DLC: HearthFires,yes,DLC & CC,,
+78,unmanaged,DLC: Dragonborn,yes,DLC & CC,,
+79,unmanaged,DLC: Dawnguard,yes,DLC & CC,,
+80,separator,SKSE & Frameworks,,SKSE & Frameworks,,
+81,mod,Skyrim Script Extender (SKSE64),yes,SKSE & Frameworks,2.0.20.0,30379
+82,mod,Address Library for SKSE Plugins,yes,SKSE & Frameworks,12.0.0.0,32444
+83,mod,Crash Logger SSE AE VR - PDB support,yes,SKSE & Frameworks,1.25.0.0,59818
+84,mod,SSE Display Tweaks,yes,SKSE & Frameworks,0.5.25.0,34705
+85,mod,SSE Engine Fixes (skse64 plugin),yes,SKSE & Frameworks,7.0.19.0-AIO,17230
+86,mod,ConsoleUtilSSE NG,yes,SKSE & Frameworks,1.6.1.0,76649
+87,mod,JContainers SE,yes,SKSE & Frameworks,4.3.4.0,16495
+88,mod,PapyrusUtil SE - Modders Scripting Utility Functions,yes,SKSE & Frameworks,3.9.0.0,13048
+89,mod,BEES,yes,SKSE & Frameworks,1.4.0.0,106441
+90,mod,BEES Papyrus Scripts,yes,SKSE & Frameworks,1.4.0.0,106441
+91,mod,MCM Helper,yes,SKSE & Frameworks,1.4.0.0,53000
+92,mod,powerofthree's Papyrus Extender,yes,SKSE & Frameworks,6.5.1.0,22854
+93,mod,SKSE Menu Framework,yes,SKSE & Frameworks,3.14.1.0,120352
+94,mod,UIExtensions,yes,SKSE & Frameworks,1.2.0.0,17561
+95,mod,RaceCompatibility with fixes for SSE,yes,SKSE & Frameworks,2.16.0.0,2853
+96,separator,Fixes,,Fixes,,
+97,mod,Alt-Tab Stuck Key Fix,yes,Fixes,1.3.3.0,148466
+98,mod,Media Keys Fix SKSE,yes,Fixes,1.0.2.0,92948
+99,mod,powerofthree's Tweaks,yes,Fixes,1.17.1.0,51073
+100,mod,Fuz Ro D-oh - Silent Voice,yes,Fixes,1.7.0.0,15109
+101,mod,Papyrus Tweaks NG,yes,Fixes,4.1.1.0,77779
+102,mod,Assorted mesh fixes,yes,Fixes,0.139.3.0,32117
+103,separator,UI & Camera,,UI & Camera,,
+104,mod,SkyUI,yes,UI & Camera,6.11.0.0,12604
+105,mod,TrueHUD - HUD Additions,yes,UI & Camera,1.1.9.0,62775
+106,mod,iWant Widgets,yes,UI & Camera,1.33.0.0,36457
+107,mod,SmoothCam,yes,UI & Camera,1.7.1.0,41252
+108,separator,Shaders,,Shaders,,
+109,mod,Community Shaders,yes,Shaders,1.8.4.0,86492
+110,mod,Upscaling - Community Shaders,yes,Shaders,1.4.0.0,156952
+111,mod,DLSS 5 - ReShade and RenoDX,yes,Shaders,,
+112,mod,Hair Specular - Community Shaders,yes,Shaders,1.1.2.0,149011
+113,mod,Vanilla Hair Flow Maps,yes,Shaders,1.0.0.0,149011
+114,mod,Screen Space Global Illumination (SSGI) - Community Shaders,yes,Shaders,4.1.1.0,130375
+115,mod,Skylighting - Community Shaders,yes,Shaders,1.5.2.0,139352
+116,mod,Terrain Helper,yes,Shaders,1.1.0.0,143149
+117,mod,Terrain Blending - Community Shaders,yes,Shaders,1.2.0.0,157076
+118,mod,Terrain Variation - Community Shaders,yes,Shaders,1.2.0.0,148123
+119,mod,Wetness Effects - Community Shaders,yes,Shaders,3.1.0.0,112739
+120,mod,Grass Optimizations - Community Shaders,yes,Shaders,1.0.0.0,188628
+121,mod,No Grass In Objects,yes,Shaders,2.0.3.0,42161
+122,mod,Particle Patch,yes,Shaders,1.4.6.0,65720
+123,separator,Skeleton & Physics,,Skeleton & Physics,,
+124,mod,XP32 Maximum Skeleton Special Extended,yes,Skeleton & Physics,f5.06,1988
+125,mod,CBPC - Physics with Collisions,yes,Skeleton & Physics,1.7.2.0,21224
+126,mod,Faster HDT-SMP,yes,Skeleton & Physics,4.1.1.0,57339
+127,separator,Body,,Body,,
+128,mod,Caliente's Beautiful Bodies Enhancer -CBBE-,yes,Body,2.0.3.0,198
+129,mod,CBBE 3BA,yes,Body,2.48.0.0,30174
+130,mod,3B Breast-Butt Bounce Configs for 3BA-BHUNP-COCO,yes,Body,1.5.2.0,21224
+131,mod,OBody Next Generation,yes,Body,4.4.3.0,77016
+132,mod,OBody Next Generation ORefit JSON Master List,yes,Body,f2026.01,105052
+133,separator,Head & Face,,Head & Face,,
+134,mod,RaceMenu,yes,Head & Face,0.4.16.0,19080
+135,mod,RaceMenu 0.4.16 Memory Leak Hotfix (SE),yes,Head & Face,1.0.0.0,70161
+136,mod,Expressive Facegen Morphs SE,yes,Head & Face,1.0.0.0,35785
+137,mod,Expressive Facial Animation - Female Edition,yes,Head & Face,1.7.0.0,19181
+138,mod,Expressive Facial Animation - Male Edition,yes,Head & Face,1.21.0.0,19532
+139,mod,High Poly Head SE,yes,Head & Face,1.4.0.0,
+140,mod,Even More Brows - HPH - COtR,yes,Head & Face,1.1.0.0,87305
+141,separator,Skin,,Skin,,
+142,mod,BnP female skin (Replacer+Player version),yes,Skin,2.0.0.0,65274
+143,mod,BnP female small update,yes,Skin,2.1.0.0,65274
+144,separator,Presets,,Presets,,
+145,mod,BnP female presets,yes,Presets,2.0.0.0,65274
+146,mod,Amazing Curves - A CBBE 3BA Bodyslide Preset,yes,Presets,1.1.0.0,70212
+147,mod,Beauty Body Preset - CBBE 3BA 3BBB Bodyslide,yes,Presets,5.0.0.0,59589
+148,mod,Demonic Body Preset cbbe 3ba,yes,Presets,f1.00,62726
+149,mod,Natural Curves - A CBBE Bodyslide Preset,yes,Presets,1.1.0.0,41906
+150,separator,Hair,,Hair,,
+151,mod,[Dint999] HairPack02 SSE 1.12 (base),yes,Hair,d2026.8.31.0,
+152,mod,[Dint999] BDOR Hairs SSE 0.24,yes,Hair,d2026.8.31.0,
+153,separator,Animation,,Animation,,
+154,mod,Open Animation Replacer,yes,Animation,3.2.0.0,92109
+155,mod,Dyn FNIS AA functions,yes,Animation,3.0.0.0,175362
+156,mod,OStim Standalone - Advanced Adult Animation Framework,yes,Animation,7.5.0.0c,98163
+157,mod,Momentary Solitude - Ladies for OStim Standalone,yes,Animation,1.0.0.0,107982
+158,separator,Armor,,Armor,,
+159,mod,CBBE 3BA Vanilla Outfits Redone,yes,Armor,5.5.1.0,109194
+160,separator,Gameplay,,Gameplay,,
+161,mod,True Directional Movement - Modernized Third Person Gameplay,yes,Gameplay,2.2.7.0,51614
+162,mod,Game Collision Options,yes,Gameplay,1.1.0.0,87426
+163,mod,Skyrim Unbound Reborn,yes,Gameplay,3.0.17.0,27962
+164,separator,Tools,,Tools,,
+165,mod,Pandora Behaviour Engine Plus,yes,Tools,4.4.0.0b-,133232
+166,mod,BodySlide and Outfit Studio,yes,Tools,5.8.2.0,201
+167,mod,PGPatcher,yes,Tools,2.3.1.0,120946
+168,separator,Recently Added,,Recently Added,,
+169,separator,Outputs,,Outputs,,
+170,mod,ROOT - Outputs,yes,Outputs,,
+171,mod,SKSE - Outputs,yes,Outputs,,
+172,mod,ShaderCache - Outputs,yes,Outputs,,
+173,mod,Pandora - Outputs,yes,Outputs,,
+174,mod,Bodyslide - Outputs,yes,Outputs,,
+175,mod,PGPatcher - Outputs,yes,Outputs,,

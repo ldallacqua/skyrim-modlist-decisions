@@ -1,0 +1,14 @@
+{
+  "separators": [
+    "DLC & CC", "SKSE & Frameworks", "Fixes", "UI & Camera", "Shaders", "Skeleton & Physics", "Body", "Head & Face",
+    "Skin", "Presets", "Hair", "Animation", "Armor", "Gameplay", "Tools", "Recently Added", "Outputs"
+  ],
+  "required_mods": [
+    "Skyrim Script Extender (SKSE64)", "Address Library for SKSE Plugins", "BEES", "SSE Engine Fixes (skse64 plugin)",
+    "Crash Logger SSE AE VR - PDB support", "Community Shaders", "CBBE 3BA", "OBody Next Generation",
+    "BodySlide and Outfit Studio", "Pandora Behaviour Engine Plus"
+  ],
+  "outputs_separator": "Outputs",
+  "output_mods": ["ROOT - Outputs", "SKSE - Outputs", "ShaderCache - Outputs", "Pandora - Outputs", "Bodyslide - Outputs", "PGPatcher - Outputs"],
+  "inbox_separator": "Recently Added"
+}
