@@ -1,12 +1,12 @@
 # 0008. Set each generator's output in the tool, not only in MO2
 
-- **Status:** proposed
+- **Status:** accepted
 - **Date:** 2026-11-02
 - **Summary:** Configure the output location the way each tool documents, because MO2's "create files in mod" only catches new files.
 
 ## Context
 
-MO2's redirect catches new files, while existing files are changed where they are. That's how BodySlide ended up writing into source mods here. The profile still redirects Pandora and BodySlide through `custom_overwrites`, and neither executable has arguments. BodySlide's own Output Path was since set to `Bodyslide - Outputs`, so its redirect is now redundant. Pandora relies on the redirect alone.
+MO2's redirect catches new files, while existing files are changed where they are. That's how BodySlide ended up writing into source mods here. The profile redirected Pandora and BodySlide through `custom_overwrites`, and neither executable had arguments. BodySlide's own Output Path was already set to `Bodyslide - Outputs`, so its redirect was redundant, and Pandora relied on the redirect alone.
 
 ## Options considered
 
@@ -15,12 +15,12 @@ MO2's redirect catches new files, while existing files are changed where they ar
 
 ## Decision
 
-Follow each tool's documentation. Give Pandora `-o "<absolute path to Pandora - Outputs>"`, plus `--tesv` as its README asks for Stock Game setups so it finds FNIS mods. Keep BodySlide's Output Path. Then remove both `custom_overwrites` entries and regenerate.
+Follow each tool's documentation. Pandora runs with `-o "<absolute path to Pandora - Outputs>" --tesv:"<game root>"`. The game root matters here: without it, Pandora finds the game through the Windows registry, which points to the Steam install rather than the separate folder ([0002](0002-separate-stock-game-folder.md)). BodySlide keeps its own Output Path. Both `custom_overwrites` entries were removed.
 
 ## Consequences
 
-- Pandora needs a rerun. It's save-safe as long as the animations don't change.
-- It hasn't been verified whether Pandora has already changed any source mod. Check the Conflicts tab and reinstall anything suspect.
+- Pandora needs a rerun to confirm the new arguments. It's save-safe as long as the animations don't change.
+- Pandora hadn't changed any source mod: none of the files in `Pandora - Outputs` exist in another mod.
 
 ## Confirmation
 

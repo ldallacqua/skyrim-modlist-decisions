@@ -1,6 +1,6 @@
 # 0003. Use function-based separators without numbers
 
-- **Status:** proposed
+- **Status:** accepted
 - **Date:** 2026-11-02
 - **Summary:** Keep the 17 separators named by function, leave them unnumbered, and fix only the two ends of the pane.
 

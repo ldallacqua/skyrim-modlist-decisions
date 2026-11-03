@@ -1,6 +1,6 @@
 # 0010. Sort with LOOT and record every exception as metadata
 
-- **Status:** proposed
+- **Status:** accepted
 - **Date:** 2026-11-02
 - **Summary:** LOOT sets the base order, and any exception is a `Load After` rule or a group, never a manual drag.
 

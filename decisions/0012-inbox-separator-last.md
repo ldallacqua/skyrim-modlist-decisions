@@ -1,12 +1,12 @@
 # 0012. Keep the inbox separator last
 
-- **Status:** proposed
+- **Status:** accepted
 - **Date:** 2026-11-02
-- **Summary:** Move `Recently Added` below `Outputs` and require it to be empty at release.
+- **Summary:** `Recently Added` sits below `Outputs` and must be empty at release.
 
 ## Context
 
-The separator currently sits above `Outputs`. With no row selected, a new mod should land at top priority, which today means inside `Outputs`. This comes from reading MO2's `master` source and should be tested with a small mod.
+The separator sat above `Outputs`. With no row selected, a new mod should land at top priority, which meant inside `Outputs`. This comes from reading MO2's `master` source and should be tested with a small mod.
 
 ## Options considered
 
@@ -15,7 +15,7 @@ The separator currently sits above `Outputs`. With no row selected, a new mod sh
 
 ## Decision
 
-Move it to the end. A mod in the inbox wins every conflict until it's sorted, which is a reason to sort it quickly and keep the inbox empty at release.
+It moved to the end. A mod in the inbox wins every conflict until it's sorted, which is a reason to sort it quickly and keep the inbox empty at release.
 
 ## Consequences
 
@@ -23,7 +23,7 @@ Regenerate outputs after sorting a mod that affects them.
 
 ## Confirmation
 
-`tools/check.py` checks that the inbox is empty and last. It only warns while this decision is proposed, and fails once it's accepted. Adopting it also means updating the separator order in `rules/rules.json`.
+`tools/check.py` fails if the inbox has mods or isn't the last separator.
 
 ## Revisit when
 

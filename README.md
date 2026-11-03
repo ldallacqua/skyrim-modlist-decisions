@@ -45,22 +45,22 @@ flowchart LR
 
 ## Decisions
 
-**Accepted** describes the list as it is. **Proposed** is a research-backed recommendation the owner hasn't adopted yet. Entries marked "recorded after the fact" capture a choice made before this repository existed, so their original reasoning is limited.
+**Accepted** describes the list as it is. **Proposed** would be a research-backed recommendation that hasn't been adopted yet; there are none right now. Entries marked "recorded after the fact" capture a choice made before this repository existed, so their original reasoning is limited.
 
 | # | Decision | Status |
 |---|---|---|
 | [0001](decisions/0001-pin-skyrim-se-1597-with-cc.md) | Pin the game at Skyrim SE 1.5.97 with AE content | Accepted, after the fact |
 | [0002](decisions/0002-separate-stock-game-folder.md) | Run from a separate game folder and test on a cloned profile | Accepted, after the fact |
-| [0003](decisions/0003-function-based-unnumbered-separators.md) | Use function-based separators without numbers | Proposed |
+| [0003](decisions/0003-function-based-unnumbered-separators.md) | Use function-based separators without numbers | Accepted |
 | [0004](decisions/0004-character-pipeline-3ba-bodyslide-obody.md) | Build characters on CBBE 3BA, BodySlide and OBody NG | Accepted, after the fact |
 | [0005](decisions/0005-pandora-behavior-engine.md) | Generate behaviors with Pandora; version 5 is its own decision | Accepted, after the fact |
 | [0006](decisions/0006-community-shaders-renderer.md) | Render with Community Shaders | Accepted, after the fact |
 | [0007](decisions/0007-one-output-mod-per-generator.md) | Give each generator its own output mod | Accepted |
-| [0008](decisions/0008-configure-outputs-in-the-tool.md) | Set each generator's output in the tool, not only in MO2 | Proposed |
-| [0009](decisions/0009-hybrid-patch-placement.md) | Place patches by what they connect | Proposed |
-| [0010](decisions/0010-loot-with-metadata.md) | Sort with LOOT and record every exception as metadata | Proposed |
+| [0008](decisions/0008-configure-outputs-in-the-tool.md) | Set each generator's output in the tool, not only in MO2 | Accepted |
+| [0009](decisions/0009-hybrid-patch-placement.md) | Place patches by what they connect | Accepted |
+| [0010](decisions/0010-loot-with-metadata.md) | Sort with LOOT and record every exception as metadata | Accepted |
 | [0011](decisions/0011-clean-plugins-with-backups.md) | Clean plugins in batch, with backups | Accepted |
-| [0012](decisions/0012-inbox-separator-last.md) | Keep the inbox separator last | Proposed |
+| [0012](decisions/0012-inbox-separator-last.md) | Keep the inbox separator last | Accepted |
 | [0013](decisions/0013-public-snapshot-by-whitelist.md) | Publish the real list, by whitelist, as text only | Accepted |
 
 New decisions start from the [template](decisions/0000-template.md). A decision gets a record when it's structural and expensive to reverse; a routine mod choice doesn't need one. Records are never deleted, only marked as superseded.

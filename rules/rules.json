@@ -1,7 +1,7 @@
 {
   "separators": [
     "DLC & CC", "SKSE & Frameworks", "Fixes", "UI & Camera", "Shaders", "Skeleton & Physics", "Body", "Head & Face",
-    "Skin", "Presets", "Hair", "Animation", "Armor", "Gameplay", "Tools", "Recently Added", "Outputs"
+    "Skin", "Presets", "Hair", "Animation", "Armor", "Gameplay", "Tools", "Outputs", "Recently Added"
   ],
   "required_mods": [
     "Skyrim Script Extender (SKSE64)", "Address Library for SKSE Plugins", "BEES", "SSE Engine Fixes (skse64 plugin)",

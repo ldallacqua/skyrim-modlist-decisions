@@ -166,11 +166,11 @@ position,type,name,enabled,separator,version,nexus_id
 165,mod,Pandora Behaviour Engine Plus,yes,Tools,4.4.0.0b-,133232
 166,mod,BodySlide and Outfit Studio,yes,Tools,5.8.2.0,201
 167,mod,PGPatcher,yes,Tools,2.3.1.0,120946
-168,separator,Recently Added,,Recently Added,,
-169,separator,Outputs,,Outputs,,
-170,mod,ROOT - Outputs,yes,Outputs,,
-171,mod,SKSE - Outputs,yes,Outputs,,
-172,mod,ShaderCache - Outputs,yes,Outputs,,
-173,mod,Pandora - Outputs,yes,Outputs,,
-174,mod,Bodyslide - Outputs,yes,Outputs,,
-175,mod,PGPatcher - Outputs,yes,Outputs,,
+168,separator,Outputs,,Outputs,,
+169,mod,ROOT - Outputs,yes,Outputs,,
+170,mod,SKSE - Outputs,yes,Outputs,,
+171,mod,ShaderCache - Outputs,yes,Outputs,,
+172,mod,Pandora - Outputs,yes,Outputs,,
+173,mod,Bodyslide - Outputs,yes,Outputs,,
+174,mod,PGPatcher - Outputs,yes,Outputs,,
+175,separator,Recently Added,,Recently Added,,

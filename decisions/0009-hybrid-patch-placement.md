@@ -1,6 +1,6 @@
 # 0009. Place patches by what they connect
 
-- **Status:** proposed
+- **Status:** accepted
 - **Date:** 2026-11-02
 - **Summary:** A patch for one mod goes right below it, and a patch linking several sections goes in a late `Patches` section.
 
