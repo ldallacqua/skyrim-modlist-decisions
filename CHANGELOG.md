@@ -6,11 +6,7 @@ Each version says whether it's safe for an existing save. Mods are marked **Adde
 
 Snapshot of the list: 156 mods under 23 separators.
 
-- **Updated:** the DLSS 5 Neural Rendering runtime (`nvngx_dlssnr.dll`), from 310.8.0 to ShortFuse's `compat-fp16-310.9.16-cuda13.4.3`, the patched build for RTX 20, 30 and 40 cards. Safe for an existing save. Not yet seen in Skyrim.
-  - **Where:** `DLSS 5 - ReShade and RenoDX\Root`, which Root Builder copies next to the game's exe, where the RenoDX add-on loads it. Also `Upscaling - Community Shaders\Shaders\Upscaling\Streamline`. That second copy was added after install; the mod's 1.4.0 archive doesn't ship it, and nothing in Community Shaders names it. Both now hold the same file, sha256 `cdfa6c1e…`, 276 MB.
-  - **Why:** in Conan Exiles on the same RTX 4090, this build works and costs about 7 ms of GPU time per frame at 4K. 310.8.0 cost 10 to 12 ms there.
-  - **Kept as it was:** `nvngx_dlss.dll` (DLSS upscaling), still 310.8.0 in both mods.
-  - **Backup:** both 310.8.0 files are in `C:\Modding\_cleanup-backup\2026-11-03-dlssnr-compat`, under their mod paths.
+- **Updated:** the DLSS 5 Neural Rendering runtime (`nvngx_dlssnr.dll`) in `DLSS 5 - ReShade and RenoDX` and `Upscaling - Community Shaders`, from 310.8.0 to ShortFuse's `compat-fp16-310.9.16-cuda13.4.3` build for RTX 20, 30 and 40 cards. It costs about 7 ms per frame at 4K on the RTX 4090, against 10 to 12 ms for 310.8.0 (measured in Conan Exiles). Safe for an existing save. Not yet seen in Skyrim. [The DLSS 5 note](research/dlss5_neural_rendering.md) explains the whole setup.
 - **Added:** Northern Roads - Road Debris, last in `Landscape`, with its plugin `Northern Roads - Road Debris.esp` (ESL-flagged), built here by the new `tools/road_debris.py`. It puts sparse pebbles and small rocks on Northern Roads' dirt roads, which had no grass or debris at all. Decided in [0015](decisions/0015-keep-tomatorim-ground-and-northern-roads.md). Safe for an existing save. Not yet seen in game.
   - **Records:** four new grass records using DrJacopo's `PebbleGrass01`, `03` and `06` and `RockGrass02_Small`, at densities 6, 5, 4 and 2, with vanilla rock grass placement. Overrides of Northern Roads' 10 dirt road textures and Whiterun's outer road add the four to each.
   - **Load order:** LOOT put it after Northern Roads.esp and moved nothing else.
