@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import { ArrowLeft } from 'lucide-react';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('research');
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const title = entry.body?.match(/^# (.+)$/m)?.[1] ?? entry.id;
+const toc = headings.filter((heading) => heading.depth === 2);
+---
+
+<Base title={title}>
+  <a href={`${base}/research/`} class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><ArrowLeft size={14} /> All research</a>
+  <h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">{title}</h1>
+  <div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]">
+    <article lang={entry.id.endsWith('pt-br') ? 'pt-BR' : 'en'} class="doc min-w-0"><Content /></article>
+    <nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto">
+      <h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2>
+      <ul class="grid gap-1.5">
+        {toc.map((heading) => <li><a class="block text-pretty text-secondary hover:text-accent-text" href={`#${heading.slug}`}>{heading.text}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+</Base>

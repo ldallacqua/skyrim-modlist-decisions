@@ -1,0 +1,172 @@
+---
+import { getCollection } from 'astro:content';
+import { ArrowRight, Check, TriangleAlert, X } from 'lucide-react';
+import StatusBadge from '../components/StatusBadge.astro';
+import Base from '../layouts/Base.astro';
+import { byNumber, getChecks, getPlugins, getSections, toDecision } from '../lib/data';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const sections = getSections();
+const plugins = getPlugins();
+const checks = getChecks();
+const decisions = (await getCollection('decisions')).map(toDecision).sort(byNumber);
+const decisionIds = Object.fromEntries(decisions.map((d) => [d.number, d.id]));
+const count = (name: string) => decisions.filter((d) => d.status === name).length;
+const installed = sections.flatMap((s) => s.mods).filter((m) => !m.official).length;
+const itms = plugins.reduce((total, p) => total + p.itm, 0);
+const largest = Math.max(...sections.map((s) => s.mods.filter((m) => !m.official).length), 1);
+const zones = [...new Set(sections.map((s) => s.zone))];
+const passing = checks.filter((c) => c.result === 'ok').length;
+
+const stats = [
+  [installed, 'mods installed'],
+  [plugins.length, 'plugins in load order'],
+  [sections.length, 'separators'],
+  [itms.toLocaleString('en-US'), 'ITMs cleaned'],
+];
+const findings = [
+  ['18 of 24', 'SE lists leave their separators unnumbered. The priority comes from the line, not the name.'],
+  ['82%', 'of patch-named mods sit near a related mod, at the median. Most lists also keep a late section.'],
+  ['13 to 289', 'separators across the lists studied. There is no standard size, with a median near 22 mods each.'],
+];
+const icons = { ok: Check, warn: TriangleAlert, fail: X };
+const tones = { ok: 'text-accent-text', warn: 'text-amber', fail: 'text-danger' };
+---
+
+<Base>
+  <div class="grid items-start gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
+    <div>
+      <p class="mb-4 font-mono text-xs tracking-wider text-accent-text uppercase">Skyrim SE 1.5.97 · Mod Organizer 2.5.2</p>
+      <h1 class="text-4xl leading-[1.08] font-bold tracking-[-0.03em] text-balance text-strong sm:text-6xl">The list, and why it’s built this way.</h1>
+      <p class="mt-5 max-w-xl text-lg leading-relaxed text-secondary">
+        Curated modlists publish what changed. Almost none publish why, or what they turned down. This one keeps the reasoning next to the real list, and checks one against the other.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href={`${base}/modlist/`} class="inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-bg-0 transition-colors hover:bg-accent-text">
+          Browse the modlist <ArrowRight size={16} />
+        </a>
+        <a href={`${base}/decisions/`} class="rounded-md border border-line-strong px-4 py-2.5 text-sm font-medium text-strong transition-colors hover:bg-bg-2">Read the decisions</a>
+      </div>
+    </div>
+
+    <aside class="rounded-lg border border-line bg-bg-1 p-5" aria-label="List health">
+      <div class="flex items-baseline justify-between gap-3">
+        <h2 class="font-semibold text-strong">List health</h2>
+        <span class="font-mono text-sm text-secondary">{passing} of {checks.length} passing</span>
+      </div>
+      <ul class="mt-3">
+        {
+          checks.map((check) => {
+            const Icon = icons[check.result];
+            return (
+              <li class="flex items-start gap-2.5 border-t border-line-subtle py-2 text-sm first:border-t-0">
+                <Icon size={15} class={`mt-0.5 shrink-0 ${tones[check.result]}`} aria-label={check.result} />
+                <span class="min-w-0 flex-1">
+                  {check.title}
+                  {check.problems.map((problem) => (
+                    <span class="mt-0.5 block text-xs text-secondary">{problem}</span>
+                  ))}
+                </span>
+                <a class="font-mono text-xs text-inactive hover:text-accent-text" href={`${base}/decisions/${decisionIds[check.decision]}/`}>
+                  {check.decision}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </aside>
+  </div>
+
+  <dl class="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line-subtle sm:grid-cols-4">
+    {
+      stats.map(([value, label]) => (
+        <div class="bg-bg-1 p-5">
+          <dd class="text-3xl font-semibold tracking-tight text-strong tabular-nums">{value}</dd>
+          <dt class="mt-1 text-sm text-secondary">{label}</dt>
+        </div>
+      ))
+    }
+  </dl>
+
+  <section class="mt-20" aria-labelledby="map">
+    <div class="mb-6 max-w-2xl">
+      <h2 id="map" class="text-2xl font-semibold tracking-tight text-strong">The left pane, top to bottom</h2>
+      <p class="mt-2 text-secondary">Lower sections overwrite higher ones. Bars count installed mods; official game content in DLC &amp; CC isn't counted. Open a row to see its mods.</p>
+    </div>
+    <div class="grid gap-8">
+      {
+        zones.map((zone) => (
+          <div class="grid gap-x-6 gap-y-2 md:grid-cols-[6rem_1fr]">
+            <h3 class="pt-1.5 font-mono text-xs tracking-wider text-inactive uppercase">{zone}</h3>
+            <ul class="grid gap-0.5">
+              {sections
+                .filter((s) => s.zone === zone)
+                .map((section) => {
+                  const mods = section.mods.filter((m) => !m.official).length;
+                  return (
+                    <li>
+                      <a
+                        href={`${base}/modlist/#${section.slug}`}
+                        title={`${section.name}: ${mods} installed mods`}
+                        class="group grid grid-cols-[minmax(7rem,10rem)_1fr_1.5rem] items-center gap-3 rounded px-2 py-1.5 text-sm transition-colors hover:bg-bg-2"
+                      >
+                        <span class="truncate group-hover:text-strong">{section.name}</span>
+                        <span class="h-2 min-w-0">
+                          {mods > 0 && <span class="block h-full rounded-r bg-accent/75 transition-colors group-hover:bg-accent" style={`width: ${(mods / largest) * 100}%`} />}
+                        </span>
+                        <span class="text-right font-mono text-xs text-secondary tabular-nums">{mods}</span>
+                      </a>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-20" aria-labelledby="decisions">
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2 id="decisions" class="text-2xl font-semibold tracking-tight text-strong">Decisions</h2>
+        <p class="mt-2 text-secondary">{count('accepted')} accepted, describing the list as it is. {count('proposed')} proposed, backed by research but not adopted yet.</p>
+      </div>
+      <a href={`${base}/playbook/`} class="text-sm text-accent-text hover:underline">The rules in force, on one page</a>
+    </div>
+    <ul class="grid gap-3 md:grid-cols-2">
+      {
+        decisions.map((decision) => (
+          <li>
+            <a href={`${base}/decisions/${decision.id}/`} class="flex h-full flex-col gap-2.5 rounded-lg border border-line-subtle bg-bg-1 p-4 transition-colors hover:border-line-strong hover:bg-bg-2">
+              <span class="flex items-center justify-between gap-3">
+                <span class="font-mono text-xs text-inactive">{decision.number}</span>
+                <StatusBadge decision={{ status: decision.status, afterTheFact: false }} />
+              </span>
+              <span class="font-medium text-pretty text-strong">{decision.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="mt-20" aria-labelledby="research">
+    <div class="mb-6 max-w-2xl">
+      <h2 id="research" class="text-2xl font-semibold tracking-tight text-strong">What 25 reference lists actually do</h2>
+      <p class="mt-2 text-secondary">Read from their real modlist files. This shows what lists do, not what works best: no source measures whether structure affects stability.</p>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        findings.map(([value, text]) => (
+          <div class="border-t border-line-strong pt-4">
+            <p class="text-3xl font-semibold tracking-tight text-strong">{value}</p>
+            <p class="mt-2 text-sm leading-relaxed text-secondary">{text}</p>
+          </div>
+        ))
+      }
+    </div>
+    <a href={`${base}/research/`} class="mt-6 inline-flex items-center gap-1.5 text-sm text-accent-text hover:underline">Read the research <ArrowRight size={14} /></a>
+  </section>
+</Base>

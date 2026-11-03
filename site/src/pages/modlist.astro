@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import ModList from '../components/ModList';
+import Base from '../layouts/Base.astro';
+import { getPlugins, getSections, toDecision } from '../lib/data';
+
+const sections = getSections();
+const plugins = getPlugins();
+const decisions = (await getCollection('decisions')).map(toDecision);
+const decisionIds = Object.fromEntries(decisions.map((d) => [d.number, d.id]));
+const installed = sections.flatMap((s) => s.mods).filter((m) => !m.official).length;
+---
+
+<Base title="Modlist" description={`The real list: ${installed} mods under ${sections.length} separators, and ${plugins.length} plugins in load order.`}>
+  <h1 class="text-4xl font-bold tracking-[-0.03em] text-strong">Modlist</h1>
+  <p class="mt-3 mb-6 max-w-2xl text-secondary">
+    The real list, exported from Mod Organizer 2. Lower sections overwrite higher ones. The numbered tags on a separator link to the decisions behind it. It names adult mods as text only, with no mod files or images.
+  </p>
+  <ModList client:load sections={sections} plugins={plugins} decisionIds={decisionIds} base={import.meta.env.BASE_URL.replace(/\/$/, '')} />
+</Base>

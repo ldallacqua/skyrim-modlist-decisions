@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const titleOf = (body = '') => body.match(/^# (.+)$/m)?.[1] ?? '';
+const entries = (await getCollection('research'))
+  .map((entry) => ({
+    id: entry.id,
+    title: titleOf(entry.body),
+    minutes: Math.max(1, Math.round((entry.body ?? '').split(/\s+/).length / 220)),
+    portuguese: entry.id.endsWith('pt-br'),
+  }))
+  .sort((a, b) => Number(b.portuguese) - Number(a.portuguese));
+---
+
+<Base title="Research" description="What 25 reference Skyrim SE lists actually do, read from their real modlist files.">
+  <h1 class="text-4xl font-bold tracking-[-0.03em] text-strong">Research</h1>
+  <p class="mt-3 mb-6 max-w-2xl text-secondary">The evidence behind the decisions, based on real <code class="font-mono text-sm">modlist.txt</code> files from 25 lists, MO2's source code and each tool's documentation.</p>
+  <p class="mb-8 max-w-2xl rounded-lg border border-amber/30 bg-amber/5 p-4 text-sm leading-relaxed">
+    This shows what lists do, not what works best. No source measures whether structure affects stability. Many files are user uploads that lag current releases, several lists share templates, and Nexus pages couldn't be read.
+  </p>
+  <ul class="grid gap-3 md:grid-cols-2">
+    {
+      entries.map((entry) => (
+        <li>
+          <a href={`${base}/research/${entry.id}/`} class="flex h-full flex-col gap-3 rounded-lg border border-line-subtle bg-bg-1 p-5 transition-colors hover:border-line-strong hover:bg-bg-2">
+            <span class="font-medium text-pretty text-strong">{entry.title}</span>
+            <span class="mt-auto flex gap-3 text-xs text-inactive">
+              <span>{entry.minutes} min read</span>
+              {entry.portuguese && <span>Full report, in Portuguese</span>}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

@@ -2,7 +2,7 @@
 """Compares list/ with rules/rules.json. Each check cites the decision it enforces.
 
 A check on an accepted decision fails the run. A check on a proposed decision only warns.
-Usage: python tools/check.py
+Usage: python tools/check.py [--json]
 """
 import csv
 import json
@@ -19,7 +19,8 @@ SECRET_PATTERNS = (
     re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+"),
 )
 TEXT_TYPES = {".md", ".txt", ".csv", ".json", ".py", ".yml", ".yaml"}
-SKIP_DIRS = {".git", "__pycache__"}
+SKIP_DIRS = {".git", "__pycache__", "node_modules", "dist", ".astro"}
+SKIP_FILES = {"package-lock.json", "checks.json"}
 
 
 def load_rows():
@@ -31,7 +32,8 @@ def repository_files():
     for folder, dirs, files in os.walk(ROOT):
         dirs[:] = [name for name in dirs if name not in SKIP_DIRS]
         for name in files:
-            yield os.path.join(folder, name)
+            if name not in SKIP_FILES:
+                yield os.path.join(folder, name)
 
 
 def check_no_secrets(rows, rules):
@@ -102,25 +104,25 @@ def main():
     rows = load_rows()
     with open(os.path.join(ROOT, "rules", "rules.json"), encoding="utf-8") as file:
         rules = json.load(file)
-    failures = warnings = 0
+    results = []
     for title, number, check in CHECKS:
         status = decision_status(number)
         if status is None:
-            print(f"FAIL  {title}: decision {number} doesn't exist")
-            failures += 1
+            results.append({"title": title, "decision": number, "status": None, "result": "fail", "problems": [f"decision {number} doesn't exist"]})
             continue
         problems = check(rows, rules)
-        label = "ok  " if not problems else "WARN" if status == "proposed" else "FAIL"
-        print(f"{label}  {title} [{number}, {status}]")
-        for problem in problems:
-            print(f"        {problem}")
-        if problems:
-            if status == "proposed":
-                warnings += 1
-            else:
-                failures += 1
-    print(f"\n{failures} failed, {warnings} warnings")
-    return 1 if failures else 0
+        result = "ok" if not problems else "warn" if status == "proposed" else "fail"
+        results.append({"title": title, "decision": number, "status": status, "result": result, "problems": problems})
+    if "--json" in sys.argv:
+        print(json.dumps(results, indent=1))
+    else:
+        for item in results:
+            print(f"{item['result'].upper():<5} {item['title']} [{item['decision']}, {item['status']}]")
+            for problem in item["problems"]:
+                print(f"        {problem}")
+        failures = sum(item["result"] == "fail" for item in results)
+        print(f"\n{failures} failed, {sum(item['result'] == 'warn' for item in results)} warnings")
+    return 1 if any(item["result"] == "fail" for item in results) else 0
 
 
 if __name__ == "__main__":

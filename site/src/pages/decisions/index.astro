@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import StatusBadge from '../../components/StatusBadge.astro';
+import Base from '../../layouts/Base.astro';
+import { byNumber, toDecision } from '../../lib/data';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const decisions = (await getCollection('decisions')).map(toDecision).sort(byNumber);
+---
+
+<Base title="Decisions" description="Every structural choice in this Skyrim SE list, why it was made and what would reopen it.">
+  <h1 class="text-4xl font-bold tracking-[-0.03em] text-strong">Decisions</h1>
+  <p class="mt-3 mb-8 max-w-2xl text-secondary">
+    <strong class="font-medium text-primary">Accepted</strong> describes the list as it is. <strong class="font-medium text-primary">Proposed</strong> is a research-backed recommendation that hasn't been adopted yet. Records are never deleted, only superseded.
+  </p>
+  <ol class="overflow-hidden rounded-lg border border-line">
+    {
+      decisions.map((decision) => (
+        <li class="border-t border-line-subtle first:border-t-0">
+          <a href={`${base}/decisions/${decision.id}/`} class="group grid gap-x-5 gap-y-1.5 bg-bg-1 p-4 transition-colors hover:bg-bg-2 sm:grid-cols-[3rem_1fr_auto] sm:p-5">
+            <span class="font-mono text-sm text-inactive">{decision.number}</span>
+            <span class="min-w-0">
+              <span class="block font-medium text-pretty text-strong" transition:name={`decision-${decision.number}`}>{decision.title}</span>
+              <span class="mt-1 block text-sm leading-relaxed text-pretty text-secondary">{decision.summary}</span>
+            </span>
+            <span class="sm:text-right"><StatusBadge decision={{ status: decision.status, afterTheFact: false }} /></span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</Base>

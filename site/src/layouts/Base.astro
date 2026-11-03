@@ -1,0 +1,74 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = 'Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on.' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const links = [
+  ['Modlist', '/modlist/'],
+  ['Decisions', '/decisions/'],
+  ['Playbook', '/playbook/'],
+  ['Research', '/research/'],
+];
+const current = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#12161B" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <title>{title ? `${title} · Skyrim Modlist Decisions` : 'Skyrim Modlist Decisions'}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a>
+    <header class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md" transition:persist>
+      <div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6">
+        <a href={`${base}/`} class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong">
+          <img src={`${base}/favicon.svg`} alt="" class="size-6" />
+          <span class="hidden md:inline">Skyrim Modlist Decisions</span>
+        </a>
+        <nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1">
+          {
+            links.map(([label, href]) => {
+              const active = current.includes(href);
+              return (
+                <a
+                  href={base + href}
+                  aria-current={active ? 'page' : undefined}
+                  class:list={[
+                    'rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3',
+                    active ? 'bg-bg-3 text-strong' : 'text-secondary hover:bg-bg-2 hover:text-strong',
+                  ]}
+                >
+                  {label}
+                </a>
+              );
+            })
+          }
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14">
+      <slot />
+    </main>
+    <footer class="border-t border-line-subtle">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6">
+        <p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p>
+        <div class="flex gap-4">
+          <a class="hover:text-primary" href={`${base}/changelog/`}>Changelog</a>
+          <a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

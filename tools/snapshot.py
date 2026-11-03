@@ -8,7 +8,9 @@ fields named below from each mod's meta.ini. Saves, INIs, ModOrganizer.ini and m
 """
 import configparser
 import csv
+import glob
 import os
+import re
 import shutil
 import sys
 
@@ -53,7 +55,28 @@ def snapshot(mo2, profile):
         writer = csv.writer(file, lineterminator="\n")
         writer.writerow(("position", "type", "name", "enabled", "separator", "version", "nexus_id"))
         writer.writerows(rows)
+    write_cleaning(mo2, target)
     return rows
+
+
+def write_cleaning(mo2, target):
+    """Sums what Clean Load Order reports across its runs. Only plugin names and counts come along, never the paths."""
+    totals = {}
+    for report in sorted(glob.glob(os.path.join(glob.escape(mo2), "cleaning-backups", "*", "report.txt"))):
+        with open(report, encoding="utf-8") as file:
+            for line in file:
+                cleaned = re.match(r"CLEANED (.+?): (\d+) ITMs, (\d+) UDRs\.", line)
+                navmesh = re.match(r"NAVMESH (.+?): (\d+)", line)
+                if cleaned:
+                    entry = totals.setdefault(cleaned[1], [0, 0, 0])
+                    entry[0] += int(cleaned[2])
+                    entry[1] += int(cleaned[3])
+                elif navmesh:
+                    totals.setdefault(navmesh[1], [0, 0, 0])[2] = int(navmesh[2])
+    with open(os.path.join(target, "cleaning.csv"), "w", encoding="utf-8", newline="") as file:
+        writer = csv.writer(file, lineterminator="\n")
+        writer.writerow(("plugin", "itm", "udr", "deleted_navmeshes"))
+        writer.writerows((name, *counts) for name, counts in sorted(totals.items()))
 
 
 if __name__ == "__main__":

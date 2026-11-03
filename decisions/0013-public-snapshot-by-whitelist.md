@@ -15,7 +15,7 @@ Decisions are more useful next to the real list they govern, so a change can be 
 
 ## Decision
 
-Publish the list. `tools/snapshot.py` copies `modlist.txt`, `plugins.txt` and `loadorder.txt`, and takes only the version and mod ID from each `meta.ini`.
+Publish the list. `tools/snapshot.py` copies `modlist.txt`, `plugins.txt` and `loadorder.txt`, takes only the version and mod ID from each `meta.ini`, and takes only plugin names and counts from Clean Load Order's reports. The [site](https://ldallacqua.github.io/skyrim-modlist-decisions/) is built from these same files.
 
 Never published: saves, mod files, `downloads/`, generated output, `ModOrganizer.ini`, INIs, logs and keys. Adult mods appear as factual names only, with no images.
 

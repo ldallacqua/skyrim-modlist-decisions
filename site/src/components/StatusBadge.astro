@@ -1,0 +1,23 @@
+---
+import type { Decision } from '../lib/data';
+
+interface Props {
+  decision: Pick<Decision, 'status' | 'afterTheFact'>;
+}
+
+const { decision } = Astro.props;
+const accepted = decision.status === 'accepted';
+---
+
+<span class="inline-flex items-center gap-1.5 text-xs whitespace-nowrap">
+  <span
+    class:list={[
+      'inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-medium',
+      accepted ? 'border-accent/40 text-accent-text' : 'border-amber/40 text-amber',
+    ]}
+  >
+    <span class:list={['size-1.5 rounded-full', accepted ? 'bg-accent' : 'border border-amber']}></span>
+    {accepted ? 'Accepted' : decision.status === 'proposed' ? 'Proposed' : 'Superseded'}
+  </span>
+  {decision.afterTheFact && <span class="text-inactive">recorded after the fact</span>}
+</span>

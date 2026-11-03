@@ -1,0 +1,11 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const { Content } = await render((await getEntry('docs', 'changelog'))!);
+---
+
+<Base title="Changelog" description="What changed in each version of the list, and whether it's save-safe.">
+  <h1 class="mb-8 text-4xl font-bold tracking-[-0.03em] text-strong">Changelog</h1>
+  <article class="doc"><Content /></article>
+</Base>

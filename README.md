@@ -14,7 +14,7 @@ This repository keeps the reasoning next to the real list, with a script that ch
 [![Skyrim SE 1.5.97](https://img.shields.io/badge/Skyrim%20SE-1.5.97-E2A74A?style=for-the-badge&labelColor=171B21)](decisions/0001-pin-skyrim-se-1597-with-cc.md)
 [![MO2 2.5.2](https://img.shields.io/badge/MO2-2.5.2-97A2B0?style=for-the-badge&labelColor=171B21)](https://github.com/ModOrganizer2/modorganizer)
 
-[Playbook](PLAYBOOK.md) · [Decisions](#decisions) · [The list](list/mods.csv) · [Research](research/) · [Changelog](CHANGELOG.md)
+**[Browse the site](https://ldallacqua.github.io/skyrim-modlist-decisions/)** · [Playbook](PLAYBOOK.md) · [Decisions](#decisions) · [The list](list/mods.csv) · [Research](research/) · [Changelog](CHANGELOG.md)
 
 </div>
 
@@ -86,6 +86,15 @@ python tools/check.py
 ```
 
 `snapshot.py` refreshes `list/` from a profile, copying only a fixed whitelist of files and fields. `check.py` needs nothing but Python and cites the decision behind each check. Run it before committing.
+
+The [site](https://ldallacqua.github.io/skyrim-modlist-decisions/) is built from these same files, with Astro, React and Tailwind CSS. To preview it or publish it after a change:
+
+```bash
+cd site
+npm install
+npm run dev
+npm run deploy
+```
 
 ## Related
 
