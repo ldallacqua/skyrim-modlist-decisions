@@ -42,6 +42,7 @@ flowchart LR
 | [`mods/rejected.md`](mods/rejected.md) | What did we turn down, and when should we look again? |
 | [`research/`](research/) | What did the evidence say? |
 | [`CHANGELOG.md`](CHANGELOG.md) | What changed in each version, and is it save-safe? |
+| [`AGENTS.md`](AGENTS.md) | How an AI assistant picks up the work: the machine, the tools, the pitfalls and what's in progress. |
 
 ## Decisions
 
@@ -87,6 +88,17 @@ python tools/check.py
 ```
 
 `snapshot.py` refreshes `list/` from a profile, copying only a fixed whitelist of files and fields. `check.py` needs nothing but Python and cites the decision behind each check. Run it before committing.
+
+Six more scripts do the work around the list:
+
+- **`wabbajack.py`** counts what published lists install.
+- **`coverage.py`** measures which vanilla assets still look vanilla.
+- **`nexus.py`** looks mods up on Nexus Mods and downloads them with a premium API key.
+- **`fomod.py`** reads and runs FOMOD installers with explicit choices.
+- **`mo2.py`** installs, places and checks mods in an MO2 instance.
+- **`mo2-run.ps1`** runs LOOT, PGPatcher or any MO2 executable with nobody at the keyboard.
+
+[`AGENTS.md`](AGENTS.md) shows how they fit together.
 
 The [site](https://ldallacqua.github.io/skyrim-modlist-decisions/) is built from these same files, with Astro, React and Tailwind CSS. To preview it or publish it after a change:
 
