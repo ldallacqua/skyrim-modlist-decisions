@@ -139,7 +139,7 @@ export default function ModList({ sections, plugins, base, decisionIds }: Props)
           {visible.map((section) => {
             const open = deferred ? true : !closed.has(section.slug);
             return (
-              <section key={section.slug} id={section.slug} aria-label={section.name}>
+              <section key={section.slug} id={section.slug} aria-label={section.name} className="scroll-mt-32">
                 <div className="flex items-center gap-2 border-t border-line bg-separator pr-3 first:border-t-0">
                   <button aria-expanded={open} onClick={() => toggle(section.slug)} className="flex min-w-0 flex-1 items-center gap-2 py-2 pl-3 text-left text-sm font-semibold text-strong">
                     <ChevronRight size={15} className={`shrink-0 text-accent-text transition-transform ${open ? 'rotate-90' : ''}`} />
