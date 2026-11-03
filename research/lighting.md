@@ -166,7 +166,7 @@ This kit was installed on 2026-11-03, as the [changelog](../CHANGELOG.md) record
 ## Not verified
 
 - No visual comparison was made, and none of these mods had been seen in this list's game when this was written.
-- How Lux Via's road and bridge edits look with Northern Roads, which replaced Blended Roads later on 2026-11-03. Lux Via's Blended Roads bridge option came out then. Northern Roads' Patch Collection covers Lux, Lux Orbis and Lux Via, and keeps Lux Via's bridges where both mods have one. Lux Via's optional Better Dynamic Snow patch, for version 2, was left out. [The roads note](roads.md) has the details. That leaves only what the game shows.
+- How Lux Via's road and bridge edits look with Northern Roads, which replaced Blended Roads later on 2026-11-03. Lux Via's Blended Roads bridge option came out then. Northern Roads' Patch Collection covers Lux, Lux Orbis and Lux Via, and keeps Lux Via's bridges where both mods have one. Lux Via's optional Better Dynamic Snow patch, for version 2, was left out. [The roads note](../research/roads.md) has the details. That leaves only what the game shows.
 - How Lux CS's tone mapping combines with a weather mod's own tone mapping for Community Shaders. 11 of the 15 Lux CS lists combine them.
 - How many lists run True Light, which Wabbajack's index doesn't name.
 - What Placed Light is. It isn't on Nexus under that name.

@@ -279,7 +279,7 @@ The owner approved, and it was converted and installed on 2026-11-03, as `Northe
   - RMAOS is roughness times `roughnessScale`, metal, AO, and specular times `specularLevel`.
   - The height is centred at 0.5 and scaled by `displacementScale`.
   - The colour and normal alphas aren't used on PBR terrain.
-- **The conversion** was done by [`tools/terrain_to_pbr.py`](../tools/terrain_to_pbr.py):
+- **The conversion** was done by [`tools/terrain_to_pbr.py`](https://github.com/ldallacqua/skyrim-modlist-decisions/blob/main/tools/terrain_to_pbr.py):
   - **Albedo:** 4K, BC7 sRGB. The source is far darker than TomatoRim's road, with a mean linear brightness of 0.035 against 0.100. It was raised 2.86 times in linear light to match TomatoRim's road, and the top 0.8% of values roll off instead of clipping.
   - **Normal:** 4K BC7, the source's RGB.
   - **Height:** 2K BC4, from the alpha, unchanged apart from the size. Its spread (std 0.118) is about three times that of TomatoRim's road (0.036), so the new road has much deeper parallax at the same `displacementScale`.
@@ -300,6 +300,6 @@ The owner approved, and it was converted and installed on 2026-11-03, as `Northe
   - The depth. If it's too deep or swims at grazing angles, lower `displacementScale` in this mod's texture set files. About 0.3 matches TomatoRim's depth.
   - The brightness next to TomatoRim's ground. `--brightness` reruns the conversion brighter or darker.
 
-After the fix the owner found the road good, but deeper than the ground beside it, and bare of debris. [The road edges and debris note](road_edges_and_debris.md) measures both and recommends a fix. On 2026-11-03 a small plugin added pebbles and small rocks to the dirt roads, and the ground stayed TomatoRim's ([0015](../decisions/0015-keep-tomatorim-ground-and-northern-roads.md)). The road's depth went down to 0.5 and back to 1.0, because the owner found it flat. Deepening the ground's height maps instead smeared them, so the ground stays as TomatoRim ships it.
+After the fix the owner found the road good, but deeper than the ground beside it, and bare of debris. [The road edges and debris note](../research/road_edges_and_debris.md) measures both and recommends a fix. On 2026-11-03 a small plugin added pebbles and small rocks to the dirt roads, and the ground stayed TomatoRim's ([0015](../decisions/0015-keep-tomatorim-ground-and-northern-roads.md)). The road's depth went down to 0.5 and back to 1.0, because the owner found it flat. Deepening the ground's height maps instead smeared them, so the ground stays as TomatoRim ships it.
 
 The same look showed the stone spike pillars broken, smeared and furry. PBR Hub's copies of the spikes and the Reach bridges swap their textures for the vanilla mountain slab, and PGPatcher then gave them TomatoRim's whole-mountain material. Those four meshes are hidden now, so the Patches Compendium meshes win and take PBR Hub's own spike and bridge PBR textures.

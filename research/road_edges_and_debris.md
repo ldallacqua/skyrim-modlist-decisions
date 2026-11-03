@@ -1,6 +1,6 @@
 # Road edges and road debris
 
-Checked 2026-11-03. Two questions from the owner, after the PBR conversion of Omen Apollo's road texture went in (see [the roads note](roads.md)):
+Checked 2026-11-03. Two questions from the owner, after the PBR conversion of Omen Apollo's road texture went in (see [the roads note](../research/roads.md)):
 - **Edges:** the road now has much more depth than the ground beside it, and the change at its edge looks wrong. Which ground textures pair best with it?
 - **Debris:** the roads have no leaves, pebbles or other debris on them.
 
