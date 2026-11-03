@@ -2,7 +2,7 @@
 
 Checked 2026-11-03. Question: which mods replace the vanilla plants that now stand out against the PBR landscape, for this list (Community Shaders 1.9.1, Faultier's PBR Skyrim, TomatoRim PBR Landscapes, Nature of the Wild Lands with Nordic Cut, Merethic Grasslands, PGPatcher, Base Object Swapper, no Seasons of Skyrim).
 
-The evidence comes from the same sources as [the PBR note](pbr_trees_and_grass.md): Wabbajack's published reports for what lists install, and Nexus Mods' public API for descriptions, requirements and file lists. Counting lists measures adoption, not quality. Two kinds of evidence are new here:
+The evidence comes from the same sources as [the PBR note](../research/pbr_trees_and_grass.md): Wabbajack's published reports for what lists install, and Nexus Mods' public API for descriptions, requirements and file lists. Counting lists measures adoption, not quality. Two kinds of evidence are new here:
 - **What still looks vanilla** was measured from this profile with `tools/coverage.py`, which reads the game's own BSAs and every enabled mod.
 - **What a candidate replaces** comes from the archive previews Nexus publishes for each file, so nothing was downloaded.
 
