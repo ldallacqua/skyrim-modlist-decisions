@@ -74,7 +74,7 @@ export function slugify(name: string) {
 
 function cleanVersion(version: string) {
   // MO2 prefixes the versions it can't parse with f or d, and pads the rest to four numbers
-  return version.replace(/^[fd](?=\d)/, '').replace(/\.0(?=$|-)/, '');
+  return version.replace(/^[fd](?=\d)/, '').replace(/\.0(?=$|-|[a-z])/, '').replace(/-$/, '');
 }
 
 export function getSections(): Section[] {
