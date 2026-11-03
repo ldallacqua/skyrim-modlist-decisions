@@ -9,7 +9,7 @@ This repository keeps the reasoning next to the real list, with a script that ch
 
 <br>
 
-[![Decisions](https://img.shields.io/badge/Decisions-13-33C79B?style=for-the-badge&labelColor=171B21)](#decisions)
+[![Decisions](https://img.shields.io/badge/Decisions-14-33C79B?style=for-the-badge&labelColor=171B21)](#decisions)
 [![Lists studied](https://img.shields.io/badge/Lists%20studied-25-7CC6EA?style=for-the-badge&labelColor=171B21)](research/reference_list_structures.md)
 [![Skyrim SE 1.5.97](https://img.shields.io/badge/Skyrim%20SE-1.5.97-E2A74A?style=for-the-badge&labelColor=171B21)](decisions/0001-pin-skyrim-se-1597-with-cc.md)
 [![MO2 2.5.2](https://img.shields.io/badge/MO2-2.5.2-97A2B0?style=for-the-badge&labelColor=171B21)](https://github.com/ModOrganizer2/modorganizer)
@@ -62,6 +62,7 @@ flowchart LR
 | [0011](decisions/0011-clean-plugins-with-backups.md) | Clean plugins in batch, with backups | Accepted |
 | [0012](decisions/0012-inbox-separator-last.md) | Keep the inbox separator last | Accepted |
 | [0013](decisions/0013-public-snapshot-by-whitelist.md) | Publish the real list, by whitelist, as text only | Accepted |
+| [0014](decisions/0014-extended-grass-without-cache.md) | Extend grass with Grass Optimizations and NGIO, without a cache | Accepted |
 
 New decisions start from the [template](decisions/0000-template.md). A decision gets a record when it's structural and expensive to reverse; a routine mod choice doesn't need one. Records are never deleted, only marked as superseded.
 

@@ -2,7 +2,7 @@
 
 - **Status:** accepted (recorded after the fact)
 - **Date:** 2026-11-02
-- **Summary:** Community Shaders 1.8.4 with its feature mods is the renderer, with no ENB.
+- **Summary:** Community Shaders 1.9.1 with its feature mods is the renderer, with no ENB.
 
 ## Context
 

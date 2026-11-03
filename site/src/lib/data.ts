@@ -63,7 +63,7 @@ const ZONES: Record<string, string> = {
 };
 
 const SECTION_DECISIONS: Record<string, string[]> = {
-  'DLC & CC': ['0001', '0011'], 'SKSE & Frameworks': ['0001'], Shaders: ['0006'], 'Skeleton & Physics': ['0004'],
+  'DLC & CC': ['0001', '0011'], 'SKSE & Frameworks': ['0001'], Shaders: ['0006', '0014'], 'Skeleton & Physics': ['0004'],
   Body: ['0004'], 'Head & Face': ['0004'], Skin: ['0004'], Presets: ['0004'], Animation: ['0005'], Armor: ['0004'],
   Tools: ['0005', '0008'], 'Recently Added': ['0012'], Outputs: ['0007', '0008'],
 };

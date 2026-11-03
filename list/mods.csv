@@ -107,7 +107,7 @@ position,type,name,enabled,separator,version,nexus_id
 106,mod,iWant Widgets,yes,UI & Camera,1.33.0.0,36457
 107,mod,SmoothCam,yes,UI & Camera,1.7.1.0,41252
 108,separator,Shaders,,Shaders,,
-109,mod,Community Shaders,yes,Shaders,1.8.4.0,86492
+109,mod,Community Shaders,yes,Shaders,1.9.1.0,86492
 110,mod,Upscaling - Community Shaders,yes,Shaders,1.4.0.0,156952
 111,mod,DLSS 5 - ReShade and RenoDX,yes,Shaders,,
 112,mod,Hair Specular - Community Shaders,yes,Shaders,1.1.2.0,149011
