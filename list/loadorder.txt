@@ -83,11 +83,15 @@ Unofficial Skyrim Special Edition Patch.esp
 High Poly Head.esm
 TrueHUD.esl
 iWant Widgets.esl
-RaceCompatibility.esm
+Lux Orbis - Master plugin.esm
 Better Dynamic Snow SE - DisableRefs.esm
+Lux - Resources.esp
+Lux Via.esp
+RaceCompatibility.esm
 Cathedral - 3D Mountain Flowers.esp
 Expressive Facegen Morphs.esl
 PGPatcher.esp
+Lux - Master plugin.esm
 SkyUI_SE.esp
 Particle Patch.esp
 SMIM-SE-Merged-All.esp
@@ -104,6 +108,11 @@ SOSPhysicsManager.esp
 OBody.esp
 High Poly Head Vampire Fix.esp
 [Dint999] BDOr_Hairstyles.esp
+Nature of the Wild Lands.esp
+NotWL - Nordic Cut.esp
+Lux Via - plugin.esp
+Northern Roads.esp
+Embers XD.esp
 [dint999] HairPack02.esp
 FNIS.esp
 CBBE 3BA Vanilla Outfits.esp
@@ -117,14 +126,42 @@ TrueDirectionalMovement.esp
 OStim.esp
 Nocollision_clutter_player.esp
 RaceCompatibilityUSKPOverride.esp
-Nature of the Wild Lands.esp
-NotWL - Nordic Cut.esp
+Lux Orbis.esp
+Northern Roads - Lux Via patch.esp
+Lux Orbis CS.esp
+Obsidian Weathers.esp
+Northern Roads - Collision and Placement Fix.esp
+Northern Roads - Additional Roads.esp
 IcyFixes.esp
+Northern Roads - Rocks Patch.esp
+Nature of the Wild Lands - Northern Roads Patch.esp
+Northern Roads - Lux Orbis Patch.esp
+Nature of the Wild Lands - Lux Via.esp
+Northern Roads - USSEP Additions.esp
+Northern Roads - CC Fishing patch.esp
+Northern Roads - CC Farming patch.esp
+Lux Orbis - Saints and Seducers patch.esp
+Lux Orbis - CC Fish patch.esp
+Lux Orbis - Tundra Homestead patch.esp
+Nature of the Wild Lands - CC Tundra Homestead.esp
+Lux Orbis - USSEP patch.esp
+Lux Orbis - Farming CC patch.esp
+Lux Orbis - Embers XD patch.esp
+Northern Roads - CC Tundra Homestead patch.esp
+Northern Roads - CC The Cause patch.esp
+Lux Orbis - Arms of Chaos CC.esp
+Northern Roads - Floating Plants Fix.esp
+Northern Roads - CC Myrwatch patch.esp
+Lux Orbis - Bow of Shadow CC.esp
+Lux Orbis - Lord's Mail CC.esp
+Lux Orbis - Saturalia CC.esp
+Lux Orbis - Spell Knight Armor CC.esp
+Northern Roads - Whiterun Collision Box Fix.esp
+Northern Roads - CC Saints and Seducers patch.esp
+Lux Orbis - Goblins CC.esp
 Tomato's PBR Landscapes.esp
 Better Dynamic Snow SE - No Glacier Snow.esp
-BlendedRoads.esp
 NotWL - Autumn Rift.esp
-Nature of the Wild Lands - CC Tundra Homestead.esp
 Merethic Grasslands.esp
 Faultier's PBR Clutter.esp
 Faultier's PBR DLC01 architecture.esp
@@ -137,7 +174,46 @@ Vanaheimr - Mines and Caves - PBR.esp
 Diverse Glowing Mushroom by Mari.esp
 Diverse HQ PBR Shrubs.esp
 IvyAnim.esp
+Lux Via - CC Farming Patch.esp
+Embers XD - Light Placer.esp
+MoonsAndStars.esp
+Obsidian CS.esp
+Northern Roads - Blended Roads Solitude Bridge Fix.esp
+Northern Roads - PBR.esp
+TomatoRim PBR - Northern Roads.esp
+Northern Roads - Road Debris.esp
 Skyrim Unbound.esp
 Skyrim Unbound - Female by Default.esp
+Lux.esp
+Lux - USSEP patch.esp
+Lux - Bittercup Patch.esp
+Lux - Bloodchill Manor patch.esp
+Lux - CC Fish patch.esp
+Lux - Dawnfang CC.esp
+Lux - Dead Mans Dread Patch.esp
+Lux - Elite Crossbows.esp
+Lux - Farmer patch.esp
+Lux - Forgotten Seasons.esp
+Lux - Ghosts of the Tribunal CC.esp
+Lux - Goblins CC.esp
+Lux - Goldbrand CC.esp
+Lux - Hendraheim patch.esp
+Lux - Nchuanthumz Dwarven Home patch.esp
+Lux - Necrohouse patch.esp
+Lux - Pets of Skyrim CC.esp
+Lux - Saints and Seducers patch.esp
+Lux - Shadowfoot Sanctum patch.esp
+Lux - Skyrim Unbound patch.esp
+Lux - Staff of Hasedoki CC.esp
+Lux - The Cause patch.esp
+Lux - Tundra Homestead patch.esp
+Lux - Umbra CC.esp
+Lux - Vigil Enforcer CC.esp
+Lux - HDR.esp
+Lux CS - Bulbs.esp
+Lux CS Templates - Default.esp
+Northern Roads - Lux patch.esp
+NotWL - Nordic Cut - Lux Patch.esp
+CS Light.esp
 AutoBlend.esp
 PG_1.esp

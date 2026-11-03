@@ -5,6 +5,7 @@ Usage: python tools/snapshot.py <MO2 folder> [profile]
 
 It works from a whitelist on purpose: only the files named below are copied, and mods.csv only takes the
 fields named below from each mod's meta.ini. Saves, INIs, ModOrganizer.ini and mod files never come along.
+LOOT's userlist.yaml comes along too, since its Load After rules are part of the list (decision 0010).
 """
 import configparser
 import csv
@@ -16,6 +17,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROFILE_FILES = ("modlist.txt", "plugins.txt", "loadorder.txt")
+# LOOT's own rules for this list, which decision 0010 brings into the snapshot once there are any
+LOOT_USERLIST = os.path.join(os.environ.get("LOCALAPPDATA", ""), "LOOT", "games", "Skyrim Special Edition", "userlist.yaml")
 SEPARATOR = "_separator"
 
 
@@ -41,6 +44,8 @@ def snapshot(mo2, profile):
     os.makedirs(target, exist_ok=True)
     for name in PROFILE_FILES:
         shutil.copyfile(os.path.join(source, name), os.path.join(target, name))
+    if os.path.isfile(LOOT_USERLIST):
+        shutil.copyfile(LOOT_USERLIST, os.path.join(target, "userlist.yaml"))
     rows, section = [], ""
     for position, (state, name) in enumerate(read_pane(os.path.join(source, "modlist.txt")), 1):
         if name.endswith(SEPARATOR):

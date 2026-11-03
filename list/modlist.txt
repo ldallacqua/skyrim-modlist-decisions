@@ -6,6 +6,7 @@
 +Pandora - Outputs
 +ShaderCache - Outputs
 +SKSE - Outputs
+-Terrain Depth - Outputs
 +ROOT - Outputs
 -Outputs_separator
 +PGPatcher
@@ -17,6 +18,21 @@
 +Game Collision Options
 +True Directional Movement - Modernized Third Person Gameplay
 -Gameplay_separator
++Obsidian CS
++Moons and Stars - Sky Overhaul SKSE
++Obsidian Weathers and Seasons
++Embers XD - Light Placer Add-On
++Embers XD
++First person magic hand light fix
++CS Light
++Lux CS
++Lux Orbis - Patch Hub
++Lux Orbis
++Lux - Patch Hub
++Lux
++Lux via - Patch Hub
++Lux Via
+-Lighting & Weather_separator
 +Faultier's PBR Skyrim
 +Vanaheimr - Mines and Caves - Blending Meshes
 +Vanaheimr - Mines and Caves - Complex Material - PBR
@@ -57,10 +73,20 @@
 +Nature of the Wild Lands - Nordic Cut
 +Nature of the Wild Lands - forest and trees improvement mod
 -Trees & Grass_separator
++Northern Roads - Road Debris
++Northern Roads - Omen Apollo Dirt PBR (converted)
++TomatoRim PBR - Northern Roads
++PBR Hub - Northern Roads PBR
 +TomatoRim PBR Landscapes AIO 1K 2K 4K
++Northern Roads Patch Collection
++Northern Roads - Collision Box Fix in Whiterun
++Northern Roads - Floating Objects Fix
++Northern Roads - Collision and Placement Fix
++Northern Roads - Patches Compendium
++Northern Roads
 +Icy Mesh Remaster - Ice Glaciers - LOD - other fixes
 +Enhanced Rocks and Mountains - Complex Material and PBR
-+Blended Roads
+-Blended Roads
 -Landscape_separator
 +Better Dynamic Snow SE
 +Assorted mesh fixes
@@ -105,6 +131,7 @@
 +CBPC - Physics with Collisions
 +XP32 Maximum Skeleton Special Extended
 -Skeleton & Physics_separator
++ISL Helper SKSE
 +Particle Patch
 +No Grass In Objects
 +Grass Optimizations - Community Shaders
@@ -132,6 +159,7 @@
 +Alt-Tab Stuck Key Fix
 +Unofficial Skyrim Special Edition Patch - USSEP
 -Fixes_separator
++Light Placer
 +Base Object Swapper
 +RaceCompatibility with fixes for SSE
 +UIExtensions

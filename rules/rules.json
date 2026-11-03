@@ -1,7 +1,7 @@
 {
   "separators": [
     "DLC & CC", "SKSE & Frameworks", "Fixes", "UI & Camera", "Shaders", "Skeleton & Physics", "Body", "Head & Face",
-    "Skin", "Presets", "Hair", "Animation", "Armor", "Models", "Landscape", "Trees & Grass", "Plants", "Architecture", "Gameplay", "Tools",
+    "Skin", "Presets", "Hair", "Animation", "Armor", "Models", "Landscape", "Trees & Grass", "Plants", "Architecture", "Lighting & Weather", "Gameplay", "Tools",
     "Outputs", "Recently Added"
   ],
   "required_mods": [
@@ -10,7 +10,7 @@
     "BodySlide and Outfit Studio", "Pandora Behaviour Engine Plus"
   ],
   "outputs_separator": "Outputs",
-  "output_mods": ["ROOT - Outputs", "SKSE - Outputs", "ShaderCache - Outputs", "Pandora - Outputs", "Bodyslide - Outputs", "AutoBlend - Outputs",
+  "output_mods": ["ROOT - Outputs", "Terrain Depth - Outputs", "SKSE - Outputs", "ShaderCache - Outputs", "Pandora - Outputs", "Bodyslide - Outputs", "AutoBlend - Outputs",
                   "PGPatcher - Outputs"],
   "inbox_separator": "Recently Added"
 }

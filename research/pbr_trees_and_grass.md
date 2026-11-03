@@ -135,7 +135,7 @@ Tree mods in the 71 Skyrim SE lists that run DynDOLOD: Nature of the Wild Lands 
 | Grass | Merethic Grasslands (Vanilla file) and Merethic Grasslands PBR, with DrJacopo's 3D Grass Library meshes |
 | LOD pass, after testing | xLODGen terrain, TexGen and DynDOLOD Ultra with NOTWL's 3D hybrid LODs; decide then whether to cache grass for grass LOD |
 
-That's about 18 GB of downloads, half of it the Faultier's AIO. The set was installed on 2026-11-03 for testing, as the [changelog](../CHANGELOG.md) records. Nordic Cut's CC Tundra Homestead patch, Base Object Swapper for IcyFixes, and moving Assorted Mesh Fixes after SMIM came out of the install itself.
+That's about 18 GB of downloads, half of it the Faultier's AIO. The set was installed on 2026-11-03 for testing, as the [changelog](../CHANGELOG.md) records. Nordic Cut's CC Tundra Homestead patch, Base Object Swapper for IcyFixes, and moving Assorted Mesh Fixes after SMIM came out of the install itself. On the same day Northern Roads replaced Blended Roads, with TomatoRim's own Northern Roads textures, as [the roads note](roads.md) explains.
 
 **Denser forests:** leave out Nordic Cut, so NOTWL uses its own tree placement, as Eldergleam NG, LoreRim, ReaperGleam and Lalaland do.
 

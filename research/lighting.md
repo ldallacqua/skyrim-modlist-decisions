@@ -151,16 +151,22 @@ The lists closest to this one:
 
 The owner chose this kit on 2026-11-03. That's about 2.4 GB of downloads, most of it Lux Via. Then raise `iMaxDesired`, sort with LOOT, and have the owner run AutoBlend before PGPatcher. Look at it in game in interiors and in towns at night.
 
+This kit was installed on 2026-11-03, as the [changelog](../CHANGELOG.md) records, with the official update files from Lux's and Lux Via's pages. What the install settled:
+- **1.5.97:** Light Placer's installer has an SE 1.5.97 option, and its DLL exports the entry point SKSE needs on 1.5.97. ISL Helper SKSE's DLL exports both entry points.
+- **Lux CS 2.6.0** has no separate SKSE plugin option any more: that plugin is now ISL Helper SKSE, which it requires. Its Light Placer add-on is the `LightPlacer` folder that comes with its main option. It lights candles, chandeliers, lanterns, torches, Nordic halls, furniture and vanilla fires. CS Light 2.0 no longer lights the first five, so the only overlap is furniture: CS Light's Furniture option stays out, as its own installer suggests for Lux CS.
+- **The "Lux" prefix:** Lux Orbis's installer makes you pick a set of "optimized meshes". Of the 113 meshes it installs, 108 sit at vanilla paths, cut up for the old light limit that Light Limit Fix in Community Shaders removes. They would have overridden Assorted Mesh Fixes, Faultier's, SMIM, Particle Patch, TomatoRim, Blended Roads and AutoBlend's output, so they were removed. The 5 with a "Lux" prefix are new assets, not replacements, and they stay. Two of them are used by Lux, Orbis and Via themselves.
+- **Patches:** the three hubs add 34 patches, all for Creation Club content and Skyrim Unbound. None covers Tomato's Riften, Imperial Forts or farmhouses, or Vanaheimr's caves. Tomato's Whiterun and Faultier's ship their own Lux window masks, so Lux's vanilla masks were removed to let theirs win. Faultier's Whiterun mask is hidden too, since Tomato's mod supplies Whiterun's windows.
+- **Landscape:** Lux Via's landscape and navmesh edits overlap no other landscape plugin in this list.
+- **Load order:** two LOOT rules make Orbis and Lux CS's Orbis plugin win over Lux Via's plugin, as Via's author asks. No rule puts Lux CS's Orbis plugin after the Orbis patches, although its installer asks for that. It shares no references with them, and its copies of their cells would undo region and water fixes.
+
 **Weather:** Lux Orbis doesn't depend on it, but exteriors and the overall tone change with it. [The weather note](../research/weather.md) recommends Obsidian Weathers with Obsidian CS, installed alongside this kit.
 
 **The other way:** if window shadows and a set designed for Community Shaders matter more than roads and patch coverage, choose True Light with ATLM and Window Shadows Ultimate, and keep Lux Via for the roads, as Morkeskygge does.
 
 ## Not verified
 
-- No visual comparison was made, and none of these mods has been seen in this list's game.
-- Whether Light Placer's Nexus archive has an SE build. Its source builds one, but the archive has no preview yet.
-- Patch coverage for Tomato's Riften, Imperial Forts and farmhouses, and Vanaheimr's caves.
-- How Lux Via's road and bridge edits sit with Blended Roads and TomatoRim's road meshes. Lux Via credits Blended Roads, and its optional Better Dynamic Snow patch is for version 2, not the 3.6 installed here.
+- No visual comparison was made, and none of these mods had been seen in this list's game when this was written.
+- How Lux Via's road and bridge edits look with Northern Roads, which replaced Blended Roads later on 2026-11-03. Lux Via's Blended Roads bridge option came out then. Northern Roads' Patch Collection covers Lux, Lux Orbis and Lux Via, and keeps Lux Via's bridges where both mods have one. Lux Via's optional Better Dynamic Snow patch, for version 2, was left out. [The roads note](roads.md) has the details. That leaves only what the game shows.
 - How Lux CS's tone mapping combines with a weather mod's own tone mapping for Community Shaders. 11 of the 15 Lux CS lists combine them.
 - How many lists run True Light, which Wabbajack's index doesn't name.
 - What Placed Light is. It isn't on Nexus under that name.

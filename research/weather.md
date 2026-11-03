@@ -122,6 +122,12 @@ The three Obsidian CS lists closest to ours:
 
 The owner chose Obsidian on 2026-11-03. That's under 20 MB. Sort with LOOT afterwards. In game, set Merethic's grass brightness, and look at days, nights, storms and snow.
 
+This set was installed on 2026-11-03 with the lighting kit, as the [changelog](../CHANGELOG.md) records. What the install settled:
+- **Moons and Stars:** its installer has an SE 1.5.97 build. It shares no records or files with Obsidian CS, so Obsidian CS overwrites it in both panes without a conflict to resolve.
+- **Tone mapping:** Obsidian CS and Lux CS each ship an INI with the same two settings, `bUseFilmicCurve=1` and `fFilmicWhiteScale=10`, so they agree.
+- **Lux and Obsidian:** they share no cell records, so Lux's interior cell edits don't touch Obsidian. They share four records. Lux keeps its own Blackreach weather. Its torch and Candlelight values win over Obsidian's darker-night tweaks to them. CS Light then overrides one of the three, and ISL Helper converts them for inverse square lighting as the game loads them.
+- **Snow:** Obsidian's INI also sets snow rim light, subsurface color and sparkle values, which change how Better Dynamic Snow looks.
+
 **Alternatives:**
 - NAT.CS III, for a brighter and more colorful look. It's the most used weather in Community Shaders lists and also tuned by Lux CS's author. Its water shadow option needs Water Effects Brightness and Reflection Fix.
 - Azurite III CS, if grass color matters most, or with the True Light lighting set instead of Lux.
@@ -130,9 +136,8 @@ The Nexus pages' screenshots are the quickest way to compare the three looks.
 
 ## Not verified
 
-- No visual comparison was made, and none of these has been seen in this list's game.
-- Whether Lux's interior cell edits and Obsidian's records overlap. LOOT or SSEEdit would show it after install.
-- How Obsidian CS's and Lux CS's tone mapping settings combine. 3 lists combine them.
+- No visual comparison was made, and none of these had been seen in this list's game when this was written.
+- How Obsidian CS's and Lux CS's image spaces look together. Their INI settings match, but each also edits image spaces in its plugin.
 - Whether Obsidian CS and NAT.CS III, both last updated 2025-10-28, need changes for Community Shaders 1.9.
 - How Better Dynamic Snow's brighter option looks under Obsidian.
 - The add-ons' builds for 1.5.97, except Moons and Stars, whose page covers it.

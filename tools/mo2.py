@@ -35,6 +35,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import struct
 import subprocess
 import sys
@@ -51,7 +52,9 @@ SEPARATOR = "_separator"
 
 
 def require_mo2_closed():
-    tasks = subprocess.run(["tasklist", "/FI", "IMAGENAME eq ModOrganizer.exe"], capture_output=True, text=True).stdout
+    # tasklist answers in the console's code page, which UTF-8 mode can't decode when Windows isn't in English
+    tasks = subprocess.run(["tasklist", "/FI", "IMAGENAME eq ModOrganizer.exe"], capture_output=True, text=True,
+                           errors="replace").stdout
     if "ModOrganizer.exe" in tasks:
         sys.exit("Close MO2 first: it rewrites the profile files when it exits.")
 
@@ -88,6 +91,14 @@ def set_download_flags(archive, installed):
     open(path, "w", encoding="utf-8", errors="surrogateescape").write(text)
 
 
+def remove_tree(path):
+    """rmtree that clears the read-only flag some archives set on their folders, which Windows won't delete otherwise."""
+    def retry(function, target, _):
+        os.chmod(target, stat.S_IWRITE)
+        function(target)
+    shutil.rmtree(path, onerror=retry)
+
+
 def install(folder, mod_id, version, parts, merge, keep_staging):
     target = os.path.join(MODS, folder)
     if os.path.exists(target) and not merge:
@@ -106,7 +117,7 @@ def install(folder, mod_id, version, parts, merge, keep_staging):
         if choices:
             notes.append(f"{os.path.basename(archive)}: {choices}")
         if not keep_staging:
-            shutil.rmtree(staging)
+            remove_tree(staging)
     lines = ["[General]", "gameName=SkyrimSE", f"modid={mod_id}", f"version={version}", f"newestVersion={version}",
              "category=", "nexusFileStatus=1", f"installationFile={installed[-1][0]}", "repository=Nexus", "ignoredVersion=",
              "comments=", f"notes={ini_string(' | '.join(notes))}", "url=", "hasCustomURL=false", "converted=false",

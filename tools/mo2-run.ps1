@@ -6,7 +6,8 @@
 #
 # Arguments are set only for this run and restored afterwards. Windows the tool leaves open, such as
 # PGPatcher's "Generation Complete" or LOOT's "Sorting made no changes", are read aloud and closed with
-# their OK button. MO2 must be closed, and it asks no Steam question for tools listed under [DialogChoices].
+# their OK button, or as a window when the OK can't be clicked. MO2 must be closed, and it asks no Steam
+# question for tools listed under [DialogChoices].
 param(
     [string] $Title,
     [string] $Arguments = '',
@@ -33,9 +34,13 @@ function Close-OkWindows([string] $process) {
             $ok = $window.FindAll([System.Windows.Automation.TreeScope]::Descendants, $byName)
             if ($ok.Count -gt 0) {
                 $text = $window.FindAll([System.Windows.Automation.TreeScope]::Descendants, [System.Windows.Automation.Condition]::TrueCondition) |
-                    Where-Object { $_.Current.ControlType.ProgrammaticName -eq 'ControlType.Text' } | ForEach-Object { $_.Current.Name }
-                Write-Output "$process says: $(($text -join ' ') -replace '\s+', ' ')"
-                $ok[0].GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                    Where-Object { $_.Current.ControlType.ProgrammaticName -in 'ControlType.Text', 'ControlType.Pane' -and $_.Current.Name } |
+                    ForEach-Object { $_.Current.Name }
+                Write-Output "$process says: $($window.Current.Name): $(($text -join ' ') -replace '\s+', ' ')"
+                # PGPatcher draws its OK as a plain pane that can't be clicked through UI Automation, so its window is closed instead
+                $invoke = $null
+                if ($ok[0].TryGetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern, [ref] $invoke)) { $invoke.Invoke() }
+                else { $window.GetCurrentPattern([System.Windows.Automation.WindowPattern]::Pattern).Close() }
             }
         }
     }
@@ -85,5 +90,5 @@ if ($RegeneratePGPatcher) {
 } elseif ($Title) {
     Invoke-Executable $Title $Arguments
 } else {
-    Get-Content -LiteralPath $PSCommandPath -TotalCount 9
+    Get-Content -LiteralPath $PSCommandPath -TotalCount 10
 }

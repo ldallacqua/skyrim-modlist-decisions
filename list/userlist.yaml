@@ -1,0 +1,20 @@
+# Load After rules for this list. Each reason is in the rule's detail, as decision 0010 asks.
+plugins:
+  - name: 'Lux Orbis.esp'
+    after:
+      - name: 'Lux Via - plugin.esp'
+        detail: 'Lux Via''s author says Orbis should win where both edit the same Solitude lanterns (33 shared references). Orbis also carries USSEP''s cell regions in more of their shared cells.'
+  - name: 'Lux Orbis CS.esp'
+    after:
+      - name: 'Lux Via - plugin.esp'
+        detail: 'Lux CS tunes Orbis''s lights, so it follows Orbis against Lux Via (6 shared references). No rule puts it after the Orbis patches, although its installer asks for that: it shares no references with them, and its cell copies would undo their region and water fixes.'
+  - name: 'Northern Roads.esp'
+    after:
+      - name: 'NotWL - Nordic Cut.esp'
+        detail: 'Northern Roads'' Patch Collection and Patches Compendium both ask for it after the main mods. Without this LOOT put it first, and Nordic Cut kept a tree standing on the new road in Eastmarch (Skyrim.esm 0B8DBC). Their shared cells have the same regions.'
+      - name: 'Lux Via - plugin.esp'
+        detail: 'Lux Via''s forwarding plugin otherwise puts Lux Via''s own terrain back over two Northern Roads landscape blocks and two navmeshes (Skyrim.esm 009F8E, 009FAD, 094C23, 1064FC) that the Collection''s Lux Via patch leaves to Northern Roads.'
+  - name: 'TomatoRim PBR - Northern Roads.esp'
+    after:
+      - name: 'Northern Roads - PBR.esp'
+        detail: 'Both set Northern Roads'' road texture sets to PBR. TomatoRim''s version, matching its landscapes, wins the 16 it shares with PBR Hub, as the TomatoRim lists load them.'

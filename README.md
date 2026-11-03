@@ -64,6 +64,7 @@ flowchart LR
 | [0012](decisions/0012-inbox-separator-last.md) | Keep the inbox separator last | Accepted |
 | [0013](decisions/0013-public-snapshot-by-whitelist.md) | Publish the real list, by whitelist, as text only | Accepted |
 | [0014](decisions/0014-extended-grass-without-cache.md) | Extend grass with Grass Optimizations and NGIO, without a cache | Accepted |
+| [0015](decisions/0015-keep-tomatorim-ground-and-northern-roads.md) | Keep TomatoRim's ground and Northern Roads at their own depths, and add road debris | Accepted |
 
 New decisions start from the [template](decisions/0000-template.md). A decision gets a record when it's structural and expensive to reverse; a routine mod choice doesn't need one. Records are never deleted, only marked as superseded.
 
@@ -89,7 +90,7 @@ python tools/check.py
 
 `snapshot.py` refreshes `list/` from a profile, copying only a fixed whitelist of files and fields. `check.py` needs nothing but Python and cites the decision behind each check. Run it before committing.
 
-Six more scripts do the work around the list:
+Nine more scripts do the work around the list:
 
 - **`wabbajack.py`** counts what published lists install.
 - **`coverage.py`** measures which vanilla assets still look vanilla.
@@ -97,6 +98,9 @@ Six more scripts do the work around the list:
 - **`fomod.py`** reads and runs FOMOD installers with explicit choices.
 - **`mo2.py`** installs, places and checks mods in an MO2 instance.
 - **`mo2-run.ps1`** runs LOOT, PGPatcher or any MO2 executable with nobody at the keyboard.
+- **`terrain_to_pbr.py`** converts an ENB complex parallax landscape texture into a Community Shaders PBR set.
+- **`road_debris.py`** builds a small plugin that puts pebbles and small rocks on Northern Roads' dirt roads.
+- **`terrain_depth.py`** stretches PBR ground height maps for deeper parallax. Its first output smeared in game and is turned off.
 
 [`AGENTS.md`](AGENTS.md) shows how they fit together.
 
