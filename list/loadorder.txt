@@ -79,13 +79,20 @@ ccbgssse038-bowofshadows.esl
 ccbgssse066-staves.esl
 ccbgssse069-contest.esl
 ccedhsse003-redguard.esl
+Unofficial Skyrim Special Edition Patch.esp
 High Poly Head.esm
 TrueHUD.esl
 iWant Widgets.esl
 RaceCompatibility.esm
+Better Dynamic Snow SE - DisableRefs.esm
+Cathedral - 3D Mountain Flowers.esp
 Expressive Facegen Morphs.esl
+PGPatcher.esp
 SkyUI_SE.esp
 Particle Patch.esp
+SMIM-SE-Merged-All.esp
+Better Dynamic Snow SE.esp
+StonewallIvy.esp
 CBBE.esp
 RaceMenu.esp
 RaceMenuPlugin.esp
@@ -96,8 +103,8 @@ UIExtensions.esp
 SOSPhysicsManager.esp
 OBody.esp
 High Poly Head Vampire Fix.esp
-[dint999] HairPack02.esp
 [Dint999] BDOr_Hairstyles.esp
+[dint999] HairPack02.esp
 FNIS.esp
 CBBE 3BA Vanilla Outfits.esp
 CBBE 3BA Creation Club.esp
@@ -110,5 +117,27 @@ TrueDirectionalMovement.esp
 OStim.esp
 Nocollision_clutter_player.esp
 RaceCompatibilityUSKPOverride.esp
+Nature of the Wild Lands.esp
+NotWL - Nordic Cut.esp
+IcyFixes.esp
+Tomato's PBR Landscapes.esp
+Better Dynamic Snow SE - No Glacier Snow.esp
+BlendedRoads.esp
+NotWL - Autumn Rift.esp
+Nature of the Wild Lands - CC Tundra Homestead.esp
+Merethic Grasslands.esp
+Faultier's PBR Clutter.esp
+Faultier's PBR DLC01 architecture.esp
+Faultier's PBR DLC02 architecture.esp
+Faultier's PBR Nordic Ruins.esp
+Faultier's PBR Shacks, Stockades, Mines.esp
+Faultier's PBR Soul Cairn.esp
+Faultier's PBR Windhelm.esp
+Vanaheimr - Mines and Caves - PBR.esp
+Diverse Glowing Mushroom by Mari.esp
+Diverse HQ PBR Shrubs.esp
+IvyAnim.esp
 Skyrim Unbound.esp
 Skyrim Unbound - Female by Default.esp
+AutoBlend.esp
+PG_1.esp

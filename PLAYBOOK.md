@@ -27,7 +27,7 @@ The rules in force, on one page. Each rule links to the decision that explains i
 12. **Each generator writes to its own mod, at the end of the pane.** That makes it possible to delete and rebuild any one of them. ([0007](decisions/0007-one-output-mod-per-generator.md))
 13. **Set the output in the tool, following its documentation.** MO2's "create files in mod" only catches new files; existing files are changed at their source. ([0008](decisions/0008-configure-outputs-in-the-tool.md))
 14. **Disable an output before regenerating it,** so the tool doesn't read its own result. ([0007](decisions/0007-one-output-mod-per-generator.md))
-15. **Run in dependency order:** LOOT and personal patches, BodySlide, Pandora, optional Wrye Bash and Synthesis, LOOT, xLODGen, PGPatcher, TexGen, DynDOLOD. No source states this whole sequence; it's combined from each tool's documentation. ([0007](decisions/0007-one-output-mod-per-generator.md))
+15. **Run in dependency order:** LOOT and personal patches, BodySlide, Pandora, optional Wrye Bash and Synthesis, LOOT, xLODGen, AutoBlend, PGPatcher, TexGen, DynDOLOD. No source states this whole sequence; it's combined from each tool's documentation. ([0007](decisions/0007-one-output-mod-per-generator.md))
 16. **Keep Overwrite empty.** Whatever lands there gets a home or gets deleted. ([0007](decisions/0007-one-output-mod-per-generator.md))
 
 ## Safety
