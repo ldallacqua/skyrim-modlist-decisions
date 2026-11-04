@@ -10,6 +10,8 @@ How to read the evidence:
 
 ## Takeaway
 
+**Since 2026-11-04, Community Shaders' Frame Generation is off, and frame generation comes from NVIDIA Smooth Motion in the driver.** CS's Frame Generation [breaks this route](#why-the-renodx-route-broke-on-2026-11-03). The add-on built to run NR alongside it, [Community Shaders NR](#community-shaders-nr-tried-on-2026-11-03), doesn't start on 1.5.97. See [Frame generation with this route](#frame-generation-with-this-route).
+
 NR runs through ReShade and the RenoDX "DLSS5 Generic" add-on. They sit with their files in one Root Builder mod, `DLSS 5 - ReShade and RenoDX`. The add-on catches Community Shaders' DLSS upscale and runs NR on its output, through its own Direct3D 11 bridge. The runtime is ShortFuse's compat build, patched for RTX 20, 30 and 40 cards. NR starts off, and F6 turns it on.
 
 **The compat runtime hasn't run in Skyrim yet.** The last Skyrim session was an hour before the swap, and NR was off in it. Two capture pairs from earlier that day show NR changing the image in Skyrim, on the old runtime.
@@ -140,6 +142,50 @@ Two backups show it (local): `C:\Modding\_cleanup-backup\2026-11-02-renodx-upgra
 - **A Ray Reconstruction DLL**, `nvngx_dlssd.dll` 310.7.129, sat in `ROOT - Outputs\Root`.
 - **What replaced them.** On 2026-11-02 the v10 add-on's built-in bridge replaced the separate one. It reads the game's real DLSS inputs (local log), which the synthetic feed had stood in for, so the feed went too. The `DLSS 5 - ReShade and RenoDX` mod was made the same afternoon. The profile's `modlist.txt` backed up just before doesn't list it.
 - **Leftovers.** `ReShadePreset.ini` still names the feed's and Lumenite's techniques in its sort order. No technique is on and their shaders are gone, so it should be harmless (not verified).
+
+## Why the RenoDX route broke on 2026-11-03
+
+Local, read on 2026-11-03.
+- **The cause:** Bethini set the game to borderless windowed. Community Shaders 1.9.1 ships Frame Generation on (`frameGenerationMode=1`, also its default). Its menu says Frame Generation "Requires windowed mode", so exclusive fullscreen had kept it off.
+- **What changed:** in borderless mode CS turned on AMD FSR frame generation through a Direct3D 11 to Direct3D 12 proxy (`CommunityShaders.log`). The game now presented through a Direct3D 12 swap chain.
+- **How the add-on reacted:** the RenoDX add-on serves Skyrim's DLSS through its Direct3D 11 bridge only "in a process that presents through Direct3D 11" (add-on text). It took the Direct3D 12 route instead and never saw a DLSS call: `NR-VERDICT state=NOT_ENGAGED`, `seen=0 evals=0`, all session.
+- **The misleading hint:** its overlay suggested `EnableHooks=1`. That doesn't help here.
+- **Why it can't be fixed in this add-on:** it handles only NVIDIA's DLSS-G. At Present it can't serve "another vendor's frame generation" (add-on text), and CS 1.9.1 has only FSR frame generation. So with this add-on, NR and CS's Frame Generation can't run together.
+- **The compat runtime itself works:** a capture pair from 20:35 that day, before Bethini ran, shows NR changing the image.
+
+## Community Shaders NR, tried on 2026-11-03
+
+[Community Shaders Neural Rendering Addon](https://www.nexusmods.com/skyrimspecialedition/mods/197720) 1.2.1, by TheElderLord1337, is an SKSE plugin. It chains Community Shaders' scene callback and runs NR before CS's final HDR composition and Frame Generation. Its author confirms NR frames going through CS's Frame Generation, but only on an RTX 5080 with Skyrim 1.7.104 and CS 1.9.1. RTX 20, 30 and 40 cards are experimental, using the same compat runtime this list has.
+
+**It doesn't start on 1.5.97** (local, 2026-11-04). Its log says `Game compatibility check failed; no hooks installed: SKSE and the executable report different Skyrim versions`. `skse64.log` then lists it as "reported as incompatible during load". Its 1.2.0 release reworked how it reads SKSE's version number, for GOG, and that check apparently misreads SKSE 2.0.20 on 1.5.97 (not verified). This would need a fix from its author.
+
+Both mods stay in `Shaders`, disabled:
+
+| Mod | What it holds |
+|---|---|
+| `Community Shaders Neural Rendering Addon` | The plugin, its helper `nvngx.dll_csnr.dll` and `CommunityShadersNR.ini`. The INI has `ResolutionPercent=67` and the overlay on. |
+| `Community Shaders NR - Runtime compat 310.9.16` | The compat `nvngx_dlssnr.dll`, in `SKSE\Plugins\CommunityShadersNR\Runtime`, copied from the RenoDX mod. Its hash was checked. |
+
+## Frame generation with this route
+
+Since 2026-11-04:
+- **CS Frame Generation is off:** `frameGenerationMode=0` in `SKSE - Outputs\SKSE\Plugins\CommunityShaders\SettingsUser.json`.
+- **The HDR mod is off:** `HDR - Community Shaders` is disabled, so the swap chain is back to the 8-bit, Direct3D 11 one NR worked on. The owner also found CS's HDR output looked broken.
+- **The window stays borderless,** as Bethini set it. With CS Frame Generation off, the window mode no longer changes the route. The last working session, at 20:35 on 2026-11-03, was still in exclusive fullscreen.
+- **Frame generation comes from NVIDIA Smooth Motion,** which the owner turns on in the NVIDIA App under Graphics, Program settings, for `SkyrimSE.exe`. Smooth Motion is a driver feature: it generates frames after the game presents, from the finished image, without the game's motion vectors. RTX 40 cards have it since August 2025. It also interpolates the HUD.
+
+Smooth Motion works on the presented frame, after NR, so it doesn't touch this route.
+
+**Seen in game on 2026-11-04, and the owner calls it perfect.** Settings:
+- Smooth Motion and VSync are on in the NVIDIA control panel.
+- VSync is off in SSE Display Tweaks (`EnableVSync=false`, changed by the owner). Its 120 fps limit stays.
+- CS upscales with DLSS, and NR runs through ReShade and the RenoDX add-on.
+
+`ReShade.log` from that session (local):
+- **Route:** `api=d3d11 path=bridge` on every verdict line, and `NR-VERDICT state=ENGAGED`.
+- **Coverage:** NR ran on 99.99% of eligible frames, about 7,900 evaluations, while the owner switched it with F6.
+- **Swap chain:** 8-bit `R8G8B8A8_UNORM`, windowed.
+- **Frame rate:** the game presents at about 60 fps (16.6 ms a frame), and Smooth Motion's frames come on top of that in the driver. The NR cost wasn't measured.
 
 ## Fit with this list
 

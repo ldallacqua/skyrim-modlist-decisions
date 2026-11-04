@@ -124,135 +124,140 @@ position,type,name,enabled,separator,version,nexus_id
 123,mod,No Grass In Objects,yes,Shaders,2.0.3.0,42161
 124,mod,Particle Patch,yes,Shaders,1.4.6.0,65720
 125,mod,ISL Helper SKSE,yes,Shaders,1.0.6,179132
-126,separator,Skeleton & Physics,,Skeleton & Physics,,
-127,mod,XP32 Maximum Skeleton Special Extended,yes,Skeleton & Physics,f5.06,1988
-128,mod,CBPC - Physics with Collisions,yes,Skeleton & Physics,1.7.2.0,21224
-129,mod,Faster HDT-SMP,yes,Skeleton & Physics,4.1.1.0,57339
-130,separator,Body,,Body,,
-131,mod,Caliente's Beautiful Bodies Enhancer -CBBE-,yes,Body,2.0.3.0,198
-132,mod,CBBE 3BA,yes,Body,2.48.0.0,30174
-133,mod,3B Breast-Butt Bounce Configs for 3BA-BHUNP-COCO,yes,Body,1.5.2.0,21224
-134,mod,OBody Next Generation,yes,Body,4.4.3.0,77016
-135,mod,OBody Next Generation ORefit JSON Master List,yes,Body,f2026.01,105052
-136,separator,Head & Face,,Head & Face,,
-137,mod,RaceMenu,yes,Head & Face,0.4.16.0,19080
-138,mod,RaceMenu 0.4.16 Memory Leak Hotfix (SE),yes,Head & Face,1.0.0.0,70161
-139,mod,Expressive Facegen Morphs SE,yes,Head & Face,1.0.0.0,35785
-140,mod,Expressive Facial Animation - Female Edition,yes,Head & Face,1.7.0.0,19181
-141,mod,Expressive Facial Animation - Male Edition,yes,Head & Face,1.21.0.0,19532
-142,mod,High Poly Head SE,yes,Head & Face,1.4.0.0,
-143,mod,Even More Brows - HPH - COtR,yes,Head & Face,1.1.0.0,87305
-144,separator,Skin,,Skin,,
-145,mod,BnP female skin (Replacer+Player version),yes,Skin,2.0.0.0,65274
-146,mod,BnP female small update,yes,Skin,2.1.0.0,65274
-147,separator,Presets,,Presets,,
-148,mod,BnP female presets,yes,Presets,2.0.0.0,65274
-149,mod,Amazing Curves - A CBBE 3BA Bodyslide Preset,yes,Presets,1.1.0.0,70212
-150,mod,Beauty Body Preset - CBBE 3BA 3BBB Bodyslide,yes,Presets,5.0.0.0,59589
-151,mod,Demonic Body Preset cbbe 3ba,yes,Presets,f1.00,62726
-152,mod,Natural Curves - A CBBE Bodyslide Preset,yes,Presets,1.1.0.0,41906
-153,separator,Hair,,Hair,,
-154,mod,[Dint999] HairPack02 SSE 1.12 (base),yes,Hair,d2026.8.31.0,
-155,mod,[Dint999] BDOR Hairs SSE 0.24,yes,Hair,d2026.8.31.0,
-156,separator,Animation,,Animation,,
-157,mod,Open Animation Replacer,yes,Animation,3.2.1.0,92109
-158,mod,Dyn FNIS AA functions,yes,Animation,3.1.1.0,175362
-159,mod,OStim Standalone - Advanced Adult Animation Framework,yes,Animation,7.5.0.0c,98163
-160,mod,Momentary Solitude - Ladies for OStim Standalone,yes,Animation,1.0.0.0,107982
-161,mod,Animation Queue Fix,yes,Animation,1.0.2.0,82395
-162,mod,Paired Animation Improvements,yes,Animation,1.0.3.0,99621
-163,separator,Armor,,Armor,,
-164,mod,CBBE 3BA Vanilla Outfits Redone,yes,Armor,5.5.1.0,109194
-165,separator,Models,,Models,,
-166,mod,Static Mesh Improvement Mod - SMIM,yes,Models,2.08,659
-167,mod,Assorted mesh fixes,yes,Models,0.139.3.0,32117
-168,mod,Better Dynamic Snow SE,yes,Models,3.6.0,9121
-169,separator,Landscape,,Landscape,,
-170,mod,Blended Roads,no,Landscape,1.7,8834
-171,mod,Enhanced Rocks and Mountains - Complex Material and PBR,yes,Landscape,1.2.1,121336
-172,mod,Icy Mesh Remaster - Ice Glaciers - LOD - other fixes,yes,Landscape,3.40,73381
-173,mod,Northern Roads,yes,Landscape,1.3.1,77530
-174,mod,Northern Roads - Patches Compendium,yes,Landscape,8.0.0,77893
-175,mod,Northern Roads - Collision and Placement Fix,yes,Landscape,2.1.1,112554
-176,mod,Northern Roads - Floating Objects Fix,yes,Landscape,1.4,112127
-177,mod,Northern Roads - Collision Box Fix in Whiterun,yes,Landscape,1.0.0,137238
-178,mod,Northern Roads Patch Collection,yes,Landscape,1.41.1,77386
-179,mod,TomatoRim PBR Landscapes AIO 1K 2K 4K,yes,Landscape,1.7.PBR,177621
-180,mod,PBR Hub - Northern Roads PBR,yes,Landscape,1.0.3,139889
-181,mod,TomatoRim PBR - Northern Roads,yes,Landscape,1.0.PBR,177621
-182,mod,Northern Roads - Omen Apollo Dirt PBR (converted),yes,Landscape,1.02,93860
-183,mod,Northern Roads - Road Debris,yes,Landscape,1.0,
-184,separator,Trees & Grass,,Trees & Grass,,
-185,mod,Nature of the Wild Lands - forest and trees improvement mod,yes,Trees & Grass,3.14,63604
-186,mod,Nature of the Wild Lands - Nordic Cut,yes,Trees & Grass,1.2.2,161936
-187,mod,Nature of the Wild Lands - Nordic Cut - Patch Collection,yes,Trees & Grass,1.2.2,161936
-188,mod,Nature of the Wild Lands - PBR,yes,Trees & Grass,1.1.0,150319
-189,mod,DrJacopo's - 3D Landscapes and Grass Library,yes,Trees & Grass,16.53,80687
-190,mod,Merethic Grasslands - Vanilla - Faultier's - Vanaheimr,yes,Trees & Grass,2.3,164058
-191,mod,Merethic Grasslands PBR,yes,Trees & Grass,1.1.0,193219
-192,separator,Plants,,Plants,,
-193,mod,DrJacopo's - 3D Deathbell (Low Poly Nexus Version),yes,Plants,1.1,76460
-194,mod,DrJacopo's - 3D Dragons Tongue,yes,Plants,1.2,85694
-195,mod,Cathedral - 3D Mountain Flowers,yes,Plants,2.0,41312
-196,mod,DrJacopo's - 3D Nightshade,yes,Plants,2.4,81284
-197,mod,DrJacopo's - 3D Pine Shrubs,yes,Plants,1.2,94791
-198,mod,DrJacopo's - 3D Snow Berries,yes,Plants,1.0,69415
-199,mod,DrJacopo - 3D Stonecrop,yes,Plants,1.2,110726
-200,mod,DrJacopo's - 3D Sword Ferns (Low Poly Nexus Version),yes,Plants,4,82978
-201,mod,DrJacopo's - 3D Thicket and Dead Shrub (Low Poly Nexus Version),yes,Plants,1,86392
-202,mod,DrJacopo's - 3D Thistle,yes,Plants,2.1,67619
-203,mod,DrJacopo's - 3D Tundra Cotton,yes,Plants,2.0,68068
-204,mod,DrJacopo - 3D Tundra Shrubs,yes,Plants,1.1,108747
-205,mod,DrJacopo's - 3D Lavender (Low Poly Nexus Version),yes,Plants,1.3,68310
-206,mod,DrJacopo's - 3D Clover Plant (Nexus Version),yes,Plants,4,68793
-207,mod,Cathedral - Mushrooms,yes,Plants,1.0,26103
-208,mod,Mountain Flowers - Base Object Swapper - Cathedral 3D Mountain Flowers - Reimagined Mountain Flowers - Skying Mountain Flowers,yes,Plants,0.3,60756
-209,mod,A Nirnroot,yes,Plants,1.0,80281
-210,mod,PBR Waterplants - A PBR Nirnroot,yes,Plants,1.0,129928
-211,mod,Cathedral PBR Plants,yes,Plants,2.10,135836
-212,mod,PBR Flora Overhaul,yes,Plants,2.8.3,148782
-213,mod,Diverse high-quality PBR shrubs,yes,Plants,2.3.1,154489
-214,mod,Animated Ivy,yes,Plants,1.1,82048
-215,mod,Tomato's PBR Vanilla Ivy,yes,Plants,1.0,176636
-216,separator,Architecture,,Architecture,,
-217,mod,Tomato's Imperial Forts Remake - PBR or Complex Material,yes,Architecture,2.0,172845
-218,mod,TomatoRim - Farmhouses PBR and CM,yes,Architecture,9000,135774
-219,mod,Tomato's Whiterun Remake - PBR or Complex Material,yes,Architecture,2.3.1,173747
-220,mod,Tomato's Riften and Ratway - PBR or Complex Material,yes,Architecture,1.2,157340
-221,mod,Vanaheimr - Mines and Caves - Complex Material - PBR,yes,Architecture,5.0,137033
-222,mod,Vanaheimr - Mines and Caves - Blending Meshes,yes,Architecture,5.0,137033
-223,mod,Faultier's PBR Skyrim,yes,Architecture,3.0,125308
-224,separator,Lighting & Weather,,Lighting & Weather,,
-225,mod,Lux Via,yes,Lighting & Weather,2.2,63588
-226,mod,Lux via - Patch Hub,yes,Lighting & Weather,2.2,116722
-227,mod,Lux,yes,Lighting & Weather,7.1,43158
-228,mod,Lux - Patch Hub,yes,Lighting & Weather,7.2,113002
-229,mod,Lux Orbis,yes,Lighting & Weather,4.5,56095
-230,mod,Lux Orbis - Patch Hub,yes,Lighting & Weather,4.7,114169
-231,mod,Lux CS,yes,Lighting & Weather,2.6.0,153919
-232,mod,CS Light,yes,Lighting & Weather,2.0.1,138443
-233,mod,First person magic hand light fix,yes,Lighting & Weather,1.0.0,142757
-234,mod,Embers XD,yes,Lighting & Weather,3.3.0,37085
-235,mod,Embers XD - Light Placer Add-On,yes,Lighting & Weather,1.0.0,37085
-236,mod,Obsidian Weathers and Seasons,yes,Lighting & Weather,1.07a,12125
-237,mod,Moons and Stars - Sky Overhaul SKSE,yes,Lighting & Weather,2.1.0,73336
-238,mod,Obsidian CS,yes,Lighting & Weather,1.1.2,162627
-239,separator,Gameplay,,Gameplay,,
-240,mod,True Directional Movement - Modernized Third Person Gameplay,yes,Gameplay,2.2.7.0,51614
-241,mod,Game Collision Options,yes,Gameplay,1.1.0.0,87426
-242,mod,Skyrim Unbound Reborn,yes,Gameplay,3.0.17.0,27962
-243,separator,Tools,,Tools,,
-244,mod,Pandora Behaviour Engine Plus,yes,Tools,5.0.0.0b-,133232
-245,mod,BodySlide and Outfit Studio,yes,Tools,5.8.2.0,201
-246,mod,AutoBlend,yes,Tools,1.2.13,188398
-247,mod,PGPatcher,yes,Tools,2.3.1.0,120946
-248,separator,Outputs,,Outputs,,
-249,mod,ROOT - Outputs,yes,Outputs,,
-250,mod,Terrain Depth - Outputs,no,Outputs,1.0,
-251,mod,SKSE - Outputs,yes,Outputs,,
-252,mod,ShaderCache - Outputs,yes,Outputs,,
-253,mod,Pandora - Outputs,yes,Outputs,,
-254,mod,Bodyslide - Outputs,yes,Outputs,,
-255,mod,AutoBlend - Outputs,yes,Outputs,,
-256,mod,PGPatcher - Outputs,yes,Outputs,,
-257,separator,Recently Added,,Recently Added,,
+126,mod,HDR - Community Shaders,no,Shaders,1.2.2.0,179371
+127,mod,Effects 11,no,Shaders,1.0.0.0,192760
+128,mod,PI-CHO ENB (Based on Silent Horizons),no,Shaders,N9.7,35082
+129,mod,Community Shaders NR - Runtime compat 310.9.16,no,Shaders,310.9.16,
+130,mod,Community Shaders Neural Rendering Addon,no,Shaders,1.2.1,197720
+131,separator,Skeleton & Physics,,Skeleton & Physics,,
+132,mod,XP32 Maximum Skeleton Special Extended,yes,Skeleton & Physics,f5.06,1988
+133,mod,CBPC - Physics with Collisions,yes,Skeleton & Physics,1.7.2.0,21224
+134,mod,Faster HDT-SMP,yes,Skeleton & Physics,4.1.1.0,57339
+135,separator,Body,,Body,,
+136,mod,Caliente's Beautiful Bodies Enhancer -CBBE-,yes,Body,2.0.3.0,198
+137,mod,CBBE 3BA,yes,Body,2.48.0.0,30174
+138,mod,3B Breast-Butt Bounce Configs for 3BA-BHUNP-COCO,yes,Body,1.5.2.0,21224
+139,mod,OBody Next Generation,yes,Body,4.4.3.0,77016
+140,mod,OBody Next Generation ORefit JSON Master List,yes,Body,f2026.01,105052
+141,separator,Head & Face,,Head & Face,,
+142,mod,RaceMenu,yes,Head & Face,0.4.16.0,19080
+143,mod,RaceMenu 0.4.16 Memory Leak Hotfix (SE),yes,Head & Face,1.0.0.0,70161
+144,mod,Expressive Facegen Morphs SE,yes,Head & Face,1.0.0.0,35785
+145,mod,Expressive Facial Animation - Female Edition,yes,Head & Face,1.7.0.0,19181
+146,mod,Expressive Facial Animation - Male Edition,yes,Head & Face,1.21.0.0,19532
+147,mod,High Poly Head SE,yes,Head & Face,1.4.0.0,
+148,mod,Even More Brows - HPH - COtR,yes,Head & Face,1.1.0.0,87305
+149,separator,Skin,,Skin,,
+150,mod,BnP female skin (Replacer+Player version),yes,Skin,2.0.0.0,65274
+151,mod,BnP female small update,yes,Skin,2.1.0.0,65274
+152,separator,Presets,,Presets,,
+153,mod,BnP female presets,yes,Presets,2.0.0.0,65274
+154,mod,Amazing Curves - A CBBE 3BA Bodyslide Preset,yes,Presets,1.1.0.0,70212
+155,mod,Beauty Body Preset - CBBE 3BA 3BBB Bodyslide,yes,Presets,5.0.0.0,59589
+156,mod,Demonic Body Preset cbbe 3ba,yes,Presets,f1.00,62726
+157,mod,Natural Curves - A CBBE Bodyslide Preset,yes,Presets,1.1.0.0,41906
+158,separator,Hair,,Hair,,
+159,mod,[Dint999] HairPack02 SSE 1.12 (base),yes,Hair,d2026.8.31.0,
+160,mod,[Dint999] BDOR Hairs SSE 0.24,yes,Hair,d2026.8.31.0,
+161,separator,Animation,,Animation,,
+162,mod,Open Animation Replacer,yes,Animation,3.2.1.0,92109
+163,mod,Dyn FNIS AA functions,yes,Animation,3.1.1.0,175362
+164,mod,OStim Standalone - Advanced Adult Animation Framework,yes,Animation,7.5.0.0c,98163
+165,mod,Momentary Solitude - Ladies for OStim Standalone,yes,Animation,1.0.0.0,107982
+166,mod,Animation Queue Fix,yes,Animation,1.0.2.0,82395
+167,mod,Paired Animation Improvements,yes,Animation,1.0.3.0,99621
+168,separator,Armor,,Armor,,
+169,mod,CBBE 3BA Vanilla Outfits Redone,yes,Armor,5.5.1.0,109194
+170,separator,Models,,Models,,
+171,mod,Static Mesh Improvement Mod - SMIM,yes,Models,2.08,659
+172,mod,Assorted mesh fixes,yes,Models,0.139.3.0,32117
+173,mod,Better Dynamic Snow SE,yes,Models,3.6.0,9121
+174,separator,Landscape,,Landscape,,
+175,mod,Blended Roads,no,Landscape,1.7,8834
+176,mod,Enhanced Rocks and Mountains - Complex Material and PBR,yes,Landscape,1.2.1,121336
+177,mod,Icy Mesh Remaster - Ice Glaciers - LOD - other fixes,yes,Landscape,3.40,73381
+178,mod,Northern Roads,yes,Landscape,1.3.1,77530
+179,mod,Northern Roads - Patches Compendium,yes,Landscape,8.0.0,77893
+180,mod,Northern Roads - Collision and Placement Fix,yes,Landscape,2.1.1,112554
+181,mod,Northern Roads - Floating Objects Fix,yes,Landscape,1.4,112127
+182,mod,Northern Roads - Collision Box Fix in Whiterun,yes,Landscape,1.0.0,137238
+183,mod,Northern Roads Patch Collection,yes,Landscape,1.41.1,77386
+184,mod,TomatoRim PBR Landscapes AIO 1K 2K 4K,yes,Landscape,1.7.PBR,177621
+185,mod,PBR Hub - Northern Roads PBR,yes,Landscape,1.0.3,139889
+186,mod,TomatoRim PBR - Northern Roads,yes,Landscape,1.0.PBR,177621
+187,mod,Northern Roads - Omen Apollo Dirt PBR (converted),yes,Landscape,1.02,93860
+188,mod,Northern Roads - Road Debris,yes,Landscape,1.0,
+189,separator,Trees & Grass,,Trees & Grass,,
+190,mod,Nature of the Wild Lands - forest and trees improvement mod,yes,Trees & Grass,3.14,63604
+191,mod,Nature of the Wild Lands - Nordic Cut,yes,Trees & Grass,1.2.2,161936
+192,mod,Nature of the Wild Lands - Nordic Cut - Patch Collection,yes,Trees & Grass,1.2.2,161936
+193,mod,Nature of the Wild Lands - PBR,yes,Trees & Grass,1.1.0,150319
+194,mod,DrJacopo's - 3D Landscapes and Grass Library,yes,Trees & Grass,16.53,80687
+195,mod,Merethic Grasslands - Vanilla - Faultier's - Vanaheimr,yes,Trees & Grass,2.3,164058
+196,mod,Merethic Grasslands PBR,yes,Trees & Grass,1.1.0,193219
+197,separator,Plants,,Plants,,
+198,mod,DrJacopo's - 3D Deathbell (Low Poly Nexus Version),yes,Plants,1.1,76460
+199,mod,DrJacopo's - 3D Dragons Tongue,yes,Plants,1.2,85694
+200,mod,Cathedral - 3D Mountain Flowers,yes,Plants,2.0,41312
+201,mod,DrJacopo's - 3D Nightshade,yes,Plants,2.4,81284
+202,mod,DrJacopo's - 3D Pine Shrubs,yes,Plants,1.2,94791
+203,mod,DrJacopo's - 3D Snow Berries,yes,Plants,1.0,69415
+204,mod,DrJacopo - 3D Stonecrop,yes,Plants,1.2,110726
+205,mod,DrJacopo's - 3D Sword Ferns (Low Poly Nexus Version),yes,Plants,4,82978
+206,mod,DrJacopo's - 3D Thicket and Dead Shrub (Low Poly Nexus Version),yes,Plants,1,86392
+207,mod,DrJacopo's - 3D Thistle,yes,Plants,2.1,67619
+208,mod,DrJacopo's - 3D Tundra Cotton,yes,Plants,2.0,68068
+209,mod,DrJacopo - 3D Tundra Shrubs,yes,Plants,1.1,108747
+210,mod,DrJacopo's - 3D Lavender (Low Poly Nexus Version),yes,Plants,1.3,68310
+211,mod,DrJacopo's - 3D Clover Plant (Nexus Version),yes,Plants,4,68793
+212,mod,Cathedral - Mushrooms,yes,Plants,1.0,26103
+213,mod,Mountain Flowers - Base Object Swapper - Cathedral 3D Mountain Flowers - Reimagined Mountain Flowers - Skying Mountain Flowers,yes,Plants,0.3,60756
+214,mod,A Nirnroot,yes,Plants,1.0,80281
+215,mod,PBR Waterplants - A PBR Nirnroot,yes,Plants,1.0,129928
+216,mod,Cathedral PBR Plants,yes,Plants,2.10,135836
+217,mod,PBR Flora Overhaul,yes,Plants,2.8.3,148782
+218,mod,Diverse high-quality PBR shrubs,yes,Plants,2.3.1,154489
+219,mod,Animated Ivy,yes,Plants,1.1,82048
+220,mod,Tomato's PBR Vanilla Ivy,yes,Plants,1.0,176636
+221,separator,Architecture,,Architecture,,
+222,mod,Tomato's Imperial Forts Remake - PBR or Complex Material,yes,Architecture,2.0,172845
+223,mod,TomatoRim - Farmhouses PBR and CM,yes,Architecture,9000,135774
+224,mod,Tomato's Whiterun Remake - PBR or Complex Material,yes,Architecture,2.3.1,173747
+225,mod,Tomato's Riften and Ratway - PBR or Complex Material,yes,Architecture,1.2,157340
+226,mod,Vanaheimr - Mines and Caves - Complex Material - PBR,yes,Architecture,5.0,137033
+227,mod,Vanaheimr - Mines and Caves - Blending Meshes,yes,Architecture,5.0,137033
+228,mod,Faultier's PBR Skyrim,yes,Architecture,3.0,125308
+229,separator,Lighting & Weather,,Lighting & Weather,,
+230,mod,Lux Via,yes,Lighting & Weather,2.2,63588
+231,mod,Lux via - Patch Hub,yes,Lighting & Weather,2.2,116722
+232,mod,Lux,yes,Lighting & Weather,7.1,43158
+233,mod,Lux - Patch Hub,yes,Lighting & Weather,7.2,113002
+234,mod,Lux Orbis,yes,Lighting & Weather,4.5,56095
+235,mod,Lux Orbis - Patch Hub,yes,Lighting & Weather,4.7,114169
+236,mod,Lux CS,yes,Lighting & Weather,2.6.0,153919
+237,mod,CS Light,yes,Lighting & Weather,2.0.1,138443
+238,mod,First person magic hand light fix,yes,Lighting & Weather,1.0.0,142757
+239,mod,Embers XD,yes,Lighting & Weather,3.3.0,37085
+240,mod,Embers XD - Light Placer Add-On,yes,Lighting & Weather,1.0.0,37085
+241,mod,Obsidian Weathers and Seasons,yes,Lighting & Weather,1.07a,12125
+242,mod,Moons and Stars - Sky Overhaul SKSE,yes,Lighting & Weather,2.1.0,73336
+243,mod,Obsidian CS,yes,Lighting & Weather,1.1.2,162627
+244,separator,Gameplay,,Gameplay,,
+245,mod,True Directional Movement - Modernized Third Person Gameplay,yes,Gameplay,2.2.7.0,51614
+246,mod,Game Collision Options,yes,Gameplay,1.1.0.0,87426
+247,mod,Skyrim Unbound Reborn,yes,Gameplay,3.0.17.0,27962
+248,separator,Tools,,Tools,,
+249,mod,Pandora Behaviour Engine Plus,yes,Tools,5.0.0.0b-,133232
+250,mod,BodySlide and Outfit Studio,yes,Tools,5.8.2.0,201
+251,mod,AutoBlend,yes,Tools,1.2.13,188398
+252,mod,PGPatcher,yes,Tools,2.3.1.0,120946
+253,separator,Outputs,,Outputs,,
+254,mod,ROOT - Outputs,yes,Outputs,,
+255,mod,Terrain Depth - Outputs,no,Outputs,1.0,
+256,mod,SKSE - Outputs,yes,Outputs,,
+257,mod,ShaderCache - Outputs,yes,Outputs,,
+258,mod,Pandora - Outputs,yes,Outputs,,
+259,mod,Bodyslide - Outputs,yes,Outputs,,
+260,mod,AutoBlend - Outputs,yes,Outputs,,
+261,mod,PGPatcher - Outputs,yes,Outputs,,
+262,separator,Recently Added,,Recently Added,,

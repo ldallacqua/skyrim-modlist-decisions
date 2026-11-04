@@ -131,6 +131,11 @@
 +CBPC - Physics with Collisions
 +XP32 Maximum Skeleton Special Extended
 -Skeleton & Physics_separator
+-Community Shaders Neural Rendering Addon
+-Community Shaders NR - Runtime compat 310.9.16
+-PI-CHO ENB (Based on Silent Horizons)
+-Effects 11
+-HDR - Community Shaders
 +ISL Helper SKSE
 +Particle Patch
 +No Grass In Objects
