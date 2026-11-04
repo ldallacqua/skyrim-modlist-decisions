@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>PBR textures, trees and grass for a Community Shaders list · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">PBR textures, trees and grass for a Community Shaders list</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Checked 2026-11-03. Question: which PBR texture base to install, and which trees and grass go with it, for this list (Skyrim SE 1.5.97, Community Shaders 1.9.1, PGPatcher, Grass Optimizations with NGIO, no grass cache). DynDOLOD isn’t installed yet, but it will run once the visuals are settled, so mods that need it are in scope.</p>
+<p>How to read the evidence:</p>
+<ul>
+<li><strong>What lists install</strong> comes from Wabbajack’s published validation reports (<code>reports/searchIndex.json</code> and each list’s <code>status.json</code> in <a href="https://github.com/wabbajack-tools/mod-lists/tree/master/reports" target="_blank" rel="noreferrer">wabbajack-tools/mod-lists</a>), read on 2026-11-03. They name every archive a list downloads, including which file of a mod. They cover Wabbajack lists only, so Nolvus and other lists with their own installers are missing.</li>
+<li><strong>Mod details</strong> come from each mod’s description and requirements tab, read through Nexus Mods’ public GraphQL API. Nexus pages themselves return 403 to automation.</li>
+<li><strong>Counting lists measures adoption, not quality.</strong> Several lists share authors and templates, and many are small or new.</li>
+</ul>
+<h2 id="takeaway">Takeaway</h2>
+<p>Faultier’s PBR Skyrim is the most adopted PBR base, and the lists built on it converge on one set: Tomato’s mods fill the places Faultier skips, and TomatoRim PBR Landscapes covers the ground. For trees, Nature of the Wild Lands is the most used mod overall and has a PBR add-on. It needs USSEP, which the list now has at 4.2.5b, the same pairing Eldergleam NG runs on 1.5.97. Morkeskygge installs nearly this whole set: Faultier’s AIO, TomatoRim, NOTWL with its Nordic Cut and PBR add-on, Merethic, DynDOLOD and Grass Optimizations. CSVO is close too. The lighter PBR-native set is Tomato’s PBR Vanilla Trees on Enhanced Vanilla Trees, with Aspens Ablaze and its PBR conversion, as in ElderTeej and Nordic Souls PBR. For grass, Merethic Grasslands with its PBR conversion is the most used in PBR lists, and the only PBR one among them. Freak’s Floral Fields is the lusher choice, built alongside Vanaheimr’s landscapes rather than TomatoRim’s.</p>
+<h2 id="what-pbr-lists-install">What PBR lists install</h2>
+<p>30 Skyrim SE lists install a PBR-only base (Faultier’s PBR Skyrim, Vanilla PBR AIO or TomatoRim PBR Landscapes). PBR needs Community Shaders, so all 30 are Community Shaders lists.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Choice</th><th>Lists out of 30</th></tr></thead><tbody><tr><td><strong>Base:</strong> Faultier’s PBR Skyrim</td><td>22</td></tr><tr><td><strong>Base:</strong> Vanilla PBR AIO</td><td>9</td></tr><tr><td><strong>Landscape:</strong> TomatoRim PBR Landscapes</td><td>13</td></tr><tr><td><strong>Landscape:</strong> Sloppy Vanilla Landscapes (ICFur Exist mashup)</td><td>7</td></tr><tr><td><strong>Landscape:</strong> Vanaheimr Landscapes AIO</td><td>6</td></tr><tr><td><strong>Trees:</strong> Nature of the Wild Lands</td><td>13</td></tr><tr><td><strong>Trees:</strong> Tomato’s PBR Vanilla Trees</td><td>10</td></tr><tr><td><strong>Trees:</strong> Happy Little Trees</td><td>10</td></tr><tr><td><strong>Trees:</strong> Aspens Ablaze</td><td>9</td></tr><tr><td><strong>Grass:</strong> Merethic Grasslands</td><td>9</td></tr><tr><td><strong>Grass:</strong> Freak’s Floral Fields</td><td>7</td></tr><tr><td><strong>Grass:</strong> Witchy Wilderness</td><td>5</td></tr><tr><td><strong>LOD:</strong> DynDOLOD 3</td><td>22</td></tr><tr><td><strong>LOD:</strong> Grass Cache Helper NG</td><td>12</td></tr><tr><td><strong>LOD:</strong> Grass Optimizations</td><td>6</td></tr></tbody></table>
+<p>A list can count in more than one row. Faultier’s own landscapes can’t be told apart by mod name, so they appear only in the file-level check below.</p>
+<h3 id="which-faultiers-files-lists-actually-use">Which Faultier’s files lists actually use</h3>
+<p>From the <code>status.json</code> archive names:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>List</th><th>Faultier’s files</th><th>Landscape</th><th>Trees</th><th>Grass</th></tr></thead><tbody><tr><td>ElderTeej (featured)</td><td>AIO 2k</td><td>TomatoRim 2K</td><td>Tomato’s, Aspens Ablaze, EVT, Fabled Forests</td><td>Witchy Wilderness</td></tr><tr><td>Nordic Souls PBR</td><td>Separate 2k files</td><td>TomatoRim 2K</td><td>Tomato’s, Aspens Ablaze, EVT, HLT</td><td>Freak’s Floral</td></tr><tr><td>Morkeskygge</td><td>AIO 2k</td><td>TomatoRim 2K</td><td>NOTWL</td><td>Merethic</td></tr><tr><td>ReaperGleam</td><td>AIO 2k + Landscapes 4k</td><td>TomatoRim 4K</td><td>NOTWL, S3DTP</td><td>Freak’s Floral</td></tr><tr><td>Everwild</td><td>AIO 2k</td><td>TomatoRim 4K</td><td>none</td><td>Witchy Wilderness</td></tr><tr><td>Lalaland</td><td>AIO 2k</td><td>Sloppy Vanilla</td><td>HLT, NOTWL</td><td>Merethic</td></tr><tr><td>NG-EVO (Enderal)</td><td>AIO 1k + Landscapes 1k</td><td>Vanaheimr 1k</td><td>NOTWL</td><td>Freak’s Floral</td></tr><tr><td>Tuxborn</td><td>Separate 2k files</td><td>Vanaheimr 2k</td><td>HLT, Aspens Ablaze</td><td>Cathedral, Folkvangr</td></tr></tbody></table>
+<p>Only two lists install Faultier’s landscapes, and both also install another landscape. The usual pairing is Faultier’s architecture with TomatoRim’s ground.</p>
+<p>ElderTeej and Nordic Souls PBR fill Faultier’s gaps with the same mods: Tomato’s Whiterun Remake, Tomato’s Riften and Ratway, Tomato’s PBR Farmhouses, Imperial Forts Remake and Vanaheimr Mines and Caves. Both also install SMIM, Icy Mesh Remaster, ERM meshes and Better Dynamic Snow 3.6. CSVO (featured) uses the same gap fillers under Vanilla PBR AIO.</p>
+<h2 id="the-candidates">The candidates</h2>
+<h3 id="texture-bases">Texture bases</h3>
+<ul>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/125308" target="_blank" rel="noreferrer">Faultier’s PBR Skyrim</a></strong>: v3.0, 2,663 endorsements, 1.76M downloads.
+<ul>
+<li>The AIO covers clutter, Nordic and Dwemer ruins, Solitude, Windhelm, the College, ships, DLC architecture and more. It’s 9.2 GB at 2k, 3.1 GB at 1k and 19.7 GB at 4k. Landscapes are a separate file.</li>
+<li>It doesn’t cover Whiterun, Riften, farmhouses, Imperial forts or caves.</li>
+<li>It requires Community Shaders, SMIM and PGPatcher. The landscapes also need Blended Roads’ ESP.</li>
+<li>Incompatible: Terrain Parallax Blending Fix, Majestic Landscapes, double-pass snow (Simplicity of Snow, BDS 2), Icy or Snowy Windhelm, RUGNAROK and Detailed Rugs.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/174091" target="_blank" rel="noreferrer">Vanilla PBR AIO</a></strong>: v1.33.1, 1,050 endorsements, 56k downloads.
+<ul>
+<li>It covers almost everything except gear and landscapes, including cities, actors, dungeons and food, and stays faithful to vanilla.</li>
+<li>It uses 2k diffuse maps and 1k normals by design. It requires SMIM and PGPatcher, and the author says not to use SMIM PBR with it.</li>
+<li>The author designed it around ICFur Exist landscapes, Merethic Grasslands, Tomato’s PBR Vanilla Trees and Cathedral PBR Plants.</li>
+</ul>
+</li>
+</ul>
+<h3 id="landscapes">Landscapes</h3>
+<p>Community Shaders can’t render PBR and non-PBR terrain together, so every landscape texture must be PBR (Faultier’s description).</p>
+<ul>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/177621" target="_blank" rel="noreferrer">TomatoRim PBR Landscapes</a></strong>: v1.7, updated 2026-09-18. It’s 1.9 GB at 2K.
+<ul>
+<li>It covers the base game, DLC, mountains up to 16k, Soul Cairn, ice and bridges. Optional files cover ECSS, Northern Roads, Seasonal Landscapes and XPMF.</li>
+<li>It requires Better Dynamic Snow 3.6 with “No Glacier Snow”, and Blended Roads’ ESP unless the list uses Northern Roads. It recommends Icy Mesh Remaster, ERM meshes and running AutoBlend.</li>
+<li>It needs <code>bEnableProjecteUVDiffuseNormals=1</code> in skyrimprefs.ini, and Terrain Parallax Blending Fix is incompatible.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/143767" target="_blank" rel="noreferrer">Sloppy Vanilla Landscapes</a></strong> (ICFur Exist mashup): 2k AI upscales of the vanilla textures, with DLC in the new version. Its author pitches it to players who don’t want to run DynDOLOD, because it keeps vanilla colors.</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/145439" target="_blank" rel="noreferrer">Vanaheimr Landscapes AIO</a></strong>: it requires ERM, Icy Mesh Remaster and PGPatcher. It was designed around Freak’s Floral Fields.</li>
+</ul>
+<h3 id="trees">Trees</h3>
+<p>Tree mods in the 71 Skyrim SE lists that run DynDOLOD: Nature of the Wild Lands 31, Happy Little Trees 28, Skyrim 3D Trees and Plants 15, Aspens Ablaze 14, EVT 9, Tomato’s 7. Among the 19 PBR lists that run DynDOLOD: NOTWL 8, Tomato’s 7, Aspens Ablaze 6, HLT 5.</p>
+<ul>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/139375" target="_blank" rel="noreferrer">Tomato’s PBR Vanilla Trees</a></strong>: v2.6, 0.3 GB.
+<ul>
+<li>It gives vanilla trees new bark, subsurface foliage and new moss decals, plus logs and firewood.</li>
+<li>It works with vanilla tree meshes, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/11008" target="_blank" rel="noreferrer">Enhanced Vanilla Trees</a> and anything else that uses vanilla tree textures. The author’s screenshots use EVT’s Lush option. Its snow matches Faultier’s and TomatoRim’s landscapes exactly.</li>
+<li>The author recommends <a href="https://www.nexusmods.com/skyrimspecialedition/mods/39998" target="_blank" rel="noreferrer">Aspens Ablaze</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/146940" target="_blank" rel="noreferrer">Aspens Ablaze - PBR</a> loaded after it.</li>
+<li>EVT requires DynDOLOD for its object LOD, and Aspens Ablaze has an official DynDOLOD 3 add-on.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/63604" target="_blank" rel="noreferrer">Nature of the Wild Lands</a></strong>: v3.14, about 3.5 GB.
+<ul>
+<li>It uses photogrammetry trees, adds over 400 new trees, plants and objects in many small regions, and makes forests much denser. It doesn’t edit landscape or navmesh.</li>
+<li>It has a <a href="https://www.nexusmods.com/skyrimspecialedition/mods/150319" target="_blank" rel="noreferrer">PBR add-on</a> and a <a href="https://www.nexusmods.com/skyrimspecialedition/mods/133619" target="_blank" rel="noreferrer">3D hybrid LOD add-on</a> that needs TexGen and DynDOLOD Ultra.</li>
+<li><strong>It requires USSEP.</strong> 46 of the 47 Wabbajack lists that install NOTWL also install USSEP. The exception, NG-EVO, is built on Enderal.</li>
+<li>USSEP’s current page says it isn’t supported on older game versions, and every older file is archived. This list now has USSEP 4.2.5b, the last build for 1.5.97, installed by the user.</li>
+<li>Eldergleam NG 4.0.2 runs NOTWL 3.14 with USSEP 4.2.5b, BEES and SKSE 2.0.20, which is the 1.5.97 setup this list uses. The Nico Experience runs an older NOTWL the same way.</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/161936" target="_blank" rel="noreferrer">Nordic Cut</a></strong> keeps vanilla placement for most trees and keeps NOTWL’s shrubs and debris. It swaps pines for NOTWL’s spruce.
+<ul>
+<li>It’s compatible with the PBR, animation and 3D LOD add-ons, but not with NOTWL’s regular patches or the LOD regions add-on.</li>
+<li>It needs a new game, and its optional scaling uses Base Object Swapper.</li>
+<li>Morkeskygge and CSVO use it.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/50961" target="_blank" rel="noreferrer">Happy Little Trees</a></strong>: popular overall, but mostly in ENB lists. It gets PBR only through Skyland’s bark textures, which 1 of the 27 PBR lists installs.</li>
+</ul>
+<h3 id="grass">Grass</h3>
+<ul>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/164058" target="_blank" rel="noreferrer">Merethic Grasslands</a></strong>: v2.3, updated 2026-08-25.
+<ul>
+<li>Vanilla-faithful complex grass covering the base game and DLC. It needs Community Shaders with Grass Lighting and the meshes from DrJacopo’s 3D Grass Library.</li>
+<li>Its colors are tuned to blend with vanilla LOD, and it says it needs no grass cache with vanilla or vanilla-based LOD.</li>
+<li>Files: Vanilla, Exist (for Sloppy Vanilla Landscapes), Vanaheimr Cut, and a Faultier addon covering three regions.</li>
+<li>It has no TomatoRim variant, but Morkeskygge, CSVO, Wanderer’s Way and In the Woods pair it with TomatoRim.</li>
+<li>The Dragonborn’s Fate guide installs it with the same Community Shaders features this list uses, Grass Optimizations included.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/193219" target="_blank" rel="noreferrer">Merethic Grasslands PBR</a></strong>: a PBR conversion by Leo, v1.1.0, covering the Vanilla and Exist files. It requires Merethic, DrJacopo’s library, PGPatcher, Community Shaders and Grass Optimizations. It’s new, with 1.8k downloads.</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/125349" target="_blank" rel="noreferrer">Freak’s Floral Fields</a></strong>: v3.2.3. It’s the most configurable option, with 31 variants, grass on dirt cliffs through Base Object Swapper, and Seasons support.
+<ul>
+<li>Its requirements tab says Vanaheimr Landscapes “was literally made side by side” with it and its lighter sibling, Freak’s Floral Meadows, and matches it everywhere.</li>
+<li>Among Skyrim lists that run DynDOLOD, the Freak’s family is the most common grass after Folkvangr.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/134287" target="_blank" rel="noreferrer">Witchy Wilderness</a></strong>: modular, with complex grass and non-complex versions. It has no PBR version, and ElderTeej uses it.</li>
+</ul>
+<h2 id="fit-with-this-list">Fit with this list</h2>
+<ul>
+<li>Community Shaders 1.9.1 ships TruePBR, Grass Lighting and Subsurface Scattering as core features (local check of the mod folder), so nothing extra is needed for PBR, Merethic or Tomato’s foliage.</li>
+<li>PGPatcher is already installed and must run again after any of these, with its output last (decision 0007).</li>
+<li>Until DynDOLOD and xLODGen run, distant terrain and trees keep vanilla LOD. Expect seams at the LOD edge while testing. 10 of the 19 PBR lists that run DynDOLOD also install xLODGen or TexGen resources.</li>
+<li>DynDOLOD’s grass LOD needs a grass cache. That’s what would reopen <a href="/skyrim-modlist-decisions/decisions/0014-extended-grass-without-cache/">decision 0014</a>, not the textures themselves.</li>
+<li>The game version matters little for textures and meshes, and BEES is already installed for newer plugin headers. USSEP 4.2.5b is installed, which NOTWL needs.</li>
+</ul>
+<h2 id="recommendation">Recommendation</h2>
+<p><strong>Faultier + Tomato, with PBR trees and PBR grass:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Role</th><th>Mod</th></tr></thead><tbody><tr><td>Architecture and clutter</td><td>Faultier’s PBR Skyrim AIO 2k, with SMIM</td></tr><tr><td>Gap fillers</td><td>Tomato’s Whiterun Remake, Tomato’s Riften and Ratway, Tomato’s PBR Farmhouses, Imperial Forts Remake, Vanaheimr Mines and Caves (all PBR 2k)</td></tr><tr><td>Landscape</td><td>TomatoRim PBR Landscapes 2K and its 1.7 update, with Better Dynamic Snow 3.6, Blended Roads’ ESP, ERM meshes, Icy Mesh Remaster and AutoBlend</td></tr><tr><td>Trees</td><td>Nature of the Wild Lands, its Nordic Cut, and Nature of the Wild Lands - PBR</td></tr><tr><td>Grass</td><td>Merethic Grasslands (Vanilla file) and Merethic Grasslands PBR, with DrJacopo’s 3D Grass Library meshes</td></tr><tr><td>LOD pass, after testing</td><td>xLODGen terrain, TexGen and DynDOLOD Ultra with NOTWL’s 3D hybrid LODs; decide then whether to cache grass for grass LOD</td></tr></tbody></table>
+<p>That’s about 18 GB of downloads, half of it the Faultier’s AIO. The set was installed on 2026-11-03 for testing, as the <a href="/skyrim-modlist-decisions/changelog/">changelog</a> records. Nordic Cut’s CC Tundra Homestead patch, Base Object Swapper for IcyFixes, and moving Assorted Mesh Fixes after SMIM came out of the install itself. On the same day Northern Roads replaced Blended Roads, with TomatoRim’s own Northern Roads textures, as <a href="/skyrim-modlist-decisions/research/roads/">the roads note</a> explains.</p>
+<p><strong>Denser forests:</strong> leave out Nordic Cut, so NOTWL uses its own tree placement, as Eldergleam NG, LoreRim, ReaperGleam and Lalaland do.</p>
+<p><strong>Lighter trees:</strong> Enhanced Vanilla Trees (Lush), Tomato’s PBR Vanilla Trees with the modern snow patch, then Aspens Ablaze and Aspens Ablaze - PBR. Their snow matches TomatoRim exactly.</p>
+<p><strong>Lusher grass:</strong> swap TomatoRim for Vanaheimr Landscapes PBR and Merethic for Freak’s Floral Fields, which were made together. Faultier’s with Vanaheimr is used by Tuxborn, Dovahmeme and NG-EVO. The grass stops being PBR.</p>
+<h2 id="not-verified">Not verified</h2>
+<ul>
+<li>No visual comparison was made, and none of these mods has been seen in this list’s game.</li>
+<li>It wasn’t checked whether Community Shaders’ Terrain Variation and Terrain Blending features behave with PBR landscapes, or how AutoBlend interacts with Terrain Blending.</li>
+<li>Merethic with TomatoRim has no official variant. The pairing rests on four lists that use it.</li>
+<li>NOTWL 3.14’s plugin wasn’t opened, so whether it references anything newer than USSEP 4.2.5b rests on Eldergleam NG running that pair. xEdit’s error check after install would show unresolved references.</li>
+<li>Base Object Swapper’s support for 1.5.97 wasn’t checked.</li>
+<li>Merethic Grasslands PBR is a month old and in no Wabbajack list yet.</li>
+<li>Grass Optimizations’ handling of complex grass rests on the Dragonborn’s Fate guide pairing them.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#takeaway">Takeaway</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-pbr-lists-install">What PBR lists install</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#the-candidates">The candidates</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#fit-with-this-list">Fit with this list</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#recommendation">Recommendation</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#not-verified">Not verified</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

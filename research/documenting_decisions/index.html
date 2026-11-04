@@ -1,0 +1,835 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>Documenting and Governing Decisions While Building a Skyrim SE Modlist · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">Documenting and Governing Decisions While Building a Skyrim SE Modlist</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Research date: 2026-11-02. Dated items are marked where a source is older than 2025. Claims from a search summary, where the page itself was not opened, are marked “(search summary)”.</p>
+<p>Note on the name “Viva”: Viva New Vegas is a Fallout: New Vegas guide. I found no “Viva Skyrim”. The Skyrim guide from the same organisation (ModdingLinked) is A Dragonborn’s Fate (DBF), so both were examined.</p>
+<h2 id="how-do-curated-modlists-document-themselves-and-what-is-widely-copied-versus-genuinely-useful">How do curated modlists document themselves, and what is widely copied versus genuinely useful?</h2>
+<h3 id="takeaway">Takeaway</h3>
+<p>Nearly every list has a version number, a changelog and grouped sections, and the save-compatibility flag is close to universal among recent lists. The most useful practices are much rarer: a written mandate, a stated reason for each removal, and a “why not this mod” page. None of the lists inspected publish formal decision records, so that part of the repository would be new rather than copied.</p>
+<h3 id="cited-findings">Cited Findings</h3>
+<p><strong>Step</strong></p>
+<ul>
+<li>The SE v2.3 guide was released on 2024-08-19. It requires runtime v1.6.1170, SKSE 2.2.8 and the Anniversary Upgrade, and warns that Steam updates can break builds — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SE 2.3</a></li>
+<li>Each mod row has a name linked to its download, a wiki link, a forum topic link, a Baseline column for the recommended option, and an Instructions column. Instructions include FOMOD choices, main and optional files, plugins to disable and files to hide — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SE 2.3</a></li>
+<li>Colored flags show which plugins each Step patch requires, and a separate changelog lists patch masters — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SE 2.3</a></li>
+<li>The changelog has layers: Post-Release Changes, Highlights, Guide-Level Changes, and Mod-Level Changes per ModGroup. Its legend defines Added, Moved, Updated (reinstall), Incorporated (now in the patch, so remove) and Dropped — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3/changelog" target="_blank" rel="noreferrer">Step 2.3 changelog</a></li>
+<li>Dropped entries usually give a reason. One example says the mod is unsupported and “known to cause issues that bake into saves”. Added and Updated entries do not always say why — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3/changelog" target="_blank" rel="noreferrer">Step 2.3 changelog</a></li>
+<li>The changelog admits the live guide can change between releases, so it may not capture every edit — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3/changelog" target="_blank" rel="noreferrer">Step 2.3 changelog</a></li>
+<li>Step publishes a mandate listing what its guides are and are not about. This is the clearest written scope I found. Last edited 2024-08-28 — <a href="https://stepmodifications.org/wiki/STEP:Mandate" target="_blank" rel="noreferrer">STEP:Mandate</a></li>
+<li>Status of newer versions: the 2.4 page is marked as in development and not supported (<a href="https://stepmodifications.org/wiki/SkyrimSE:2.4" target="_blank" rel="noreferrer">Step 2.4</a>, search summary). A 3.0 WIP changelog was last edited 2026-05-08 and warns it does not apply to 2.3 (<a href="https://stepmodifications.org/wiki/SkyrimSE:3.0/changelog" target="_blank" rel="noreferrer">Step 3.0 changelog</a>).</li>
+</ul>
+<p><strong>Lexy’s LOTD</strong></p>
+<ul>
+<li>The site has a “Current Changelog” and a “Changelog Archive”. It is usually updated about monthly, and larger updates can take three or four months to plan, test and release — <a href="https://lexyslotd.com/" target="_blank" rel="noreferrer">Lexy’s LOTD</a></li>
+<li>It advises installing and play-testing the whole guide “AS WRITTEN” before changing anything. Modified installs get no official troubleshooting support, and it suggests a separate MO2 instance for playing — <a href="https://lexyslotd.com/" target="_blank" rel="noreferrer">Lexy’s LOTD</a></li>
+<li>It defines SE as 1.5.97 or later without paid Creation Club content, and AE as 1.6+ with it. The extra DLC items are not part of the guide — <a href="https://lexyslotd.com/" target="_blank" rel="noreferrer">Lexy’s LOTD</a></li>
+</ul>
+<p><strong>Nolvus</strong></p>
+<ul>
+<li>The Awakening mod list is a flat table of Mod, Version and Option, grouped in numbered sections. Option is an install condition such as “Always Install”, “Graphics Only” or “Nude”. Version strings are not standardized — <a href="https://www.nolvus.net/awakening" target="_blank" rel="noreferrer">Nolvus Awakening list</a></li>
+<li>Changelog releases use a <code>6.0.x</code> scheme. Each opens with a bold notice on whether a new game (or new install) is required, then lists changes by guide chapter. Most lines read “Added new mod X version Y” or “Mod X updated to version Y”, and reasons are given only sometimes. Latest entry seen: 6.0.21, 2026-10-20, requiring a new game — <a href="https://www.nolvus.net/appendix/history" target="_blank" rel="noreferrer">Nolvus change log</a></li>
+<li>A LOOT rules appendix for Ascension (v5, titled 2023, so older) tabulates which plugins load after which, with Version and guide-section columns. It also states that all mods belong to their authors and hosts no mods — <a href="https://www.nolvus.net/appendix/rules" target="_blank" rel="noreferrer">Nolvus rules</a></li>
+</ul>
+<p><strong>Wildlander</strong></p>
+<ul>
+<li>Each changelog entry has version, date (DD/MM/YY), a stability label, a “Save Safe” or “Not Save Safe. New Game Needed.” label, and bullets. Latest seen: V1.1.14, dated 09/09/26, described as compatible with Skyrim update 1.7.104 — <a href="https://wiki.wildlandermod.com/14ModlistVersions/CHANGELOG/" target="_blank" rel="noreferrer">Wildlander changelog</a>. An older search snippet showed V1.1.11 as latest, which appears to be a stale crawl.</li>
+</ul>
+<p><strong>Viva New Vegas and A Dragonborn’s Fate (ModdingLinked)</strong></p>
+<ul>
+<li>Changelog entries are grouped by year and date, carry “Safe Mid-game” or “NOT Safe Mid-game” tags, and are split by guide section with short reasons. One Viva removal cites that the mod “massively increases the conflict profile of the guide” (Aug 2025) — <a href="https://vivanewvegas.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">Viva changelog</a></li>
+<li>DBF uses the same format. Its latest entry seen is 2026-10-18, and one removal cites annoying conflicts despite SkyPatcher — <a href="https://dragonbornsfate.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">DBF changelog</a></li>
+<li>DBF states that it includes essential stability fixes and “no placebo/dangerous mods”. It requires the English Steam or GOG release and does not support the Anniversary Edition DLC — <a href="https://dragonbornsfate.moddinglinked.com/intro.html" target="_blank" rel="noreferrer">DBF intro</a></li>
+<li>Viva has a “Gameplay Mods to Avoid” page addressing why some mods are not in the guide — <a href="https://vivanewvegas.github.io/gameplay-avoid" target="_blank" rel="noreferrer">Viva avoid page</a> (search snippet only; the fetch returned 404)</li>
+<li>The guide lives in a public GitHub repository: HTML pages, a changelog, MIT license, 1,767 commits at time of viewing — <a href="https://github.com/ModdingLinked/Viva-New-Vegas" target="_blank" rel="noreferrer">Viva repo</a></li>
+</ul>
+<p><strong>Other</strong></p>
+<ul>
+<li>CSVO uses headings like “1.4.1 Changelog 7/16/2025 (Save Safe)”. Reasons are rare. Release 1.7.0 explains that body mods were removed because they were out of scope. Latest seen: 2.3.1, 2026-08-04 — <a href="https://inthebottle.github.io/CSVO/changelog" target="_blank" rel="noreferrer">CSVO changelog</a></li>
+<li>Wabbajack’s author docs tell authors to write a thorough README, keep the changelog in a separate <code>CHANGELOG.md</code>, and version clearly (“Good versioning is essential”) — <a href="https://wiki.wabbajack.org/modlist_author_documentation/Post-Compilation.html" target="_blank" rel="noreferrer">Wabbajack Post-Compilation</a></li>
+<li>A community compatibility table lists SKSE plugin support per runtime (1.5.97, 1.6.640, 1.6.1130, 1.6.1170) — <a href="https://modding.wiki/en/skyrim/users/skse-plugins" target="_blank" rel="noreferrer">modding.wiki SKSE plugins</a> (search summary)</li>
+</ul>
+<h3 id="inferences">Inferences</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Practice</th><th>Seen in</th><th>Assessment</th></tr></thead><tbody><tr><td>Version number</td><td>All</td><td>Copied everywhere; needed. The number alone says little: Nolvus has new-game releases inside 6.0.x.</td></tr><tr><td>Save-compatibility flag</td><td>Nolvus, Wildlander, Viva, DBF, CSVO</td><td>Widely copied and truly useful. Keep it as a required field.</td></tr><tr><td>Changelog by section/group</td><td>Step, Nolvus, Viva, DBF</td><td>Useful once the list has stable groups.</td></tr><tr><td>Long “added X / updated X” lines</td><td>Nolvus, partly others</td><td>Common but weak. A generated diff does this better.</td></tr><tr><td>Per-mod install instructions</td><td>Step, Nolvus, Lexy</td><td>Essential for a guide others follow, overkill for a personal snapshot. Record only non-default FOMOD choices.</td></tr><tr><td>Pinned runtime stated up front</td><td>Step, DBF, Lexy (definition)</td><td>Very useful, cheap.</td></tr><tr><td>Written scope or mandate</td><td>Step (explicit), DBF (short)</td><td>Rare and very useful. It settles most later arguments.</td></tr><tr><td>Reason for each removal</td><td>Step (usually), Viva/DBF (often), Nolvus/CSVO (rare)</td><td>Valuable; this is what a decision repo should do consistently.</td></tr><tr><td>“Why not this mod” page</td><td>Viva</td><td>Rare and valuable. It stops the same evaluation being repeated.</td></tr><tr><td>Compatibility tables</td><td>Step patch flags, Nolvus LOOT table, modding.wiki</td><td>Useful only when machine-checkable or kept current.</td></tr></tbody></table>
+<ul>
+<li>The inspected lists answer “what changed” well and “why” unevenly. They almost never record the alternatives considered. That is the gap a public decision repository can fill.</li>
+</ul>
+<h3 id="gaps">Gaps</h3>
+<ul>
+<li>Lexy’s changelog format is unconfirmed: the changelog pages were not retrieved. An older URL on thephoenixflavour.com returned 404.</li>
+<li>I could not read the Viva avoid page in full, so its entry format is unknown.</li>
+<li>Wildlander’s “1.7.104” runtime and modding.wiki’s “1.6.1179 current” (<a href="https://modding.wiki/en/skyrim/users/infernalryan/skyrim-initial-setup-steam/" target="_blank" rel="noreferrer">guide 2.1.0, 03/05/2026</a>, search summary) both post-date Step’s 1.6.1170 pin. I did not verify the latest Skyrim runtime, so check the actual executable version before writing the game-version decision.</li>
+<li>Absence of formal ADRs is based on the lists inspected, not an exhaustive survey.</li>
+</ul>
+<h2 id="what-are-the-established-decision-record-formats-which-fields-are-worth-keeping-and-how-are-superseded-decisions-handled">What are the established decision record formats, which fields are worth keeping, and how are superseded decisions handled?</h2>
+<h3 id="takeaway-1">Takeaway</h3>
+<p>Use a trimmed MADR with Nygard’s plain status handling, and add a one-line Y-statement summary to each record. Keep Context, Options, Decision, Consequences and Confirmation. Drop stakeholder fields, Jekyll navigation fields, and tooling such as Log4brains. Never delete a superseded record: change its status and link both ways.</p>
+<h3 id="cited-findings-1">Cited Findings</h3>
+<p><strong>Nygard (2011, older but still the origin of the format)</strong></p>
+<ul>
+<li>Fields are title (short noun phrase with a number), Context, Decision (“We will…”), Status, and Consequences (positive, negative and neutral) — <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noreferrer">Nygard</a></li>
+<li>Numbers are sequential and never reused. Records stay short, ideally one or two pages, and live in the repo as lightweight markup — <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noreferrer">Nygard</a></li>
+<li>A reversed decision is kept and marked superseded so readers know it was once the decision — <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noreferrer">Nygard</a></li>
+</ul>
+<p><strong>MADR (4.0.0, released 2024-09-17)</strong></p>
+<ul>
+<li>Required sections: Title, Context and Problem Statement, Considered Options, Decision Outcome (“Chosen option: …, because …”). Optional: Decision Drivers, Consequences, Confirmation, Pros and Cons of the Options, More Information — <a href="https://adr.github.io/madr/" target="_blank" rel="noreferrer">MADR</a></li>
+<li>Confirmation records how compliance with the decision will be verified — <a href="https://adr.github.io/madr/" target="_blank" rel="noreferrer">MADR</a></li>
+<li>Optional front matter: <code>status</code>, <code>date</code>, <code>decision-makers</code>, <code>consulted</code>, <code>informed</code>. The template also has Jekyll fields <code>parent</code>, <code>nav_order</code> and <code>title</code> — <a href="https://adr.github.io/madr/" target="_blank" rel="noreferrer">MADR</a></li>
+<li>Files are named <code>NNNN-title-with-dashes.md</code>, lowercase, in a <code>decisions/</code> folder. Superseding is expressed as a status such as “superseded by ADR-0123”. Bare and minimal templates also exist — <a href="https://adr.github.io/madr/" target="_blank" rel="noreferrer">MADR</a></li>
+</ul>
+<p><strong>Y-statements</strong></p>
+<ul>
+<li>Olaf Zimmermann introduced them at SATURN 2012 — <a href="https://medium.com/olzzio/y-statements-10eb07b5a177" target="_blank" rel="noreferrer">Zimmermann via Medium</a> (search summary; direct fetch returned 403)</li>
+<li>The form has an upper part (“In the context of, facing”) and a lower trade-off part (“to achieve, accepting that”), with an optional “because” clause. Its stated purpose is to give decision rationale, and it suggests splitting into two or three sentences if the single sentence gets unwieldy — <a href="https://raw.githubusercontent.com/socadk/design-practice-repository/master/artifact-templates/DPR-ArchitecturalDecisionRecordYForm.md" target="_blank" rel="noreferrer">Design Practice Repository</a></li>
+</ul>
+<p><strong>Log4brains</strong></p>
+<ul>
+<li>A docs-as-code tool with local preview, CLI creation, search, a timeline and static publishing. It uses MADR by default, treats ADRs as immutable except for status, and uses date-based filenames such as <code>20200101-your-first-adr.md</code> to avoid git merge issues — <a href="https://github.com/thomvaill/log4brains" target="_blank" rel="noreferrer">Log4brains</a></li>
+<li>Last push 2024-12-17, not archived, 57 open items as of this check — <a href="https://api.github.com/repos/thomvaill/log4brains" target="_blank" rel="noreferrer">GitHub API</a></li>
+</ul>
+<p><strong>General</strong></p>
+<ul>
+<li>adr.github.io defines an ADR as capturing a single decision with its rationale, plus trade-offs and consequences. It says the practice can extend beyond architecture to design decisions — <a href="https://adr.github.io/" target="_blank" rel="noreferrer">adr.github.io</a></li>
+</ul>
+<h3 id="inferences-1">Inferences</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Field</th><th>Keep?</th><th>Why</th></tr></thead><tbody><tr><td>Number + title</td><td>Yes</td><td>Stable references from rules and changelog</td></tr><tr><td>Status</td><td>Yes</td><td>Superseding depends on it</td></tr><tr><td>Date</td><td>Yes</td><td>Modding facts age quickly</td></tr><tr><td>Y-statement summary</td><td>Yes, one sentence</td><td>Also feeds the index</td></tr><tr><td>Context</td><td>Yes, short</td><td>Include runtime and tool versions at the time</td></tr><tr><td>Options considered</td><td>Yes, even in one line each</td><td>This is what lists omit</td></tr><tr><td>Decision</td><td>Yes</td><td></td></tr><tr><td>Consequences</td><td>Yes</td><td>Include save impact and regeneration impact</td></tr><tr><td>Confirmation</td><td>Yes</td><td>Links the record to automated rules; MADR’s most useful field for this project</td></tr><tr><td>Revisit when</td><td>Add</td><td>MADR puts this under More Information; make it explicit, because mods and runtimes change</td></tr><tr><td>Evidence links</td><td>Add</td><td>Guards against repeated folklore</td></tr><tr><td>decision-makers / consulted / informed</td><td>Drop</td><td>One owner</td></tr><tr><td>Full pros and cons per option</td><td>Only for large choices</td><td>Overkill for most mod choices</td></tr><tr><td>Jekyll fields, Log4brains</td><td>Drop</td><td>GitHub renders Markdown; a generated index is enough</td></tr></tbody></table>
+<ul>
+<li>Use sequential numbers rather than dates. Log4brains’ date naming solves merge conflicts between multiple authors, which a solo project lacks, and short numbers are easier to cite in rule files.</li>
+<li>Superseding procedure: (1) write a new record with <code>supersedes: [NNNN]</code>; (2) in the old record change only <code>status</code> and add <code>superseded_by</code>; (3) keep the file and number. A correction for a typo or broken link is allowed; a change of meaning requires a new record.</li>
+<li>Add statuses beyond MADR’s examples: <code>proposed</code>, <code>accepted</code>, <code>rejected</code>, <code>deprecated</code>, <code>superseded</code>. A <code>rejected</code> record is a good home for large “why not” choices.</li>
+<li>Not every mod deserves a record. Use a record for structural choices that are costly to reverse, and a one-line entry in a catalog for routine mods (see last section).</li>
+</ul>
+<h3 id="gaps-1">Gaps</h3>
+<ul>
+<li>I did not read the MADR bare and minimal template text directly.</li>
+<li>I could not retrieve Zimmermann’s full template sentence from a primary source. The commonly quoted wording (“we decided for … and neglected …”) is from memory and unverified.</li>
+</ul>
+<h2 id="what-kinds-of-decisions-matter-for-a-modlist-and-which-criteria-do-curators-apply-when-accepting-a-mod">What kinds of decisions matter for a modlist, and which criteria do curators apply when accepting a mod?</h2>
+<h3 id="takeaway-2">Takeaway</h3>
+<p>Decisions that deserve records are those that constrain many later choices or require a new save or regeneration to change. Curators’ published criteria come down to scope fit, stability and save safety, conflict profile, maintenance, redundancy, performance, availability and permissions. Adult-content policy differs by list, so write it down explicitly.</p>
+<h3 id="cited-findings-2">Cited Findings</h3>
+<p><strong>Evidence of structural decisions in real lists</strong></p>
+<ul>
+<li>Runtime and DLC: Step exclusively supports v1.6.1170 with the Anniversary Upgrade (<a href="https://stepmodifications.org/wiki/SkyrimSE:2.3/changelog" target="_blank" rel="noreferrer">Step changelog</a>), while DBF does not support Anniversary Edition DLC (<a href="https://dragonbornsfate.moddinglinked.com/intro.html" target="_blank" rel="noreferrer">DBF intro</a>).</li>
+<li>Version split: SKSE DLL plugins had to be rewritten for 1.6, some were never rewritten, and a downgrade limits you to 1.5.97 DLLs — <a href="https://forums.nexusmods.com/topic/13510557-should-i-downgrade-game-version-to-1597-in-2025" target="_blank" rel="noreferrer">Nexus forum</a> (search summary; forum opinion, 2025 or earlier)</li>
+<li>Stock game: to be featured, Wabbajack lists must install from the latest storefront version, and manual downgrades are rejected, though the Stock Game Folder feature can handle downgrades. For Skyrim SE the base game folder must stay unmodified — <a href="https://wiki.wabbajack.org/wabbajack_cdn_and_gallery_access/Criteria%20for%20&#x27;Featured%20Mod%20List&#x27;%20status.html" target="_blank" rel="noreferrer">Wabbajack featured criteria</a></li>
+<li>Patching: Bethesda lists must include custom patching, and running Synthesis or another automated patcher alone is insufficient — <a href="https://wiki.wabbajack.org/wabbajack_cdn_and_gallery_access/Criteria%20for%20&#x27;Featured%20Mod%20List&#x27;%20status.html" target="_blank" rel="noreferrer">Wabbajack featured criteria</a></li>
+<li>INI tool and LOD pipeline: Step’s 3.0 WIP moved from BethINI to BethINI Pie and tuned TexGen and DynDOLOD settings, and its ENB section is empty at this stage — <a href="https://stepmodifications.org/wiki/SkyrimSE:3.0/changelog" target="_blank" rel="noreferrer">Step 3.0 changelog</a></li>
+<li>Pipelines named as generated output: DynDOLOD, xLODGen, TexGen, grass cache, BodySlide, Nemesis/Pandora. ParallaxGen and VRAMR are named separately — <a href="https://wiki.wabbajack.org/wabbajack_cdn_and_gallery_access/Criteria%20for%20&#x27;Featured%20Mod%20List&#x27;%20status.html" target="_blank" rel="noreferrer">Wabbajack featured criteria</a></li>
+<li>Body mods as a scope question: CSVO removed them as out of scope — <a href="https://inthebottle.github.io/CSVO/changelog" target="_blank" rel="noreferrer">CSVO changelog</a></li>
+<li>Master cleaning is contested. One guide calls it optional unless using DynDOLOD’s large reference bugs workaround (<a href="https://nexusmods.com/skyrimspecialedition/articles/6568" target="_blank" rel="noreferrer">Nexus article</a>, search summary), and Steam commenters oppose it as outdated (<a href="https://steamcommunity.com/app/489830/discussions/0/4334232130644246074" target="_blank" rel="noreferrer">Steam thread</a>, search summary; attribution to this exact thread not verified).</li>
+</ul>
+<p><strong>Acceptance criteria</strong></p>
+<ul>
+<li>Scope: Step’s about-list covers bug fixes, PC interface improvements, consistency and new content fitting style and lore. Its not-about list covers sex, skimpy clothing or nudity, lore conflicts, departures from the vanilla style, mods needed only by a specific user base, and mods with a high performance penalty — <a href="https://stepmodifications.org/wiki/STEP:Mandate" target="_blank" rel="noreferrer">STEP:Mandate</a></li>
+<li>Testing: mandate check first, then archive validation, plugin inspection in xEdit, install and uninstall checks, MO and LOOT checks, then vanilla and modded in-game testing — <a href="https://stepmodifications.org/wiki/STEP:Mod_Testing" target="_blank" rel="noreferrer">STEP:Mod Testing</a> (marked WIP, edited 2024-09-08)</li>
+<li>Maintenance and bugs: “Too many bugs may disqualify a mod”, and ongoing author interaction is preferred as a sign it is not abandoned. Similar mods are compared to find the best solution — <a href="https://stepmodifications.org/wiki/STEP:Mod_Testing" target="_blank" rel="noreferrer">STEP:Mod Testing</a></li>
+<li>Save safety and maintenance as removal reasons — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3/changelog" target="_blank" rel="noreferrer">Step 2.3 changelog</a></li>
+<li>Conflict profile as a removal reason — <a href="https://vivanewvegas.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">Viva changelog</a>, <a href="https://dragonbornsfate.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">DBF changelog</a></li>
+<li>Redundancy, compatibility with tools, and unavailability as removal reasons — <a href="https://stepmodifications.org/wiki/SkyrimLE:2.10.0/changelog" target="_blank" rel="noreferrer">Step LE 2.10.0 changelog</a> (LE-era; search summary)</li>
+<li>Paid mods cannot be required by a Wabbajack list — <a href="https://wiki.wabbajack.org/policies_and_license/Paid%20Mods%20Policy.html" target="_blank" rel="noreferrer">Wabbajack paid mods policy</a> (search summary)</li>
+<li>Adult content: Step’s intended install has no NSFW content, though linked pages may show NSFW images (<a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SE guide</a>, search summary). Nolvus exposes “Nude” only as an option value and has no adult category on its list page (<a href="https://www.nolvus.net/awakening" target="_blank" rel="noreferrer">Nolvus list</a>). DBF’s introduction states no NSFW policy (<a href="https://dragonbornsfate.moddinglinked.com/intro.html" target="_blank" rel="noreferrer">DBF intro</a>).</li>
+</ul>
+<h3 id="inferences-2">Inferences</h3>
+<p><strong>Proposed decision catalog (first records to write)</strong></p>
+<ol>
+<li>Scope and mandate of the list, including adult-content policy</li>
+<li>Game runtime, storefront, language and DLC/Creation Club stance</li>
+<li>Stock game versus clean game folder; MO2 instance layout</li>
+<li>Script extender and core frameworks</li>
+<li>Update policy and save-compatibility policy</li>
+<li>Character pipeline (body, BodySlide, face and NPC appearance)</li>
+<li>Animation engine and behavior generation (for example Pandora or Nemesis)</li>
+<li>Shader and lighting pipeline (Community Shaders or ENB; weather stack)</li>
+<li>Parallax/PBR pipeline and any generated outputs</li>
+<li>LOD pipeline and regeneration triggers</li>
+<li>Patching strategy (hand patches, Synthesis, order of generators)</li>
+<li>Plugin sort method and master-cleaning stance</li>
+<li>Separator taxonomy and order</li>
+<li>INI management</li>
+</ol>
+<p><strong>Acceptance checklist for each mod</strong> (combines the published criteria; the performance and adult fields are my extension)</p>
+<ul>
+<li>
+<p>In scope under the mandate?</p>
+</li>
+<li>
+<p>Supports the pinned runtime, with correct DLL builds?</p>
+</li>
+<li>
+<p>Maintained, or if abandoned, stable and low-risk?</p>
+</li>
+<li>
+<p>Conflict profile: which records and files does it touch, and are patches available?</p>
+</li>
+<li>
+<p>Script load and save impact: can it be removed later?</p>
+</li>
+<li>
+<p>Performance cost, noted relative to the target hardware?</p>
+</li>
+<li>
+<p>Better or redundant compared with what exists?</p>
+</li>
+<li>
+<p>Still downloadable, free, and with permissions recorded where the list relies on them?</p>
+</li>
+<li>
+<p>Adult flag set, and consistent with the content policy?</p>
+</li>
+<li>
+<p>Tested in-game, with date and list version?</p>
+</li>
+<li>
+<p>Rejections should record the specific context (“rejected for this list on this date because…”), because an adverse verdict can go stale after a mod update.</p>
+</li>
+</ul>
+<h3 id="gaps-2">Gaps</h3>
+<ul>
+<li>No published numeric performance thresholds were found. Step lists performance testing without metrics.</li>
+<li>Curator rationale for character, animation and shader pipelines was not found as formal documents. Pipeline names above come from change entries and rules, not design rationales.</li>
+</ul>
+<h2 id="how-should-a-public-repository-snapshot-a-personal-list-safely-and-what-are-the-licensing-concerns">How should a public repository snapshot a personal list safely, and what are the licensing concerns?</h2>
+<h3 id="takeaway-3">Takeaway</h3>
+<p>Publish a whitelist of plain-text list files plus derived metadata, and never publish saves, mod content, generated output, MO2’s global configuration or any credentials. Referencing mods by name matches how Nexus, Wabbajack and Load Order Library already operate, but I found no ruling that specifically addresses a GitHub repository. Separately from the owner’s acceptance of publicity, GitHub’s policy on sexual content should be considered for adult mod names.</p>
+<h3 id="cited-findings-3">Cited Findings</h3>
+<p><strong>File formats</strong></p>
+<ul>
+<li>MO2 profile folders hold text files and optionally saves. <code>modlist.txt</code> lists all mods with <code>+</code> or <code>-</code> state, <code>loadorder.txt</code> all plugins, <code>plugins.txt</code> the enabled plugins — <a href="https://stepmodifications.org/forum/topic/3420-mod-organizers-profiles-directory-technical-details" target="_blank" rel="noreferrer">Step forum, MO profiles</a> (old source)</li>
+<li><code>plugins.txt</code> cannot define the positions of inactive plugins, so <code>loadorder.txt</code> is more complete — <a href="https://docs.rs/crate/libloadorder/latest/source/doc/src/textfile_standard.md" target="_blank" rel="noreferrer">libloadorder docs</a> (search summary)</li>
+<li>Observed locally: the owner’s profile contains <code>modlist.txt</code>, <code>plugins.txt</code>, <code>loadorder.txt</code>, <code>lockedorder.txt</code>, <code>archives.txt</code>, <code>settings.ini</code>, <code>initweaks.ini</code>, the <code>skyrim*.ini</code> files and a <code>saves/</code> folder with <code>.ess</code> and <code>.skse</code> files. A search of its <code>.txt</code> and <code>.ini</code> files for drive paths, <code>Users\</code>, keys, passwords and tokens found none, while <code>ModOrganizer.ini</code> did match path or key patterns — local profile</li>
+<li>Observed locally: <code>modlist.txt</code> has a generated header and uses separators like <code>-Outputs_separator</code> and <code>-Recently Added_separator</code>. Output mods sit at the top of the file, consistent with top of file meaning highest priority — local modlist.txt</li>
+<li>Observed locally: a mod’s <code>meta.ini</code> has <code>modid</code>, <code>version</code>, <code>newestVersion</code>, <code>installationFile</code>, <code>repository</code>, <code>url</code>, <code>nexusFileStatus</code>, <code>category</code>, <code>comments</code> and <code>notes</code> — local meta.ini</li>
+</ul>
+<p><strong>Secrets and personal data</strong></p>
+<ul>
+<li>MO2 stores Nexus credentials in Windows Credential Manager rather than an INI file, according to its release notes — <a href="https://github.com/ModOrganizer2/modorganizer/releases?page=4" target="_blank" rel="noreferrer">MO2 releases</a> (search summary)</li>
+<li><code>ModOrganizer.ini</code> holds <code>gameName</code> and <code>gamePath</code> — <a href="https://stepmodifications.org/forum/topic/12242-installing-mo2-version-2083b-inside-skyrimskyrim-se-folders-breaks-mo2/" target="_blank" rel="noreferrer">Step forum post</a> (search summary; anecdote)</li>
+<li>Nexus’s API policy tolerates personal keys for personal use and prohibits them in public-facing applications — <a href="https://help.nexusmods.com/article/114-api-acceptable-use-policy" target="_blank" rel="noreferrer">Nexus API AUP</a> (search summary)</li>
+</ul>
+<p><strong>How others handle sharing</strong></p>
+<ul>
+<li>Wabbajack reproduces a setup “without bundling any assets or re-distributing any mods”, and warns that using <code>WABBAJACK_INCLUDE</code> on downloaded mods would distribute them — <a href="https://wiki.wabbajack.org/modlist_author_documentation/Introduction.html" target="_blank" rel="noreferrer">Wabbajack docs</a> (search summary)</li>
+<li>It identifies archives from <code>.meta</code> files with <code>fileID</code>, <code>modID</code> and <code>gameName</code>, and treats generated output as No Match Include rather than uploaded separately — <a href="https://wiki.wabbajack.org/modlist_author_documentation/Pre-Compilation.html" target="_blank" rel="noreferrer">Wabbajack Pre-Compilation</a></li>
+<li>Files you may not rehost cannot be used, including by inlining. DynDOLOD, xLODGen, TexGen, grass cache, BodySlide and Nemesis/Pandora outputs are allowed. ParallaxGen and VRAMR outputs are not and should use delta patching. Proof is required for any claimed permission — <a href="https://wiki.wabbajack.org/wabbajack_cdn_and_gallery_access/Criteria%20for%20&#x27;Featured%20Mod%20List&#x27;%20status.html" target="_blank" rel="noreferrer">Wabbajack featured criteria</a></li>
+<li>Modlists produced by Wabbajack fall under CC BY-NC-SA 4.0 and may not be paywalled — <a href="https://wiki.wabbajack.org/policies_and_license/Wabbajack%20License.html" target="_blank" rel="noreferrer">Wabbajack License</a></li>
+<li>Load Order Library hosts and compares lists, including <code>loadorder.txt</code>, <code>modlist.txt</code> and <code>plugins.txt</code>. Upload needs no account, private lists are link-only, and files no longer tied to a list are deleted weekly — <a href="https://github.com/phinocio/loadorderlibrary-frontend" target="_blank" rel="noreferrer">LOL frontend</a> and <a href="https://loadorderlibrary.com/compare/personal-modlist-3/simplicity-of-skyrim" target="_blank" rel="noreferrer">a comparison page</a> (search summary)</li>
+</ul>
+<p><strong>Nexus rules</strong></p>
+<ul>
+<li>Collections are meta files that reference mods. “No actual mods or mod files may be included”. Lists and their metadata are public domain on upload, curating gives no rights over included mods, and nobody can control whether others include their mod in a list — <a href="https://help.nexusmods.com/article/115-guidelines-for-collections" target="_blank" rel="noreferrer">Nexus Collections guidelines</a></li>
+<li>Collections must not use disparaging names, misrepresent a mod, contradict an author’s instructions, or place mods as trolling — <a href="https://help.nexusmods.com/article/115-guidelines-for-collections" target="_blank" rel="noreferrer">Nexus Collections guidelines</a></li>
+<li>Only the original author can set a file’s distribution permissions, and stated permissions are enforced — <a href="https://help.nexusmods.com/article/28-file-submission-guidelines" target="_blank" rel="noreferrer">Nexus File Submission Guidelines</a></li>
+<li>Bundled collection assets are meant for tool-generated files such as DynDOLOD output, and must not be mods or mod files — <a href="https://help.nexusmods.com/article/115-guidelines-for-collections" target="_blank" rel="noreferrer">Nexus Collections guidelines</a></li>
+<li>A collection with an adult mod is marked adult permanently, and curators must tag external adult resources manually — <a href="https://help.nexusmods.com/article/115-guidelines-for-collections" target="_blank" rel="noreferrer">Nexus Collections guidelines</a></li>
+</ul>
+<p><strong>GitHub</strong></p>
+<ul>
+<li>GitHub prohibits content that exists mainly to solicit an erotic or shocking response, including graphic sexual depictions in text. It may allow textual or visual depictions in artistic, educational, historical or journalistic contexts, and says a disclaimer can help explain context. It may place such content behind an opt-in — <a href="https://docs.github.com/en/site-policy/acceptable-use-policies/github-sexually-obscene-content" target="_blank" rel="noreferrer">GitHub policy</a></li>
+</ul>
+<h3 id="inferences-3">Inferences</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Item</th><th>Publish?</th><th>Notes</th></tr></thead><tbody><tr><td><code>modlist.txt</code>, <code>plugins.txt</code>, <code>loadorder.txt</code></td><td>Yes</td><td>Core snapshot; same files LOL already handles</td></tr><tr><td>Separator names</td><td>Yes</td><td>Part of <code>modlist.txt</code></td></tr><tr><td><code>lockedorder.txt</code>, <code>archives.txt</code></td><td>Yes, if non-empty and useful</td><td>Scan first</td></tr><tr><td>Derived <code>mods.csv</code> (name, modid, version, repository, URL)</td><td>Yes</td><td>Generate from <code>meta.ini</code>; exclude <code>comments</code> and <code>notes</code> unless reviewed</td></tr><tr><td><code>skyrim.ini</code>, <code>skyrimcustom.ini</code>, <code>initweaks.ini</code></td><td>Reviewed copies only</td><td>Record the intent. <code>skyrimprefs.ini</code> is largely hardware-specific; publish a diff at most</td></tr><tr><td>LOOT <code>userlist.yaml</code></td><td>Yes</td><td>Scan first; contains order decisions</td></tr><tr><td>Patches or plugins authored by the owner</td><td>Only if entirely original</td><td>Patch files derived from others’ assets need permission</td></tr><tr><td><code>ModOrganizer.ini</code></td><td>No</td><td>Holds local paths and settings</td></tr><tr><td><code>saves/</code>, <code>.ess</code>, <code>.skse</code></td><td>No</td><td>Personal and useless to others; names contain character data</td></tr><tr><td><code>mods/</code>, <code>downloads/</code>, <code>overwrite/</code>, Stock Game, tool outputs</td><td>No</td><td>Redistribution and size</td></tr><tr><td>DynDOLOD, BodySlide, Pandora, PGPatcher outputs</td><td>No</td><td>Allowed for some Wabbajack contexts, but not needed in a git repo</td></tr><tr><td>Crash logs, screenshots</td><td>Not by default</td><td>Logs often carry user paths. Adult screenshots raise GitHub policy risk</td></tr><tr><td>API keys, cookies, <code>.env</code></td><td>Never</td><td>Add a secret scan</td></tr></tbody></table>
+<ul>
+<li>Use a snapshot script with an explicit whitelist, not a <code>.gitignore</code>-only approach. Also ignore the dangerous folders as a second layer.</li>
+<li>Scan every snapshot for <code>[A-Z]:\\</code>, <code>Users\\</code>, the owner’s username and key-like strings, and fail if any match.</li>
+<li>Publishing names and order appears low risk because it is what Nexus treats as a reference, and it matches existing public practice. Avoid copying mod descriptions, images, or FOMOD text. Treat this as practical reasoning, not legal advice.</li>
+<li>“Why not” notes should follow the spirit of Nexus’s collection conduct rule even though the rule applies to collections: use technical reasons and evidence, and avoid attacks on authors. Do not contradict author instructions without saying so.</li>
+<li>Adult mods: keep names factual and do not include images or sexual descriptions. Add a short <code>CONTENT_NOTICE.md</code> explaining that the repo is modding documentation and text-only, and flag entries with <code>adult: true</code>. This is a mitigation only. Whether it satisfies GitHub’s carve-outs is undetermined, so keep an offline backup of the repo.</li>
+<li>Suggested licensing: MIT for scripts (as Viva does), CC BY 4.0 for original documentation, and a statement that mods belong to their authors and that no license is claimed over them. If the list later becomes a Wabbajack list, revisit this because of CC BY-NC-SA 4.0.</li>
+</ul>
+<h3 id="gaps-3">Gaps</h3>
+<ul>
+<li>Nexus’s main Terms of Service returned 403, so no clause was read directly on personal mod lists published off-site.</li>
+<li>I found no legal ruling or platform statement on publishing mod names and load orders on GitHub specifically.</li>
+<li>I did not locate a public personal repo that combines a raw MO2 snapshot with decision records, so there is no direct precedent. The closest found were Wabbajack-list repos such as <a href="https://github.com/spacky1/SSS" target="_blank" rel="noreferrer">SSS</a> (search summary).</li>
+<li>The local check covered one profile at one time. It must be repeated at each snapshot.</li>
+</ul>
+<h2 id="what-is-a-useful-automated-check-comparing-a-list-with-its-decisions-and-are-there-precedents">What is a useful automated check comparing a list with its decisions, and are there precedents?</h2>
+<h3 id="takeaway-4">Takeaway</h3>
+<p>No CI linter for MO2 modlists was found. LOOT’s metadata is the best vocabulary to borrow from, MADR’s Confirmation field gives the link back to decisions, and a small custom script of around a dozen checks would suffice. Each rule should name the decision it enforces.</p>
+<h3 id="cited-findings-4">Cited Findings</h3>
+<ul>
+<li>LOOT plugin metadata provides <code>group</code>, <code>after</code>, <code>req</code> (error if missing), <code>inc</code> (error if present), <code>msg</code>, <code>tag</code>, <code>url</code>, <code>dirty</code>, <code>clean</code>. Names can be regexes — <a href="https://loot-api.readthedocs.io/en/latest/metadata/data_structures/plugin.html" target="_blank" rel="noreferrer">LOOT metadata</a></li>
+<li>Metadata files have top-level <code>prelude</code>, <code>bash_tags</code>, <code>globals</code>, <code>groups</code>, <code>plugins</code> — <a href="https://loot-api.readthedocs.io/en/latest/metadata/file_structure.html" target="_blank" rel="noreferrer">LOOT file structure</a></li>
+<li>LOOT’s editor applies Load After, Requirements and Incompatibilities with optional conditions — <a href="https://loot.readthedocs.io/en/latest/app/usage/plugin_editor.html" target="_blank" rel="noreferrer">LOOT editor</a></li>
+<li>LOOT Warning Checker is an MO2 plugin that shows LOOT warnings as notifications without sorting, and can ignore warnings by regex. It runs in-app rather than in CI — <a href="https://www.github.com/JonathanFeenstra/modorganizer-loot-warning-checker" target="_blank" rel="noreferrer">LOOT Warning Checker</a> (search summary)</li>
+<li>Load Order Library’s compare view diffs lists to see missing or added files and contents, mainly to help support — <a href="https://github.com/phinocio/loadorderlibrary-api" target="_blank" rel="noreferrer">LOL API repo</a> (search summary)</li>
+<li>MO2 Tracker is a VS Code syntax highlighter for <code>modlist.txt</code> and <code>plugins.txt</code>, describing separators and comments in a backup list; it does no validation — <a href="https://www.nexusmods.com/site/mods/2024" target="_blank" rel="noreferrer">MO2 Tracker</a> (search summary)</li>
+<li>MADR’s Confirmation section records how compliance is verified — <a href="https://adr.github.io/madr/" target="_blank" rel="noreferrer">MADR</a></li>
+<li>DynDOLOD output is a snapshot of the load order at generation time, and only mods outside the LOD patch can be removed without regenerating. The docs advise regenerating from scratch if in doubt — <a href="https://dyndolod.info/Updating" target="_blank" rel="noreferrer">DynDOLOD Updating</a> (search summary)</li>
+<li>A search for MO2 modlist CI linting found no such project. MO2’s own repository CI concerns its C++ source — <a href="https://github.com/ModOrganizer2/modorganizer/actions/runs/5500659112/workflow" target="_blank" rel="noreferrer">MO2 workflow</a> (search summary)</li>
+</ul>
+<h3 id="inferences-4">Inferences</h3>
+<p><strong>Recommended checks, in priority order</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>#</th><th>Check</th><th>Input</th><th>Severity</th></tr></thead><tbody><tr><td>1</td><td>Secret and path scan of all tracked files</td><td>Repo</td><td>Error</td></tr><tr><td>2</td><td>Forbidden tracked paths or extensions (<code>.ess</code>, <code>.skse</code>, <code>.bsa</code>, <code>.esp</code> unless whitelisted, large binaries)</td><td>Git index</td><td>Error</td></tr><tr><td>3</td><td>Separators exist and appear in the declared order</td><td><code>modlist.txt</code>, rules</td><td>Error</td></tr><tr><td>4</td><td>Staging separator (the owner’s <code>Recently Added</code>) empty for a release</td><td><code>modlist.txt</code></td><td>Error at release, warning otherwise</td></tr><tr><td>5</td><td>Required mods present and enabled</td><td><code>modlist.txt</code></td><td>Error</td></tr><tr><td>6</td><td>Forbidden pairs not both enabled</td><td><code>modlist.txt</code>, <code>plugins.txt</code></td><td>Error</td></tr><tr><td>7</td><td>Mod priority rules (A above B)</td><td><code>modlist.txt</code></td><td>Error</td></tr><tr><td>8</td><td>Plugin order rules and group expectations</td><td><code>loadorder.txt</code></td><td>Error</td></tr><tr><td>9</td><td>Each mod sits in its declared separator</td><td><code>modlist.txt</code>, catalog</td><td>Warning</td></tr><tr><td>10</td><td>Every enabled mod has a catalog entry; no rejected mod is enabled</td><td>Catalog</td><td>Warning, then error</td></tr><tr><td>11</td><td>Decision integrity: valid status, supersede links match both ways, rules do not cite superseded records, accepted records with <code>confirmation: auto</code> have a rule</td><td><code>decisions/</code>, rules</td><td>Error</td></tr><tr><td>12</td><td>List changed without a <code>CHANGELOG.md</code> entry; release lacks a save-safety flag</td><td>Git diff</td><td>Error at release</td></tr><tr><td>13</td><td>Generated-output freshness: LOD, behavior or body outputs older than the last relevant mod change</td><td>Manifest</td><td>Warning</td></tr><tr><td>14</td><td>Optional: run LOOT masterlist warnings as an in-app check</td><td>MO2</td><td>Advisory</td></tr></tbody></table>
+<p><strong>Implementation details that will matter</strong></p>
+<ul>
+<li>Parse the <code>modlist.txt</code> first-line header as a comment, and read lines as <code>+</code>/<code>-</code>/<code>*</code>. Normalize line endings: a <code>_separator$</code> search against the local file found nothing, which suggests CRLF.</li>
+<li>Remember that MO2 stores <code>modlist.txt</code> in reverse order relative to the left pane. State this in the rule semantics, or convert everything to “priority” terms to avoid mistakes.</li>
+<li>Encoding: an older source says <code>plugins.txt</code> used local 8-bit encoding (<a href="https://stepmodifications.org/forum/topic/3420-mod-organizers-profiles-directory-technical-details" target="_blank" rel="noreferrer">Step forum</a>, old), so detect encoding rather than assume UTF-8.</li>
+<li>GitHub CI can only validate the snapshot, not the live install. Run the snapshot and check together locally, and rerun the check in CI.</li>
+<li>Do not reimplement LOOT sorting. Check only rules that encode the owner’s decisions.</li>
+</ul>
+<p><strong>Rule file example</strong> (<code>rules/list-rules.yaml</code>):</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8DDB8C">version</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">1</span></span>
+<span class="line"><span style="color:#8DDB8C">separators</span><span style="color:#ADBAC7">:</span></span>
+<span class="line"><span style="color:#8DDB8C">  order</span><span style="color:#ADBAC7">: [</span><span style="color:#96D0FF">Foundation</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Frameworks</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Fixes</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Visuals</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Character</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Animation</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Adult</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Patches</span><span style="color:#ADBAC7">, </span><span style="color:#96D0FF">Outputs</span><span style="color:#ADBAC7">]</span></span>
+<span class="line"><span style="color:#8DDB8C">  staging</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">Recently Added</span></span>
+<span class="line"><span style="color:#8DDB8C">required</span><span style="color:#ADBAC7">:</span></span>
+<span class="line"><span style="color:#ADBAC7">  - </span><span style="color:#8DDB8C">name</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"SKSE - Outputs"</span></span>
+<span class="line"><span style="color:#8DDB8C">    decision</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">4</span></span>
+<span class="line"><span style="color:#8DDB8C">forbidden_pairs</span><span style="color:#ADBAC7">:</span></span>
+<span class="line"><span style="color:#ADBAC7">  - </span><span style="color:#8DDB8C">a</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Example Mod A"</span></span>
+<span class="line"><span style="color:#8DDB8C">    b</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Example Mod B"</span></span>
+<span class="line"><span style="color:#8DDB8C">    decision</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">12</span></span>
+<span class="line"><span style="color:#8DDB8C">    reason</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Both replace the same behavior graph."</span></span>
+<span class="line"><span style="color:#8DDB8C">mod_order</span><span style="color:#ADBAC7">:</span></span>
+<span class="line"><span style="color:#ADBAC7">  - </span><span style="color:#8DDB8C">higher</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Example Patch"</span></span>
+<span class="line"><span style="color:#8DDB8C">    lower</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Example Mod A"</span></span>
+<span class="line"><span style="color:#8DDB8C">    decision</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">11</span></span>
+<span class="line"><span style="color:#8DDB8C">plugin_order</span><span style="color:#ADBAC7">:</span></span>
+<span class="line"><span style="color:#ADBAC7">  - </span><span style="color:#8DDB8C">after</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"DynDOLOD.esp"</span></span>
+<span class="line"><span style="color:#8DDB8C">    load_after</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Synthesis.esp"</span></span>
+<span class="line"><span style="color:#8DDB8C">    decision</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">10</span></span></code></pre>
+<p>The names above are placeholders apart from the structure itself; real rules should be written from the owner’s accepted decisions.</p>
+<h3 id="gaps-4">Gaps</h3>
+<ul>
+<li>The absence of a linter is based on limited search, so a small private or niche tool may exist.</li>
+<li>I did not verify a headless LOOT CLI for CI use. Treat CI integration with LOOT as unconfirmed.</li>
+<li>I did not check the current DynDOLOD docs page directly, only a search summary.</li>
+</ul>
+<h2 id="what-do-experienced-curators-consider-the-most-common-mistakes">What do experienced curators consider the most common mistakes?</h2>
+<h3 id="takeaway-5">Takeaway</h3>
+<p>No authoritative “top mistakes” list was found. The points below are assembled from curators’ documents and support forums, in descending confidence. Most can be turned into a decision or a check.</p>
+<h3 id="cited-findings-5">Cited Findings</h3>
+<p><strong>Stronger evidence (curator documentation or tool authors)</strong></p>
+<ul>
+<li>Treating generated output as permanent: LOD is a snapshot of the load order at generation, so removals inside the LOD patch require regeneration — <a href="https://dyndolod.info/Updating" target="_blank" rel="noreferrer">DynDOLOD Updating</a> (search summary)</li>
+<li>Modifying a list before confirming the base works: Lexy advises testing “AS WRITTEN” and declines official support for modified installs — <a href="https://lexyslotd.com/" target="_blank" rel="noreferrer">Lexy’s LOTD</a></li>
+<li>Chasing updates during a playthrough: Lexy suggests a separate MO2 instance for playing — <a href="https://lexyslotd.com/" target="_blank" rel="noreferrer">Lexy’s LOTD</a>. Curators flag many updates as new-game-only or not mid-game safe — <a href="https://www.nolvus.net/appendix/history" target="_blank" rel="noreferrer">Nolvus change log</a>, <a href="https://dragonbornsfate.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">DBF changelog</a></li>
+<li>Ignoring the runtime: Step warns that Steam updates can break builds — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SE 2.3</a></li>
+<li>Adding mods with save-baking or abandoned behavior: Step dropped one for that — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3/changelog" target="_blank" rel="noreferrer">Step 2.3 changelog</a></li>
+<li>Overlooking conflict cost: Viva and DBF removed mods for conflict profile alone — <a href="https://vivanewvegas.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">Viva changelog</a>, <a href="https://dragonbornsfate.moddinglinked.com/changelog.html" target="_blank" rel="noreferrer">DBF changelog</a></li>
+<li>Installing placebo or dangerous fixes: DBF’s stated avoidance — <a href="https://dragonbornsfate.moddinglinked.com/intro.html" target="_blank" rel="noreferrer">DBF intro</a></li>
+<li>Relying on automated patching alone: Wabbajack does not accept Synthesis alone as patching for featured status — <a href="https://wiki.wabbajack.org/wabbajack_cdn_and_gallery_access/Criteria%20for%20&#x27;Featured%20Mod%20List&#x27;%20status.html" target="_blank" rel="noreferrer">Wabbajack featured criteria</a></li>
+<li>Leaving stale downloads and old versions: Wabbajack tells authors to delete them, since they can cause wrong archive matches — <a href="https://wiki.wabbajack.org/modlist_author_documentation/Pre-Compilation.html" target="_blank" rel="noreferrer">Wabbajack Pre-Compilation</a></li>
+<li>Scope creep: CSVO removed body mods as out of scope, which also simplified use for others — <a href="https://inthebottle.github.io/CSVO/changelog" target="_blank" rel="noreferrer">CSVO changelog</a></li>
+</ul>
+<p><strong>Weaker evidence (forum moderators and users, some older)</strong></p>
+<ul>
+<li>Removing mods from a live save: a Step forum moderator says you cannot generally disable mods mid-playthrough and continue the same save — <a href="https://stepmodifications.org/forum/topic/12119-adding-a-mod-and-not-re-running-dyndolod/" target="_blank" rel="noreferrer">Step forum</a> (search summary; exact thread attribution not verified)</li>
+<li>Wrong DLL builds: DLL dependencies mismatched to the game version cause crashes — <a href="https://forums.nexusmods.com/topic/13510557-should-i-downgrade-game-version-to-1597-in-2025" target="_blank" rel="noreferrer">Nexus forum</a> (search summary; exact thread attribution not verified)</li>
+<li>Debugging by disabling LOD plugins or meshes is described by Step staff as wrong or outdated advice — <a href="https://stepmodifications.org/forum/topic/14591-skyrim-se-ctd-before-main-menu-when-dyndolod-enabled/" target="_blank" rel="noreferrer">Step forum</a> (search summary; exact thread attribution not verified)</li>
+</ul>
+<h3 id="inferences-5">Inferences</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Mistake</th><th>Repository control</th></tr></thead><tbody><tr><td>No stated scope</td><td>Decision 0001 and acceptance checklist</td></tr><tr><td>Unknown runtime</td><td>Runtime decision and <code>MANIFEST.json</code>; check against it</td></tr><tr><td>Regenerating outputs inconsistently</td><td>Pipeline decision with triggers; freshness warning</td></tr><tr><td>Undocumented removal</td><td>Changelog reason required; catalog status</td></tr><tr><td>Same mod re-evaluated repeatedly</td><td><code>mods/rejected.md</code> with date and revisit trigger</td></tr><tr><td>Mid-save changes</td><td>Save-safety field on every release</td></tr><tr><td>Unnoticed conflicts</td><td>Order and pair rules linked to decisions</td></tr><tr><td>Everything added at once</td><td>Staging separator, small commits, a test note per batch</td></tr></tbody></table>
+<h3 id="gaps-5">Gaps</h3>
+<ul>
+<li>“Start small and test incrementally”, “learn xEdit” and “pick a central concept first” recur in r/skyrimmods mirrors returned by search, but I could not tie them to a specific verifiable post. Treat as anecdotal.</li>
+<li>I found no quantitative data on the frequency of any mistake, and no 2026 curator survey.</li>
+<li>Advice not to blindly clean ITMs on LOOT’s prompt appeared in Steam guides, but its attribution could not be verified and the question is contested.</li>
+</ul>
+<h2 id="what-should-the-repository-contain-layout-record-template-and-naming">What should the repository contain: layout, record template and naming?</h2>
+<h3 id="takeaway-6">Takeaway</h3>
+<p>A small repository with six parts is enough: policy, decisions, a mod catalog, generated list snapshots, machine-checkable rules, and a changelog. Records explain why, rules enforce it, snapshots show the current state, and the changelog connects them over time.</p>
+<h3 id="cited-findings-6">Cited Findings</h3>
+<ul>
+<li>Precedents for this structure: <code>decisions/</code> naming (<a href="https://adr.github.io/madr/" target="_blank" rel="noreferrer">MADR</a>), separate README and <code>CHANGELOG.md</code> (<a href="https://wiki.wabbajack.org/modlist_author_documentation/Post-Compilation.html" target="_blank" rel="noreferrer">Wabbajack</a>), written mandate (<a href="https://stepmodifications.org/wiki/STEP:Mandate" target="_blank" rel="noreferrer">Step</a>), save-safe flags (<a href="https://wiki.wildlandermod.com/14ModlistVersions/CHANGELOG/" target="_blank" rel="noreferrer">Wildlander</a>), a public docs repo with workflows (<a href="https://github.com/ModdingLinked/Viva-New-Vegas" target="_blank" rel="noreferrer">Viva</a>)</li>
+</ul>
+<h3 id="inferences-6">Inferences</h3>
+<p><strong>Directory layout</strong></p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>&#x3C;list-name>/</span></span>
+<span class="line"><span>  README.md               # scope, status, runtime, how to read, how to reproduce</span></span>
+<span class="line"><span>  CHANGELOG.md            # one section per list release</span></span>
+<span class="line"><span>  CONTENT_NOTICE.md       # text-only adult-mod notice</span></span>
+<span class="line"><span>  LICENSE                 # MIT for tools/</span></span>
+<span class="line"><span>  LICENSE-docs            # CC BY 4.0 for original docs</span></span>
+<span class="line"><span>  .gitignore</span></span>
+<span class="line"><span>  .gitattributes</span></span>
+<span class="line"><span>  policy/</span></span>
+<span class="line"><span>    mandate.md            # what the list is and is not about</span></span>
+<span class="line"><span>    acceptance.md         # checklist from this document</span></span>
+<span class="line"><span>    update-policy.md      # save safety, cadence, runtime updates</span></span>
+<span class="line"><span>  decisions/</span></span>
+<span class="line"><span>    README.md             # generated index with status + Y-statement</span></span>
+<span class="line"><span>    template.md</span></span>
+<span class="line"><span>    0000-record-decisions-in-this-repo.md</span></span>
+<span class="line"><span>    0001-define-list-scope-and-adult-policy.md</span></span>
+<span class="line"><span>    0002-pin-game-runtime.md</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>  mods/</span></span>
+<span class="line"><span>    catalog.yaml          # one entry per mod: why it is here</span></span>
+<span class="line"><span>    rejected.md           # why not, with date and revisit trigger</span></span>
+<span class="line"><span>    patches.md            # owner-authored patches and their permissions</span></span>
+<span class="line"><span>  list/                   # generated only; never edit by hand</span></span>
+<span class="line"><span>    modlist.txt</span></span>
+<span class="line"><span>    plugins.txt</span></span>
+<span class="line"><span>    loadorder.txt</span></span>
+<span class="line"><span>    mods.csv</span></span>
+<span class="line"><span>    MANIFEST.json         # snapshot time, runtime, SKSE, MO2, tool versions, list version</span></span>
+<span class="line"><span>  rules/</span></span>
+<span class="line"><span>    list-rules.yaml</span></span>
+<span class="line"><span>  tools/</span></span>
+<span class="line"><span>    snapshot.py           # whitelist copy, normalize, scan</span></span>
+<span class="line"><span>    check_list.py         # the checks above</span></span>
+<span class="line"><span>    build_index.py</span></span>
+<span class="line"><span>  .github/workflows/</span></span>
+<span class="line"><span>    check.yml</span></span></code></pre>
+<p><strong>Naming conventions</strong></p>
+<ul>
+<li>Decisions: <code>NNNN-short-action-phrase.md</code>, lowercase English with dashes, numbers never reused: <code>0007-use-pandora-for-behavior-generation.md</code>. Name them after the choice, or after the question while still proposed, and let the title reflect both problem and outcome.</li>
+<li>Release versions: <code>MAJOR.MINOR.PATCH</code>, git tags <code>list-v1.4.0</code>. Suggested meaning: MAJOR means a new game is required or the foundation changes; MINOR means save-safe content changes; PATCH means fixes and regenerated output. Keep the explicit save flag anyway.</li>
+<li>Commits: <code>list:</code>, <code>decision:</code>, <code>rules:</code>, <code>tools:</code> prefixes, with <code>Refs: 0007</code> where relevant.</li>
+</ul>
+<p><strong>Decision record template</strong> (<code>decisions/template.md</code>)</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#ADBAC7">---</span></span>
+<span class="line"><span style="color:#8DDB8C">id</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">0000</span></span>
+<span class="line"><span style="color:#8DDB8C">title</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">Short title with problem and choice</span></span>
+<span class="line"><span style="color:#8DDB8C">status</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">proposed</span><span style="color:#768390">        # proposed | accepted | rejected | deprecated | superseded</span></span>
+<span class="line"><span style="color:#8DDB8C">date</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">YYYY-MM-DD</span><span style="color:#768390">        # last status change</span></span>
+<span class="line"><span style="color:#8DDB8C">area</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">runtime</span><span style="color:#768390">           # scope | runtime | framework | character | animation | shaders | lod | patching | order | selection | tooling</span></span>
+<span class="line"><span style="color:#8DDB8C">supersedes</span><span style="color:#ADBAC7">: []</span></span>
+<span class="line"><span style="color:#8DDB8C">superseded_by</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">null</span></span>
+<span class="line"><span style="color:#8DDB8C">list_version</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">null</span><span style="color:#768390">      # first list release containing it</span></span>
+<span class="line"><span style="color:#8DDB8C">save_impact</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">none</span><span style="color:#768390">       # none | new-game-recommended | new-game-required</span></span>
+<span class="line"><span style="color:#8DDB8C">confirmation</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">auto</span><span style="color:#768390">      # auto | manual | none</span></span>
+<span class="line"><span style="color:#8DDB8C">revisit_when</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Example: SKSE or a key DLL mod updates for a new runtime"</span></span>
+<span class="line"><span style="color:#ADBAC7">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold"># 0000. Short title</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#ADBAC7;font-weight:bold">**Summary.**</span><span style="color:#ADBAC7"> In the context of &#x3C;situation>, facing &#x3C;concern>, we chose &#x3C;option> over</span></span>
+<span class="line"><span style="color:#ADBAC7">&#x3C;alternatives>, to achieve &#x3C;goal>, accepting &#x3C;downside>.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">## Context</span></span>
+<span class="line"><span style="color:#ADBAC7">What forced this decision. Include versions and dates of relevant tools and mods.</span></span>
+<span class="line"><span style="color:#ADBAC7">Keep this factual.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">## Options considered</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7;font-weight:bold"> **Option A**</span><span style="color:#ADBAC7">: one line on the main benefit and cost.</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7;font-weight:bold"> **Option B**</span><span style="color:#ADBAC7">: one line.</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7;font-weight:bold"> **Do nothing**</span><span style="color:#ADBAC7">: when realistic.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">## Decision</span></span>
+<span class="line"><span style="color:#ADBAC7">We will use Option A because ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">## Consequences</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Good: ...</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Bad: ...</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Required upkeep: regeneration, patches, order constraints, save impact.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">## Confirmation</span></span>
+<span class="line"><span style="color:#ADBAC7">Rules in </span><span style="color:#6CB6FF">`rules/list-rules.yaml`</span><span style="color:#ADBAC7"> that cite this ID, or a manual test</span></span>
+<span class="line"><span style="color:#ADBAC7">(what was done, where in-game, on which list version).</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">## Evidence</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Links to mod pages, docs, xEdit findings, or test notes.</span></span></code></pre>
+<p><strong>Catalog entry</strong> (<code>mods/catalog.yaml</code>, for routine mods that do not need a record)</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#ADBAC7">- </span><span style="color:#8DDB8C">name</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Example Mod"</span></span>
+<span class="line"><span style="color:#8DDB8C">  nexus_id</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">12345</span></span>
+<span class="line"><span style="color:#8DDB8C">  separator</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">Visuals</span></span>
+<span class="line"><span style="color:#8DDB8C">  status</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">active</span><span style="color:#768390">          # active | testing | dropped</span></span>
+<span class="line"><span style="color:#8DDB8C">  added</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">2026-11-02</span></span>
+<span class="line"><span style="color:#8DDB8C">  reason</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Fixes X, chosen over Y."</span></span>
+<span class="line"><span style="color:#8DDB8C">  decision</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">8</span><span style="color:#768390">             # optional link</span></span>
+<span class="line"><span style="color:#8DDB8C">  adult</span><span style="color:#ADBAC7">: </span><span style="color:#6CB6FF">false</span></span>
+<span class="line"><span style="color:#8DDB8C">  removal_safe</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">unknown</span><span style="color:#768390">   # yes | no | unknown</span></span>
+<span class="line"><span style="color:#8DDB8C">  notes</span><span style="color:#ADBAC7">: </span><span style="color:#96D0FF">"Non-default FOMOD: option Z."</span></span></code></pre>
+<p><strong>Rejected entry</strong> (<code>mods/rejected.md</code>)</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#6CB6FF;font-weight:bold">## Example Mod (rejected 2026-11-02, list 0.3.0)</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Reason: conflicts with the chosen weather stack; no patch available.</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Evidence: &#x3C;link or short test note></span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Revisit when: an update or compatibility patch appears.</span></span></code></pre>
+<p><strong>Changelog entry</strong></p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#6CB6FF;font-weight:bold">## 1.4.0 (2026-11-02), Save safe: no (new game required)</span></span>
+<span class="line"><span style="color:#ADBAC7">Runtime: &#x3C;exact version>. Decisions: 0012 accepted; 0005 superseded by 0012.</span></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">### Added / Removed / Moved / Updated</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> Removed Example Mod: unmaintained and bakes data into saves.</span></span>
+<span class="line"><span style="color:#6CB6FF;font-weight:bold">### Regenerate</span></span>
+<span class="line"><span style="color:#F69D50">-</span><span style="color:#ADBAC7"> LOD, behavior.</span></span></code></pre>
+<p>Step’s categories (Added, Moved, Updated, Incorporated, Dropped) are worth adopting. A generated diff can fill the mod names, leaving the human to write only reasons.</p>
+<p><strong>Governance workflow</strong></p>
+<ol>
+<li>Add a new mod under the staging separator, with a catalog entry marked <code>testing</code>.</li>
+<li>If it changes a structural choice, write or supersede a decision record first.</li>
+<li>Test in-game, then move it to its final separator and mark it <code>active</code>, or record it in <code>rejected.md</code>.</li>
+<li>Regenerate outputs as the pipeline decisions require.</li>
+<li>Run <code>snapshot.py</code> and <code>check_list.py</code>, then commit list, catalog, rules and changelog together.</li>
+<li>Tag a release with a save-safety flag when the build has been played.</li>
+</ol>
+<p><strong>.gitignore baseline</strong></p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Second layer only: the snapshot script's whitelist is the main control.</span></span>
+<span class="line"><span>mods/*/</span></span>
+<span class="line"><span>!mods/catalog.yaml</span></span>
+<span class="line"><span>!mods/rejected.md</span></span>
+<span class="line"><span>!mods/patches.md</span></span>
+<span class="line"><span>downloads/</span></span>
+<span class="line"><span>overwrite/</span></span>
+<span class="line"><span>profiles/</span></span>
+<span class="line"><span>saves/</span></span>
+<span class="line"><span>*.ess</span></span>
+<span class="line"><span>*.skse</span></span>
+<span class="line"><span>*.bsa</span></span>
+<span class="line"><span>*.ba2</span></span>
+<span class="line"><span>*.7z</span></span>
+<span class="line"><span>*.zip</span></span>
+<span class="line"><span>*.rar</span></span>
+<span class="line"><span>ModOrganizer.ini</span></span>
+<span class="line"><span>nxmhandler.ini</span></span>
+<span class="line"><span>.env</span></span>
+<span class="line"><span>*.log</span></span></code></pre>
+<p>Simplification notes: start with ten or so records and the first five checks. If <code>catalog.yaml</code> feels like too much at first, require reasons only for mods added after the repo’s start date, and backfill as mods are touched.</p>
+<h3 id="gaps-6">Gaps</h3>
+<ul>
+<li>This layout is a synthesis from the sources above, not a tested community standard. No equivalent public example was found.</li>
+<li><code>nxmhandler.ini</code> is listed from general MO2 knowledge, not verified in a source. <code>.gitignore</code> patterns should be adjusted once the repo sits in its final relation to the MO2 folder; the safest arrangement is keeping the repo outside the MO2 directory entirely.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#how-do-curated-modlists-document-themselves-and-what-is-widely-copied-versus-genuinely-useful">How do curated modlists document themselves, and what is widely copied versus genuinely useful?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-are-the-established-decision-record-formats-which-fields-are-worth-keeping-and-how-are-superseded-decisions-handled">What are the established decision record formats, which fields are worth keeping, and how are superseded decisions handled?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-kinds-of-decisions-matter-for-a-modlist-and-which-criteria-do-curators-apply-when-accepting-a-mod">What kinds of decisions matter for a modlist, and which criteria do curators apply when accepting a mod?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#how-should-a-public-repository-snapshot-a-personal-list-safely-and-what-are-the-licensing-concerns">How should a public repository snapshot a personal list safely, and what are the licensing concerns?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-is-a-useful-automated-check-comparing-a-list-with-its-decisions-and-are-there-precedents">What is a useful automated check comparing a list with its decisions, and are there precedents?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-do-experienced-curators-consider-the-most-common-mistakes">What do experienced curators consider the most common mistakes?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-should-the-repository-contain-layout-record-template-and-naming">What should the repository contain: layout, record template and naming?</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

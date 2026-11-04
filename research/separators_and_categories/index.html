@@ -1,0 +1,413 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>Separators, naming and categories in Mod Organizer 2 (Skyrim SE, MO2 2.5.x) · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">Separators, naming and categories in Mod Organizer 2 (Skyrim SE, MO2 2.5.x)</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Evidence labels used in these notes:</p>
+<ul>
+<li><strong>[Source]</strong>: read from the MO2 C++ source on the <code>master</code> branch (fetched 2026-11-02) through a fetch tool that summarises and quotes. It is not pinned to the 2.5.2 tag, and nothing was tested at runtime. Treat behaviour as “how the current code reads”.</li>
+<li><strong>[Local]</strong>: read directly from the user’s install at <code>C:\Modding\MO2</code> (<code>version=2.5.2</code>).</li>
+<li><strong>[Issue]</strong>: GitHub issue or PR. The title and state are facts, but a reporter’s diagnosis is not.</li>
+<li><strong>[Guide]</strong>: Step wiki. An editorial recommendation from an established project.</li>
+<li><strong>[Opinion]</strong>: forum, Reddit or mod page text. Community opinion.</li>
+<li><strong>[Snippet]</strong>: seen only as search result text. The Nexus pages returned HTTP 403 on direct fetch, so the full page was not read.</li>
+</ul>
+<h2 id="should-separators-be-numbered">Should separators be numbered?</h2>
+<h3 id="takeaway">Takeaway</h3>
+<p>No, not for this list. Order comes from <code>modlist.txt</code>, not from names, so numbers add nothing to correctness while MO2 is managing the list. Numbers pay off mainly for distributable separator packs and guides, and they restore only the order of the headers, never which mods sit under them. If the user wants them anyway for reference or scripting, use equal-width numbers with gaps (05, 10, 15…).</p>
+<h3 id="cited-findings">Cited Findings</h3>
+<ul>
+<li><strong>Order comes from position in the file.</strong> [Source] Priority comes from line position in <code>modlist.txt</code>, with the top of the file as highest priority — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>. [Local] The user’s file confirms this: <code>Outputs_separator</code> is near the top of the file and <code>DLC &#x26; CC_separator</code> is the last line — <code>C:\Modding\MO2\profiles\Default\modlist.txt</code>.</li>
+<li><strong>Name sort changes the view only, and has real costs.</strong> [Source] Sorting by the name column compares names case-insensitively, including separator names. Drag and drop is refused unless sorted by priority (“Drag&#x26;Drop is only supported when sorting by priority”) — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistsortproxy.cpp" target="_blank" rel="noreferrer">modlistsortproxy.cpp</a>.</li>
+<li><strong>Collapsing needs priority sort.</strong> [Source] Collapsible separators apply only when the sort column is priority, the setting is on for that sort direction, and no Category or Nexus ID grouping is selected — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistview.cpp" target="_blank" rel="noreferrer">modlistview.cpp</a>. [Issue] The request for collapsing under name sort is still open — <a href="https://github.com/ModOrganizer2/modorganizer/issues/1546" target="_blank" rel="noreferrer">#1546</a>.</li>
+<li><strong>New folders are where numbers really act.</strong> [Source] Mods not listed in <code>modlist.txt</code> get priorities above all listed mods, in <code>ModInfo</code> index order — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>. That collection is kept sorted by name (<code>ModInfo::ByName</code>) — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>.</li>
+<li><strong>Community arguments for numbers.</strong> [Snippet/Opinion] Separator pack authors say numbering keeps separators in order “even when MO2’s mod and install order gets out of whack”, and that numbered separators arrive at the bottom of the list. One says the J3w3ls scheme lets you reorder without renumbering everything — Nexus pages <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90857" target="_blank" rel="noreferrer">90857</a> and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/96582" target="_blank" rel="noreferrer">96582</a>. I could not confirm which snippet belongs to which page, or the exact scheme, because both returned 403.</li>
+<li><strong>Step numbers its groups but does not clearly number its separators.</strong> [Guide] Step’s ModGroups are numbered (02-Extenders to 21-Post-Processing). Its instruction is to name separators after Mod Groups, with the examples “Extensions, Resources, Lighting and Weather”, which carry no numbers — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>. Step’s numbers also stay stable with gaps: groups 04, 05, 06, 12, 17, 18 and 21 are listed as empty in an add-on guide — <a href="https://stepmodifications.org/wiki/SkyrimSE:TRA-1.0" target="_blank" rel="noreferrer">The Road Ahead</a>.</li>
+<li><strong>Separators ignore Nexus metadata.</strong> [Source] A separator’s <code>nexusId()</code> returns -1 and its Nexus category, update and INI tweak functions are stubbed — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinfoseparator.h" target="_blank" rel="noreferrer">modinfoseparator.h</a>.</li>
+<li><strong>Grouping replaces separators.</strong> [Source] Category and Nexus ID group-by replace the by-priority proxy, so the separator tree is not used in those views — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistview.cpp" target="_blank" rel="noreferrer">modlistview.cpp</a>. [Issue] Introduced in <a href="https://github.com/ModOrganizer2/modorganizer/pull/1338" target="_blank" rel="noreferrer">PR #1338</a>.</li>
+<li><strong>Text filters see the number.</strong> [Source] A text filter matches separator names like any other mod name — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistsortproxy.cpp" target="_blank" rel="noreferrer">modlistsortproxy.cpp</a>.</li>
+<li><strong>Renaming to number has a stated risk.</strong> [Source] The separator header carries the comment “TODO: Fix renaming method to avoid priority reset” — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinfoseparator.h" target="_blank" rel="noreferrer">modinfoseparator.h</a>. Against that, renames through the UI emit <code>modRenamed</code> — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a> — and <code>profile.cpp</code> has <code>renameModInList</code> / <code>renameModInAllProfiles</code>, which rewrite the name in each profile’s file — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>.</li>
+<li><strong>Renaming outside MO2 is unsafe.</strong> [Source] An old name that no longer resolves is dropped from <code>modlist.txt</code>, and the renamed folder is treated as unlisted and goes to highest priority — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>.</li>
+</ul>
+<h3 id="inferences">Inferences</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Scenario</th><th>Unnumbered</th><th>Numbered</th></tr></thead><tbody><tr><td>Normal use, sorted by priority</td><td>Correct</td><td>Correct, with no added function</td></tr><tr><td>Moving a section</td><td>Move it, done</td><td>Move it, then the number is wrong unless renamed</td></tr><tr><td>Inserting a section</td><td>Create it, done</td><td>Needs a free number, or renumbering without gaps</td></tr><tr><td>Name sort view</td><td>Headers interleaved with mods</td><td>Headers cluster together, but there is no collapse or drag in this view either way</td></tr><tr><td>Dropping many new separator folders into <code>mods\</code></td><td>Arrive in name order, wrong</td><td>Arrive in the intended order at the bottom. The real benefit, and it matters to pack authors</td></tr><tr><td><code>modlist.txt</code> lost or rebuilt</td><td>All order lost</td><td>Header order recoverable, but membership of mods is still lost</td></tr><tr><td>Explorer view of <code>mods\</code></td><td>Separators scattered by name</td><td>Separators still mixed with mods unless the prefix sorts first; minor benefit</td></tr><tr><td>Text filter</td><td>Clean</td><td>Number can match searches such as “10”; minor cost</td></tr><tr><td>Citing a section in notes or scripts</td><td>By name</td><td>Short, stable ID; a modest benefit</td></tr></tbody></table>
+<ul>
+<li>Use zero-padded numbers if numbering at all: the comparison reads as plain string comparison, so “10” would sort before “2” (inference from the name comparison; no natural sort code was seen).</li>
+<li>The recovery argument is weak because the valuable data is mod membership. Backing up <code>modlist.txt</code> is better protection than numbering.</li>
+<li>Numbering has no interaction with Nexus categories or Group by. Those views ignore the separator tree regardless of name.</li>
+</ul>
+<h3 id="gaps">Gaps</h3>
+<ul>
+<li>Whether renaming a separator through the UI in 2.5.2 actually resets priority was not tested. The TODO and the rename handler point in different directions. Back up <code>modlist.txt</code> and compare it after a rename.</li>
+<li>The exact J3w3ls scheme could not be read (403).</li>
+</ul>
+<h2 id="how-do-mo2-separators-work-technically-and-what-are-the-limits">How do MO2 separators work technically, and what are the limits?</h2>
+<h3 id="takeaway-1">Takeaway</h3>
+<p>A separator is an empty mod folder named <code>&#x3C;name>_separator</code> with a <code>meta.ini</code>, listed as a disabled entry in <code>modlist.txt</code>. It has no game effect. The collapsing tree is a view built from priority order, with one level only and several open bugs. One of them directly concerns a separator placed above Creation Club entries in 2.5.2.</p>
+<h3 id="cited-findings-1">Cited Findings</h3>
+<p><strong>Structure</strong></p>
+<ul>
+<li>[Source] Creation appends <code>_separator</code> to the name, filters it through <code>fixDirectoryName</code>, refuses duplicates, and inserts at the selected row when sorted by priority — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistviewactions.cpp" target="_blank" rel="noreferrer">modlistviewactions.cpp</a>.</li>
+<li>[Source] The display name removes every occurrence of <code>_separator</code> via <code>name.replace("_separator", "")</code>, and internal names are compared case-insensitively for collisions — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a>.</li>
+<li>[Source] <code>ModInfoSeparator</code> subclasses <code>ModInfoRegular</code>. <code>canBeEnabled()</code> is false, updates are disabled and <code>nexusId()</code> is -1 — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinfoseparator.h" target="_blank" rel="noreferrer">modinfoseparator.h</a>. It adds <code>FLAG_SEPARATOR</code> — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinfoseparator.cpp" target="_blank" rel="noreferrer">modinfoseparator.cpp</a>.</li>
+<li>[Local] A real <code>meta.ini</code> holds <code>color=@Variant(...)</code>, <code>modid=0</code>, empty version fields, <code>category=0</code> and <code>installedFiles</code> size 0 — <code>C:\Modding\MO2\mods\Fixes_separator\meta.ini</code>. In <code>modlist.txt</code> separators appear with a <code>-</code> prefix.</li>
+</ul>
+<p><strong>Color</strong></p>
+<ul>
+<li>[Source] <code>color</code> is a <code>meta.ini</code> key — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>. The dialog supports alpha and applies to all selected rows. The last color is remembered and auto-applied to new separators — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistviewactions.cpp" target="_blank" rel="noreferrer">modlistviewactions.cpp</a>. [Local] <code>previousSeparatorColor</code> is in <code>ModOrganizer.ini</code>.</li>
+<li>[Source] Scrollbar marks depend on the <code>colorSeparatorScrollbar</code> setting — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a>. [Local] It is on (<code>colorSeparatorScrollbars=true</code>).</li>
+<li>[Guide] Step’s add-on guide recommends scrollbar colors and profile-specific collapse states — <a href="https://stepmodifications.org/wiki/SkyrimSE:TRA-1.0" target="_blank" rel="noreferrer">The Road Ahead</a>.</li>
+</ul>
+<p><strong>Collapsing</strong></p>
+<ul>
+<li>[Source] <code>buildTree()</code> walks mods in priority order. A separator becomes a top-level node and later mods become its children until the next separator. Mods before the first separator stay at top level. Backups and Overwrite are always root children, never inside a separator. In descending sort the walk runs in reverse — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistbypriorityproxy.cpp" target="_blank" rel="noreferrer">modlistbypriorityproxy.cpp</a>.</li>
+<li>[Source] Collapsed state is stored by display name, optionally per profile (<code>collapsed_separators</code>). A collapsed separator can merge child conflict, flag and content icons and blend marker colors. Double-click and Shift+Enter toggle, and Alt+click selects children. Installing a mod expands its parent separator — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistview.cpp" target="_blank" rel="noreferrer">modlistview.cpp</a>. [Issue] The icon merge came from <a href="https://github.com/ModOrganizer2/modorganizer/pull/1338" target="_blank" rel="noreferrer">PR #1338</a> and <a href="https://github.com/ModOrganizer2/modorganizer/pull/1350" target="_blank" rel="noreferrer">PR #1350</a>.</li>
+<li>[Local] The user has <code>collapsible_separators_asc=true</code>, <code>collapsible_separators_dsc=true</code>, <code>collapsible_separators_per_profile=false</code> and all icon merge options on.</li>
+</ul>
+<p><strong>Filters</strong></p>
+<ul>
+<li>[Source] Separator filter modes are Filter (tested like any mod), Show (forced visible) and Hide (forced hidden). The check runs only when a filter is active — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistsortproxy.cpp" target="_blank" rel="noreferrer">modlistsortproxy.cpp</a>.</li>
+<li>[Source] With collapsible separators active, the separators combo is forced to Filter and disabled — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistview.cpp" target="_blank" rel="noreferrer">modlistview.cpp</a>.</li>
+<li>[Source] A parent row is accepted if the separator itself matches, otherwise if any child matches. Text filtering covers name, author, uploader, notes and comments, categories and Nexus ID depending on columns, with <code>|</code>, <code>||</code> and <code>OR</code> as OR operators and spaces as AND — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistsortproxy.cpp" target="_blank" rel="noreferrer">modlistsortproxy.cpp</a>.</li>
+</ul>
+<p><strong>Known limits and bugs</strong> [Issue]</p>
+<ul>
+<li><a href="https://github.com/ModOrganizer2/modorganizer/issues/2420" target="_blank" rel="noreferrer">#2420</a>, open, opened 2026-07-04: in 2.5.2 a separator at the very top, above Creation Club mods, reportedly loses its anchor and collapse state after F5. The reporter suspects the new CC parsing. A community member could not reproduce it, and no maintainer has responded.</li>
+<li>No nesting: <a href="https://github.com/ModOrganizer2/modorganizer/issues/1960" target="_blank" rel="noreferrer">#1960</a> closed as duplicate, <a href="https://github.com/ModOrganizer2/modorganizer/issues/2291" target="_blank" rel="noreferrer">#2291</a> open as a feature request.</li>
+<li><a href="https://github.com/ModOrganizer2/modorganizer/issues/1615" target="_blank" rel="noreferrer">#1615</a>, open: closing MO with a filter active affects collapse state on reopening.</li>
+<li><a href="https://github.com/ModOrganizer2/modorganizer/issues/1817" target="_blank" rel="noreferrer">#1817</a>, open: a report of a system freeze when dragging over separators in 2.4.4.</li>
+<li><a href="https://github.com/ModOrganizer2/modorganizer/issues/639" target="_blank" rel="noreferrer">#639</a>, open: no separator navigation list, and separators are not in the filter panel.</li>
+<li><a href="https://github.com/ModOrganizer2/modorganizer/issues/1493" target="_blank" rel="noreferrer">#1493</a>, closed as completed in 2021: moving a collapsed separator left its mods behind.</li>
+<li><a href="https://github.com/ModOrganizer2/modorganizer/issues/2152" target="_blank" rel="noreferrer">#2152</a>, closed as completed: separators could not be created once the list filled the window.</li>
+</ul>
+<p><strong>Official documentation</strong></p>
+<ul>
+<li>The official site has no separator or category documentation. Its only documentation link is a Mod Organizer 1.3.11 wiki article that it warns may differ from MO2 — <a href="https://www.modorganizer.org/" target="_blank" rel="noreferrer">modorganizer.org</a>. <code>modorganizer2.github.io</code> now redirects there.</li>
+<li>Older information: the Step advanced page still describes making separators by hand with folders, citing an unresolved enhancement request. This is MO1-era and obsolete — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer/Advanced" target="_blank" rel="noreferrer">Guide:Mod Organizer/Advanced</a>.</li>
+</ul>
+<h3 id="inferences-1">Inferences</h3>
+<ul>
+<li>Because membership is computed from neighbours, there is no stored “this mod belongs to this separator”. Moving a mod across a header changes its group, and nothing else records it.</li>
+<li>Descending sort appears to attach a mod to a different separator than ascending does, since the tree is built in the opposite direction. A mod between S1 and S2 falls under S1 in ascending and under S2 in descending. The user should stick to one direction, preferably ascending. This reading comes from the code summary and was not tested.</li>
+<li>Avoid the literal text <code>_separator</code> inside a separator name, as it is stripped everywhere in display.</li>
+<li>Renaming a separator probably forgets its collapsed state, since state is keyed by display name. This is harmless.</li>
+<li><code>save_filters=false</code> [Local] should reduce exposure to #1615.</li>
+</ul>
+<h3 id="gaps-1">Gaps</h3>
+<ul>
+<li>Whether moving a collapsed separator carries its children in 2.5.2 was not visible in the code read; the proof would be in <code>ModListDropInfo</code>. #1493 is closed as completed. Test once before relying on it.</li>
+<li>No hard limit on separator count was found in the code read, and no source states one.</li>
+<li>The exact character set allowed by <code>fixDirectoryName</code> was not read.</li>
+</ul>
+<h2 id="how-granular-should-separators-be">How granular should separators be?</h2>
+<h3 id="takeaway-2">Takeaway</h3>
+<p>No authoritative number exists. Available examples suggest roughly 15 to 25 top-level sections for a list up to a few hundred mods. For a list this size, a separator is justified when it marks a real priority boundary or is expected to grow, not by a target count.</p>
+<h3 id="cited-findings-2">Cited Findings</h3>
+<ul>
+<li>[Snippet/Opinion] One Nexus pack ships tiers: Lite with 19 separators for up to 250 mods, Intermediate with 77 for 250 to 1000, and Full with 126 for 1000+. Another author uses 19 general sections divided into smaller subsections rather than 69 sections — <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90857" target="_blank" rel="noreferrer">Nexus 90857</a>, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/96582" target="_blank" rel="noreferrer">Nexus 96582</a> (attribution between the two pages unconfirmed).</li>
+<li>[Guide] Step SkyrimSE 2.3 uses 20 ModGroups. Visible counts include Extenders 10, Resources 3, Foundation 24, Animation and Physics 7 — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>. The page was read only in part, so later group counts are missing.</li>
+<li>[Guide] Step splits Gameplay into six parts: General, AI and Combat, Economy, Immersion, Quests, Skills and Perks — <a href="https://stepmodifications.org/wiki/SkyrimSE:TRA-1.0" target="_blank" rel="noreferrer">The Road Ahead</a>.</li>
+<li>[Local] The user has 17 separators, 77 managed mods and 78 foreign DLC/CC entries in <code>modlist.txt</code>.</li>
+</ul>
+<h3 id="inferences-2">Inferences</h3>
+<ul>
+<li>Rule of thumb (my synthesis, not a cited standard): split a section past about 20 to 25 mods if it has a natural split. Keep small sections if they mark a real override boundary. Merge only sections that are both small and have no ordering meaning.</li>
+<li>Small sections cost little when collapsed, so the penalty for a section of 1 or 2 is low.</li>
+<li>With no nesting, a flat list is the only option. Subsections would need separate separators with a shared prefix, such as “Gameplay - Combat”.</li>
+</ul>
+<h3 id="gaps-2">Gaps</h3>
+<ul>
+<li>I found no measured or survey data on section counts or mods per section. Everything here is example-based.</li>
+</ul>
+<h2 id="should-top-level-order-follow-function-install-dependency-or-conflict-priority-how-do-left-and-right-pane-order-differ">Should top-level order follow function, install dependency, or conflict priority? How do left and right pane order differ?</h2>
+<h3 id="takeaway-3">Takeaway</h3>
+<p>Conflict priority governs the order; function supplies the labels. In practice this means function-named groups arranged so that whatever should win sits lower. Left and right panes are independent systems, so let LOOT handle the right pane and do not try to mirror it in the left.</p>
+<h3 id="cited-findings-3">Cited Findings</h3>
+<ul>
+<li>[Guide] Step’s order runs Extenders, Resources, Foundation, then assets, Fixes, Gameplay, Interface, Locations, Lighting, Utilities, Patches, Post-Processing. Mods “should be arranged in MO in the order that they are listed” so later overrides earlier. Foundation holds baseline mods that others should override — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>, <a href="https://stepmodifications.org/wiki/SkyrimSE:TRA-1.0" target="_blank" rel="noreferrer">The Road Ahead</a>.</li>
+<li>[Guide] Step keeps mods alphabetical within a group, with deviations “purposeful” — <a href="https://stepmodifications.org/wiki/SkyrimSE:TRA-1.0" target="_blank" rel="noreferrer">The Road Ahead</a>.</li>
+<li>[Guide] LOOT sets plugin order before launch, and manual rules cover exceptions — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li>[Opinion] Left pane manages loose file priority; right pane manages load order, which handles records and archived resources — <a href="https://steamcommunity.com/app/489830/discussions/0/4354499488253058461" target="_blank" rel="noreferrer">Steam thread</a>. The same point appears in an r/skyrimmods thread: loose files override BSA contents, and plugin order controls conflicts among BSAs — <a href="https://reddit.sentinel-team.org/posts/1ptudvt/snapshots/2025-12-24T00%3A20%3A21.850421Z" target="_blank" rel="noreferrer">Reddit snapshot, Dec 2025</a>.</li>
+<li>[Guide, undated and older] A BSA loads with its same-named plugin and wins if that plugin loads later, and loose files override BSAs — <a href="https://stepmodifications.org/forum/topic/5033-ramifications-of-bsa-extraction-in-mod-organizer/page/2/" target="_blank" rel="noreferrer">Step forum</a>.</li>
+<li><strong>Conflict:</strong> a 2017 Step forum moderator reply suggests left pane order decides this in MO — <a href="https://stepmodifications.org/forum/topic/5033-ramifications-of-bsa-extraction-in-mod-organizer/page/7/" target="_blank" rel="noreferrer">Step forum</a>. This could not be pinned to an exact page, and it appears to be MO-era behaviour. Marked as older and unresolved.</li>
+<li>[Opinion] One poster sorts the right pane with LOOT and then matches the left by hand. Another notes that mods with several ESPs make an exact match impossible — <a href="https://steamcommunity.com/app/489830/discussions/0/4354499488253058461" target="_blank" rel="noreferrer">Steam thread</a>.</li>
+<li>[Opinion] A Steam user warns that separators “break” load order. This has no support in the code read: separators carry no plugins, and they live only in the left pane — <a href="https://steamcommunity.com/app/489830/discussions/0/4354499488253058461" target="_blank" rel="noreferrer">Steam thread</a>, <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinfoseparator.h" target="_blank" rel="noreferrer">modinfoseparator.h</a>.</li>
+</ul>
+<h3 id="inferences-3">Inferences</h3>
+<ul>
+<li>Install dependency matters less than people assume. Masters are a right pane issue, and BodySlide or Pandora outputs depend on their inputs through generation, not through left pane position.</li>
+<li>Dependency still shapes the outer frame: frameworks low, generated outputs last.</li>
+<li>Function order and priority order conflict only when a section is both functional and asset-bearing. Priority wins in that case. “Fixes” that touch assets are the typical example.</li>
+</ul>
+<h3 id="gaps-3">Gaps</h3>
+<ul>
+<li>No primary Bethesda or MO2 document on BSA order was found. Use the Conflicts tab and in-game testing for specific cases.</li>
+</ul>
+<h2 id="where-should-patches-go">Where should patches go?</h2>
+<h3 id="takeaway-4">Takeaway</h3>
+<p>Use a hybrid. Put a patch with one parent directly below its parent. Put a patch that bridges mods from different sections in a dedicated Patches section after all content. Keep generated output last. No source settles this as a standard.</p>
+<h3 id="cited-findings-4">Cited Findings</h3>
+<ul>
+<li>[Guide] Step uses a dedicated 20-Patches group near the end, described as “Mods that programmatically resolve load-order conflicts” — <a href="https://stepmodifications.org/wiki/SkyrimSE:TRA-1.0" target="_blank" rel="noreferrer">The Road Ahead</a>. It has required and optional modular conflict resolution patches, with “combo” patches where “Only ONE” should be used — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li>[Opinion] Install the patch as its own mod (“modname patch”) below the main mod in the left pane, with any plugin below the main mod in the right pane — <a href="https://reddit.sentinel-team.org/posts/1ptudvt/snapshots/2025-12-24T00%3A20%3A21.850421Z" target="_blank" rel="noreferrer">Reddit snapshot, Dec 2025</a>.</li>
+<li>[Snippet] The MO2 Modlist Manager plugin places patches after their targets, with a Patches tier for patches covering two or more mods — <a href="https://www.nexusmods.com/skyrimspecialedition/mods/193186" target="_blank" rel="noreferrer">Nexus 193186</a>. The direct fetch returned 403, and a second search did not find it, so treat this as weakly verified. This is the closest published example of the hybrid.</li>
+<li>[Snippet] Wabbajack list convention keeps [NoDelete] user-added mods in a block at the bottom — same <a href="https://www.nexusmods.com/skyrimspecialedition/mods/193186" target="_blank" rel="noreferrer">Nexus 193186</a> snippet; see also the <a href="https://www.nexusmods.com/site/mods/669" target="_blank" rel="noreferrer">Wabbajack NoDelete indexer</a> and <a href="https://github.com/ApocryphaRealm/MO2KeywordTagger" target="_blank" rel="noreferrer">MO2KeywordTagger</a>.</li>
+<li>[Guide] Merge-type outputs in guide lists sit late in the order: “LOTD Patches Merge” near the end — <a href="https://stepmodifications.org/forum/topic/13092-lexys-legacy-of-the-dragonborn-special-edition/page/734" target="_blank" rel="noreferrer">Lexy’s thread</a>. Step also places generated “xEdit Output” and “SKSE Output” at high priorities — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li>[Opinion] PGPatcher output should override everything else, and one user saw texture problems when it was placed low — <a href="https://steamcommunity.com/app/489830/discussions/0/4354499488253058461" target="_blank" rel="noreferrer">Steam thread</a>.</li>
+<li>[Source] Overwrite is always highest and outside any separator — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>.</li>
+</ul>
+<h3 id="inferences-4">Inferences</h3>
+<ul>
+<li>Beside the parent: the patch moves with its parent, is visible when disabling the parent, and is easy to keep in sync. The risk is that a patch for mods A and B must outrank both, which is only guaranteed if it sits below the later one.</li>
+<li>Dedicated section: multi-target priority is guaranteed and it is a clear audit list. The cost is that the patch is far from its parent, so use the Notes column or the name to link them.</li>
+<li>Plugin-only patches have no left pane conflict at all, so their placement is purely for humans. LOOT handles the right pane.</li>
+<li>Suggested order at the tail: content, Tools, Patches, merged patches and compatibility packs, generated Outputs, Overwrite. A compatibility pack covering many mods belongs in Patches. Treat a Synthesis, Bashed or smashed patch or similar as generated output.</li>
+</ul>
+<h3 id="gaps-4">Gaps</h3>
+<ul>
+<li>Lexy’s guide page itself was not read; only forum threads and snippets were reached. r/skyrimmods is blocked directly, so opinion was sampled through one snapshot and is thin.</li>
+</ul>
+<h2 id="naming-conventions-for-mods-in-the-left-pane">Naming conventions for mods in the left pane</h2>
+<h3 id="takeaway-5">Takeaway</h3>
+<p>Keep the Nexus name by default and rename only to disambiguate or to mark a role, using a parent-first pattern. Renaming inside MO2 does not break update checks because they use <code>modid</code>. Avoid versions in names, since MO2 has a Version column.</p>
+<h3 id="cited-findings-5">Cited Findings</h3>
+<ul>
+<li>[Source] Update checks depend on <code>m_NexusID</code>, not the folder name. <code>m_Name</code> is used only in logs and in the rename logic. <code>meta.ini</code> lives in the folder and moves with it — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>.</li>
+<li>[Source] <code>installDownload</code> finds existing mods by Nexus ID and reuses the name, with the last match winning — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/organizercore.cpp" target="_blank" rel="noreferrer">organizercore.cpp</a>.</li>
+<li>[Source] <code>setName</code> rejects <code>/</code> and <code>\</code>. <code>renameMod</code> runs <code>fixDirectoryName</code>, rejects empty and duplicate names case-insensitively, then emits <code>modRenamed</code> — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>, <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a>.</li>
+<li>[Source] <code>version</code> and <code>newestVersion</code> are <code>meta.ini</code> fields compared for the update flag — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>.</li>
+<li>[Guide] Step names helper mods descriptively (“xEdit Output”, “SKSE64 Output”) and uses prefixes such as “(CONFIG) SSE Display Tweaks” and “(TEMP) Cathedral Landscapes - xLODGen” — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li>[Opinion] Tools exist for tags in names: <code>[NoDelete]</code> for Wabbajack, <code>[Patch]</code> and similar — <a href="https://github.com/ApocryphaRealm/MO2KeywordTagger" target="_blank" rel="noreferrer">MO2KeywordTagger</a>.</li>
+<li>[Local] The user’s names mostly follow Nexus. Outputs use the pattern <code>&#x3C;Tool> - Outputs</code>. <code>[Dint999] BDOR Hairs SSE 0.24</code> and <code>[Dint999] HairPack02 SSE 1.12 (base)</code> embed a version.</li>
+</ul>
+<h3 id="inferences-5">Inferences</h3>
+<ul>
+<li>If a renamed entry has several siblings with the same Nexus ID, the install dialog may propose the wrong one because the last match wins. Read the proposed name before choosing Replace.</li>
+<li>A version in the name goes stale after updating and duplicates the Version column. The exception is when the version is part of the identity, as in “RaceMenu 0.4.16 Memory Leak Hotfix (SE)”, which targets a specific build. Leave that one alone.</li>
+<li>For the Dint999 entries, consider dropping the version and using the Version field, especially if there is no valid <code>modid</code>.</li>
+<li>Tags in names work as a cheap filter, since text filtering matches names. They cost readability and are unneeded on a list of 77 mods.</li>
+<li>Prefer a suffix to a prefix for variants (“RaceMenu - <variant>”). It keeps the parent as the search key and groups correctly under name sort.</variant></li>
+</ul>
+<h3 id="gaps-5">Gaps</h3>
+<ul>
+<li>No official MO2 naming guideline exists. The official site has no such documentation.</li>
+</ul>
+<h2 id="is-mo2s-category-system-worth-using-alongside-separators-notes-flags-and-colors">Is MO2’s category system worth using alongside separators? Notes, flags and colors</h2>
+<h3 id="takeaway-6">Takeaway</h3>
+<p>Treat categories as a low-effort, cross-cutting filter, not as a second hierarchy. Use the 2.5 Nexus mapping if it is free, and do not hand-maintain a 1:1 copy of the separators. Notes are the most useful of these, particularly for recording why a mod sits where it does and which FOMOD options were picked.</p>
+<h3 id="cited-findings-6">Cited Findings</h3>
+<ul>
+<li>[Source] 2.5.0 removed hard-coded defaults. New and upgraded instances prompt to import and map Nexus categories. The editor can map, import, replace or merge. Auto-reassign is on the right-click and dropdown menus, and mods with no valid mapping stay untouched. Installing can prompt for missing mappings, which can be disabled — <a href="https://github.com/ModOrganizer2/modorganizer/releases/tag/v2.5.0" target="_blank" rel="noreferrer">v2.5.0 release notes</a>.</li>
+<li>[Source] <code>category</code> in <code>meta.ini</code> is comma-separated IDs, with the first valid one primary — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>. Foreign mods show “Non-MO” in the category column — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a>.</li>
+<li>[Source] Choosing Group by Category or Nexus ID replaces the separator tree — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistview.cpp" target="_blank" rel="noreferrer">modlistview.cpp</a>. Category criteria in filters work without grouping — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistsortproxy.cpp" target="_blank" rel="noreferrer">modlistsortproxy.cpp</a>.</li>
+<li>[Snippet/Opinion] A guide suggests turning off the Category column, since Nexus categories depend on how authors classify their mods — <a href="https://www.nexusmods.com/skyrimspecialedition/mods/96582" target="_blank" rel="noreferrer">Nexus separators page</a>.</li>
+<li>[Opinion] A Step forum reply suggests deleting default categories and creating your own based on guide sections — <a href="https://stepmodifications.org/forum/topic/13092-lexys-legacy-of-the-dragonborn-special-edition/page/577" target="_blank" rel="noreferrer">Lexy’s thread</a>. This is the opposite approach, with older evidence.</li>
+<li>[Local] Categories already auto-populate and cut across the separators: SkyUI and RaceMenu share ID 15, and CBBE 3BA and BnP female skin share ID 5. The ID names were not looked up. Several generated and manual entries have <code>-1</code>.</li>
+<li><strong>Notes.</strong> [Source] The Notes column shows <code>comments</code>; the tooltip shows both <code>comments</code> and <code>notes</code>. A valid color paints the Notes column background — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a>. <code>comments</code> and <code>notes</code> are searched by the text filter — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistsortproxy.cpp" target="_blank" rel="noreferrer">modlistsortproxy.cpp</a>.</li>
+<li><strong>Colors on mods.</strong> [Source] <code>setColor</code> applies to any selected row, not only separators — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistviewactions.cpp" target="_blank" rel="noreferrer">modlistviewactions.cpp</a>.</li>
+<li><strong>Flags.</strong> [Guide, MO1-era] Step documents flags and the highlights for conflicts: green for mods the selection overrides, red for mods overriding it — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Guide:Mod Organizer</a>. That page is dated to Mod Organizer 1, and the release notes do not show a change in this area. It also says the page was only read to 100,000 of 182,242 characters.</li>
+</ul>
+<h3 id="inferences-6">Inferences</h3>
+<ul>
+<li>Do not use Group by as a daily view, because it loses the tree and download drops are rejected under <code>QtGroupingProxy</code> [Source: modlistsortproxy.cpp]. It is fine as a temporary audit view.</li>
+<li>A small category use that does pay off: a <code>Patch</code> category to filter patches when they are scattered beside their parents. This is what makes the hybrid patch rule easy to audit.</li>
+<li>Use colors for section families (for example one color for character sections) rather than a different color per separator. With scrollbar marks on, this aids navigation. This is a preference, not sourced.</li>
+</ul>
+<h3 id="gaps-6">Gaps</h3>
+<ul>
+<li>Whether Notes survive Replace on reinstall is uncertain: <code>createMod</code> resets <code>modid</code>, <code>version</code>, <code>category</code> and <code>installedFiles</code> when not merging — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/organizercore.cpp" target="_blank" rel="noreferrer">organizercore.cpp</a> — but the summary did not list comments. Test before relying on it.</li>
+<li>Whether internal drag between rows works under Group by in 2.5.x is unclear. Step’s page is internally inconsistent on this, and it is MO1-era.</li>
+</ul>
+<h2 id="mod-priority-for-optional-files-and-handling-of-multiple-option-mods-fomod">Mod priority for optional files and handling of multiple-option mods (FOMOD)</h2>
+<h3 id="takeaway-7">Takeaway</h3>
+<p>Default to separate entries (Rename at the install prompt) placed directly below the main file. Merge only for small hotfixes or when a guide instructs it. Use Replace for version updates. Reinstall to change FOMOD choices, and write the choices in Notes unless FOMOD Plus is used.</p>
+<h3 id="cited-findings-7">Cited Findings</h3>
+<ul>
+<li>[Opinion] The prompt appears when a mod of that name already exists. Merge overwrites conflicting files and leaves the rest. Replace removes the old version. Rename installs separately — <a href="https://stepmodifications.org/forum/topic/16497-mo2-and-merging-pre-downloaded-files/" target="_blank" rel="noreferrer">Step forum</a>, <a href="https://stepmodifications.org/forum/topic/14721-should-i-merge-sro-files-by-hand" target="_blank" rel="noreferrer">Step forum</a>. These links come from one search summary; attribution to each specific page was not checked.</li>
+<li>[Guide] Step uses both. It merges some optional files into main (SSE Display Tweaks), and installs others separately, which “preserves their version tracking to keep pace with updates” or lets them be disabled later (LODGEN textures) — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li>[Opinion] Merging is “generally unnecessary”, mainly useful for hotfixes that replace a single file — <a href="https://reddit.sentinel-team.org/posts/1ptudvt/snapshots/2025-12-24T00%3A20%3A21.850421Z" target="_blank" rel="noreferrer">Reddit snapshot, Dec 2025</a>.</li>
+<li>[Source] A reinstall does not change priority (<code>reinstallation ? -1 : priority</code>), and a merged or replaced install does not move the mod — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/organizercore.cpp" target="_blank" rel="noreferrer">organizercore.cpp</a>.</li>
+<li>[Source] <code>installedFiles</code> records <code>modid</code>/<code>fileid</code> pairs — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modinforegular.cpp" target="_blank" rel="noreferrer">modinforegular.cpp</a>.</li>
+<li>[Opinion] Reinstall via right-click and choose replace or merge at the end. FOMOD Plus can highlight earlier choices, but only for mods installed after the plugin was added — <a href="https://gio-gianny.github.io/gio_skyrim_stock_game/mo2_plugins/fomod_plus_a_mod_installation_overhaul_for_mod_organizer_2/" target="_blank" rel="noreferrer">FOMOD Plus notes</a>.</li>
+<li>[Local] The user has already split items as separate entries, such as <code>BEES</code> and <code>BEES Papyrus Scripts</code>, <code>BnP female presets</code> and <code>BnP female small update</code>, and the two Expressive Facial Animation editions.</li>
+</ul>
+<h3 id="inferences-7">Inferences</h3>
+<ul>
+<li>Separate entries can be toggled and removed, show their own conflicts, and keep their own versions. Merged files cannot be separated later without reinstalling. Sibling entries have the wrong-match risk noted above when updating.</li>
+<li>Multi-variant mods: a single FOMOD install is fine when choices are stable. Keep variants as separate entries only if the user really switches between them.</li>
+<li>A patch shipped in a FOMOD of the parent stays in that entry, and is one more reason to note the choices. Patches from other pages get their own entries.</li>
+<li>Generated output is a different thing from FOMOD output: keep it in dedicated entries in Outputs, so it can be wiped and regenerated.</li>
+</ul>
+<h3 id="gaps-7">Gaps</h3>
+<ul>
+<li>No official MO2 guidance on this exists, as noted above. The Step forum notes the wiki had little beyond a warning about uninstalling merged mods (search summary only).</li>
+</ul>
+<h2 id="how-does-the-users-17-separator-scheme-compare-and-what-should-change">How does the user’s 17-separator scheme compare, and what should change?</h2>
+<h3 id="takeaway-8">Takeaway</h3>
+<p>The scheme is sound. It is function-labeled and largely arranged by override order, the same model Step uses. Keep it unnumbered. Make three changes: fix the “Recently Added” position, add a Patches section once a multi-target patch exists, and watch the DLC &#x26; CC separator for issue #2420.</p>
+<h3 id="cited-findings-8">Cited Findings</h3>
+<ul>
+<li>[Local] Mods per separator from <code>modlist.txt</code>:</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Separator (priority ascending)</th><th>Entries</th></tr></thead><tbody><tr><td>DLC &#x26; CC</td><td>78 foreign (3 DLC, 58 labeled Creation Club, 17 labeled Unmanaged)</td></tr><tr><td>SKSE &#x26; Frameworks</td><td>15</td></tr><tr><td>Fixes</td><td>6</td></tr><tr><td>UI &#x26; Camera</td><td>4</td></tr><tr><td>Shaders</td><td>11</td></tr><tr><td>Skeleton &#x26; Physics</td><td>3</td></tr><tr><td>Body</td><td>5</td></tr><tr><td>Head &#x26; Face</td><td>7</td></tr><tr><td>Skin</td><td>2</td></tr><tr><td>Presets</td><td>5</td></tr><tr><td>Hair</td><td>2</td></tr><tr><td>Animation</td><td>4</td></tr><tr><td>Armor</td><td>1</td></tr><tr><td>Gameplay</td><td>3</td></tr><tr><td>Tools</td><td>3</td></tr><tr><td>Recently Added</td><td>0</td></tr><tr><td>Outputs</td><td>6</td></tr></tbody></table>
+<ul>
+<li>[Local] 77 managed mods, about 4.8 per non-DLC section. One profile (<code>Default</code>), which removes the multi-profile rename risk.</li>
+<li><strong>Where a new mod lands.</strong> [Source] <code>findInstallPriority</code> returns -1 unless a valid row is selected and the view is sorted by priority. It uses the selected mod’s priority; for a selected separator it targets the next one in ascending order, which is the end of that section — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlistviewactions.cpp" target="_blank" rel="noreferrer">modlistviewactions.cpp</a>. Dragging a download onto the list uses <code>dropPriority</code>, and <code>MaximumPriority</code> when dropped out of range — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/modlist.cpp" target="_blank" rel="noreferrer">modlist.cpp</a>. Unlisted mods get highest priority — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>.</li>
+<li><strong>Foreign entries.</strong> [Source] They get pushed to the lowest priorities — <a href="https://raw.githubusercontent.com/ModOrganizer2/modorganizer/master/src/profile.cpp" target="_blank" rel="noreferrer">profile.cpp</a>. [Issue] <a href="https://github.com/ModOrganizer2/modorganizer/issues/2420" target="_blank" rel="noreferrer">#2420</a> concerns this exact layout, and <a href="https://github.com/ModOrganizer2/modorganizer/issues/1215" target="_blank" rel="noreferrer">#1215</a> (2020) reported Non-MO order being reset. [Local] As of the last write, <code>DLC &#x26; CC_separator</code> is still on the last line.</li>
+<li><strong>Comparison to Step.</strong> [Guide] Step places Fixes (09) after Models and Textures, Sounds and Character Appearance, Utilities (19) right before Patches (20), and Post-Processing last (21) — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li><strong>Step sections without an equivalent here:</strong> Resources, Foundation, Models and Textures, Sounds and Music, Locations, Lighting and Weather — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li>[Local] The Lite tier comparison: 17 separators sits under the 19 pack size, for a list one third of that tier’s 250 mod ceiling ([Snippet] <a href="https://www.nexusmods.com/skyrimspecialedition/mods/90857" target="_blank" rel="noreferrer">Nexus 90857</a>).</li>
+</ul>
+<h3 id="inferences-8">Inferences</h3>
+<p><strong>Change</strong></p>
+<ol>
+<li><strong>Move “Recently Added” to the very bottom, after Outputs.</strong> With nothing selected, a new install should land at highest priority, which is currently inside Outputs, not under Recently Added, which is empty now. Either way the mod temporarily outranks the outputs until triaged, but moved to last it is at least visibly in the inbox. Alternative: keep the current order and always select the Recently Added separator, or drag downloads onto it. Test with one small mod, since this comes from reading <code>master</code>.</li>
+<li><strong>Add “Patches” between Tools and Outputs when the first multi-target patch arrives.</strong> Single-parent patches go beside the parent. Do not create it empty just for symmetry.</li>
+<li><strong>Test the DLC &#x26; CC separator against #2420.</strong> Collapse it, press F5, check it. If it misbehaves, delete it. It is purely cosmetic, because foreign entries are placed at the lowest priorities anyway. Only then would the 78 entries stay uncollapsed, unless the separator is retained for that purpose. This trade-off is the user’s call.</li>
+</ol>
+<p><strong>Consider</strong>
+4. <strong>Fixes.</strong> The SKSE plugin fixes do not conflict by position. “Assorted mesh fixes” is the exception, since it touches assets and sits low, so any later mesh mod overrides it. Check its Conflicts tab, and move it to after Armor if it is losing to mods it should fix.
+5. <strong>Tools.</strong> BodySlide currently outranks Body and Presets. Check BodySlide’s Conflicts tab for losses in CBBE 3BA or preset files.
+6. <strong>Consider small-section names when adding.</strong> Armor (1), Hair (2) and Skin (2) are small but are real boundaries or will grow, so keep them.</p>
+<p><strong>Keep</strong></p>
+<ul>
+<li>Unnumbered names, since there is one profile and frequent inserts are likely as the list grows.</li>
+<li>The body sequence, with Skeleton before Body before Skin and Presets; later sections override earlier ones.</li>
+<li><code>Outputs</code> near the end and <code>&#x3C;Tool> - Outputs</code> naming, which fits Step’s practice.</li>
+<li>Ascending sort, per-direction collapse, scrollbar colors.</li>
+</ul>
+<p><strong>Future sections, added only when needed</strong>: Textures and Models, Lighting and Weather, Audio, Locations, NPCs and Creatures, and splits within Gameplay, using Step’s six parts. Place world asset sections before Gameplay and after Armor. Keep Lighting after Locations, following Step.</p>
+<h3 id="gaps-8">Gaps</h3>
+<ul>
+<li>“About 112 plugins” was given by the caller. <code>plugins.txt</code> has 49 lines marked active, and CC plugins may be implicitly active, but the count was not reconciled and it does not affect this analysis.</li>
+<li>Why 17 entries show as <code>Unmanaged:</code> rather than <code>Creation Club:</code> is unknown. Only <code>_ResourcePack</code> is an obvious non-CC item. This may be relevant to the 2.5.2 CC parsing mentioned in #2420, but that link is speculative.</li>
+<li>No conflict data was analysed here, so the suggestions on Assorted mesh fixes and BodySlide are prompts to check, not findings of an actual problem.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#should-separators-be-numbered">Should separators be numbered?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#how-do-mo2-separators-work-technically-and-what-are-the-limits">How do MO2 separators work technically, and what are the limits?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#how-granular-should-separators-be">How granular should separators be?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#should-top-level-order-follow-function-install-dependency-or-conflict-priority-how-do-left-and-right-pane-order-differ">Should top-level order follow function, install dependency, or conflict priority? How do left and right pane order differ?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#where-should-patches-go">Where should patches go?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#naming-conventions-for-mods-in-the-left-pane">Naming conventions for mods in the left pane</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#is-mo2s-category-system-worth-using-alongside-separators-notes-flags-and-colors">Is MO2’s category system worth using alongside separators? Notes, flags and colors</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#mod-priority-for-optional-files-and-handling-of-multiple-option-mods-fomod">Mod priority for optional files and handling of multiple-option mods (FOMOD)</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#how-does-the-users-17-separator-scheme-compare-and-what-should-change">How does the user’s 17-separator scheme compare, and what should change?</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

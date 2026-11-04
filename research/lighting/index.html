@@ -1,0 +1,411 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>Lighting for a Community Shaders list · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">Lighting for a Community Shaders list</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Checked 2026-11-03. Question: which lighting setup fits this list. It runs Community Shaders 1.9.1 with its core lighting features, Skylighting and SSGI. It has no lighting mod and no weather mod, so interiors, town lights and image spaces are still vanilla.</p>
+<p>The evidence is the same kind as in <a href="/skyrim-modlist-decisions/research/plants/">the plant note</a>: Wabbajack’s published reports for what lists install, the Nexus page of each candidate, and the source code of two SKSE plugins on GitHub. The reports cover 117 Skyrim SE lists, 58 of them with Community Shaders. Counting lists measures adoption, not quality. Several lists also share a template: 7 of the 15 Lux CS lists are one family (Wanderer’s Way and its siblings), and Gate to Sovngarde and Tuxborn each publish two editions.</p>
+<h2 id="takeaway">Takeaway</h2>
+<p>Community Shaders lists light the game in one of two ways, with 15 lists each:</p>
+<ul>
+<li><strong>Lux, converted with Lux CS.</strong> GGUNIT’s <a href="https://www.nexusmods.com/skyrimspecialedition/mods/43158" target="_blank" rel="noreferrer">Lux</a> relights interiors, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/56095" target="_blank" rel="noreferrer">Lux Orbis</a> the lights outside, and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/63588" target="_blank" rel="noreferrer">Lux Via</a> the roads between towns. Bottle’s <a href="https://www.nexusmods.com/skyrimspecialedition/mods/153919" target="_blank" rel="noreferrer">Lux CS</a> adapts all three to Community Shaders: tone mapping, image spaces, and inverse square falloff for every Lux bulb. The three lists closest to ours use it.</li>
+<li><strong>A modular set built for Community Shaders.</strong> <a href="https://www.nexusmods.com/skyrimspecialedition/mods/153425" target="_blank" rel="noreferrer">Ambient Templates for Lighting Mods</a> (ATLM) sets interior ambient light, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/138443" target="_blank" rel="noreferrer">CS Light</a> puts real bulbs on light sources, and <a href="https://www.nexusmods.com/skyrimspecialedition/mods/150494" target="_blank" rel="noreferrer">Window Shadows Ultimate</a> casts shadows from windows. <a href="https://www.nexusmods.com/skyrimspecialedition/mods/135488" target="_blank" rel="noreferrer">True Light</a> builds on them. Most of these lists pair it with Azurite III CS weather.</li>
+</ul>
+<p>Both sets use po3’s <a href="https://www.nexusmods.com/skyrimspecialedition/mods/127557" target="_blank" rel="noreferrer">Light Placer</a> and CS Light for bulbs. The other 15 Community Shaders lists install neither, or nothing we could detect.</p>
+<p><strong>Recommendation: Lux with Lux CS.</strong> The lists most like ours use it. It covers interiors, exterior lights and roads, and Lux has more patches than any other lighting mod: 354 mods on Nexus list it as a requirement.</p>
+<h2 id="what-the-game-has-now">What the game has now</h2>
+<p>Community Shaders 1.9.1 already includes the engine side:</p>
+<ul>
+<li>Light Limit Fix and Inverse Square Lighting;</li>
+<li>volumetric lighting and shadows, and cloud shadows;</li>
+<li>Interior Sun, image-based lighting and Sky Sync.</li>
+</ul>
+<p>Skylighting, SSGI and Particle Patch are installed separately. What’s missing is content. Nothing changes the vanilla bulbs, lighting templates or image spaces, and there’s no weather mod.</p>
+<p>The separate <a href="https://www.nexusmods.com/skyrimspecialedition/mods/153542" target="_blank" rel="noreferrer">Inverse Square Lighting</a> mod is deprecated, because Community Shaders 1.4.7 and later include it. Lighting mods still need tuning for it, which is what Lux CS and True Light do.</p>
+<h2 id="what-community-shaders-lists-install">What Community Shaders lists install</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Mod</th><th>All 117 SE lists</th><th>58 CS lists</th><th>15 Lux CS lists</th><th>15 ATLM lists</th></tr></thead><tbody><tr><td>Light Placer</td><td>51</td><td>37</td><td>15</td><td>14</td></tr><tr><td>CS Light</td><td>46</td><td>36</td><td>14</td><td>14</td></tr><tr><td>Embers XD</td><td>86</td><td>36</td><td>15</td><td>9</td></tr><tr><td>First person magic hand light fix</td><td>31</td><td>25</td><td>12</td><td>11</td></tr><tr><td>Lux Via</td><td>67</td><td>24</td><td>15</td><td>2</td></tr><tr><td>Lux</td><td>64</td><td>22</td><td>15</td><td>0</td></tr><tr><td>XEMI Utility</td><td>39</td><td>22</td><td>5</td><td>14</td></tr><tr><td>ISL Helper SKSE</td><td>29</td><td>21</td><td>11</td><td>9</td></tr><tr><td>Lux Orbis</td><td>57</td><td>19</td><td>14</td><td>0</td></tr><tr><td><strong>Lux CS</strong></td><td>25</td><td>15</td><td>15</td><td>0</td></tr><tr><td><strong>ATLM</strong></td><td>17</td><td>15</td><td>0</td><td>15</td></tr><tr><td>Luma Utility</td><td>28</td><td>15</td><td>3</td><td>11</td></tr><tr><td>Placed Light</td><td>14</td><td>12</td><td>0</td><td>11</td></tr><tr><td>Helios</td><td>18</td><td>11</td><td>3</td><td>7</td></tr><tr><td>Window Shadows Ultimate</td><td>11</td><td>9</td><td>0</td><td>8</td></tr><tr><td>Dynamic Interior Ambient Lighting (DIAL)</td><td>10</td><td>7</td><td>1</td><td>4</td></tr><tr><td>Enhanced Lights and FX (ELFX)</td><td>6</td><td>4</td><td>0</td><td>2</td></tr><tr><td>Modern Lighting Overhaul 2</td><td>8</td><td>2</td><td>0</td><td>0</td></tr><tr><td>Luminosity, Relighting Skyrim</td><td>3 each</td><td>2 each</td><td>0</td><td>0</td></tr></tbody></table>
+<p>True Light doesn’t appear in Wabbajack’s index under its name, though two lists install fixes made for it. Its Light Placer files are hosted on CS Light’s page, so some of the CS Light counts may be True Light setups.</p>
+<p>The weather each set is paired with:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Weather</th><th>15 Lux CS lists</th><th>15 ATLM lists</th></tr></thead><tbody><tr><td>NAT: NAT.CS III, or NAT.ENB III’s weather plugin alone</td><td>9, of which 8 run NAT.CS III</td><td>2</td></tr><tr><td>Obsidian Weathers with Obsidian CS</td><td>3</td><td>3</td></tr><tr><td>Azurite Weathers with Azurite III CS</td><td>0</td><td>7</td></tr></tbody></table>
+<p>The lists closest to this one:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>List</th><th>Lighting</th><th>Weather</th></tr></thead><tbody><tr><td>CSVO (NOTWL, Merethic)</td><td>Lux, Lux Orbis, Lux Via, the Lux and Orbis patch hubs, Lux CS, ISL Helper SKSE, Light Placer, CS Light, Embers XD</td><td>NAT.ENB III’s weather plugin</td></tr><tr><td>Lalaland (NOTWL, Merethic)</td><td>The same, plus Helios with Luma Utility</td><td>Obsidian CS</td></tr><tr><td>Wanderer’s Way (Merethic)</td><td>The same core, plus small Light Placer add-ons</td><td>NAT.CS III</td></tr><tr><td>Morkeskygge (NOTWL, Merethic)</td><td>ATLM, Lux Via, Light Placer, CS Light, ISL Helper SKSE</td><td>Obsidian CS</td></tr></tbody></table>
+<h2 id="the-candidates">The candidates</h2>
+<ul>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/43158" target="_blank" rel="noreferrer">Lux</a></strong> by GGUNIT.
+<ul>
+<li>Version: v7.1, updated 2025-12-08. The main file is 0.28 GB.</li>
+<li>What it does: a complete rework of interior lighting. It was built for ENB, which is why it needs Lux CS under Community Shaders.</li>
+<li>Requirements: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/113002" target="_blank" rel="noreferrer">Lux - Patch Hub</a> (v7.2, updated 2026-09-25), and Lux Via or its lantern resource pack.</li>
+<li>Patches: its list covers Skyrim Unbound Reborn and USSEP, both installed. Tomato’s Whiterun Remake ships Lux shadow masks for its windows.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/56095" target="_blank" rel="noreferrer">Lux Orbis</a></strong> by GGUNIT.
+<ul>
+<li>Version: v4.5, updated 2024-11-29, with <a href="https://www.nexusmods.com/skyrimspecialedition/mods/114169" target="_blank" rel="noreferrer">its patch hub</a> at v4.7 from 2026-08-28.</li>
+<li>What it does: reworks artificial light outdoors, in towns, forts and camps. The installer detects installed mods and picks patches.</li>
+<li>Weather: the author says it works with every weather mod.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/63588" target="_blank" rel="noreferrer">Lux Via</a></strong> by GGUNIT.
+<ul>
+<li>Version: v2.2, last updated 2025-02-01, 1.3 GB.</li>
+<li>What it does: lights the main roads between towns, and reworks many bridges and crossroads. It adds points of interest along the way.</li>
+<li>Load order: it edits vanilla objects, navmesh and landscape. The author loads it as low as possible, below landscape mods, and says Orbis should win where the two overlap.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/153919" target="_blank" rel="noreferrer">Lux CS</a></strong> by Bottle.
+<ul>
+<li>Version: v2.6.0, updated 2026-08-04.</li>
+<li>What it does: edits Lux’s image spaces for Community Shaders’ tone mapping, and fixes bloom and eye adaptation that relied on ENB. Its SKSE plugin converts every Lux bulb to inverse square falloff, including the patches, Orbis and Via.</li>
+<li>Requirements: Community Shaders, Lux, ISL Helper SKSE. Light Placer is needed if its Light Placer add-on is chosen.</li>
+<li>Compatibility: it works with nothing but Lux. It isn’t compatible with Window Shadows Ultimate or ALTM. It works with CS Light if the matching installer options are chosen.</li>
+<li>Install notes:
+<ul>
+<li>Lux’s optimized meshes aren’t needed with Community Shaders’ Light Limit Fix.</li>
+<li>For Lux Orbis, only the meshes with a “Lux” prefix need to stay.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/179132" target="_blank" rel="noreferrer">ISL Helper SKSE</a></strong> by Bottle.
+<ul>
+<li>Version: v1.0.6, updated 2026-09-13.</li>
+<li>What it does: converts each light to inverse square falloff as the game loads it. It skips spotlights, window and magic lights, and Light Placer bulbs. Sliders for global intensity and a shadow light boost need SKSE Menu Framework, which is installed.</li>
+<li>Game version: its source builds on CommonLibSSE-NG, which supports 1.5.97 and later in one DLL.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/127557" target="_blank" rel="noreferrer">Light Placer</a></strong> by powerofthree.
+<ul>
+<li>Version: v5.0.0, updated 2026-09-25.</li>
+<li>What it does: attaches real lights to objects and actors through JSON files. Light Limit Fix, built into Community Shaders, keeps them from flickering.</li>
+<li>Requirements: powerofthree’s Tweaks, which is installed.</li>
+<li>Game version: its source builds the SE and AE versions separately, and Nexus has one archive. Whether it carries the SE build has to be checked at install.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/138443" target="_blank" rel="noreferrer">CS Light</a></strong> by Bottle and the Community Shaders Discord.
+<ul>
+<li>Version: v2.0.1, updated 2026-05-27.</li>
+<li>What it does: Light Placer settings that put bulbs on candles, lanterns, fires, potions, ingredients, windows, plants, insects and effects. It works with any lighting mod.</li>
+<li>ENB lights: its author notes that Community Shaders stopped supporting them in 1.4, so ENB light mods do nothing here.</li>
+<li>Requirements: it wants <a href="https://www.nexusmods.com/skyrimspecialedition/mods/142757" target="_blank" rel="noreferrer">First person magic hand light fix</a> for the light from spells in the player’s hand.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/37085" target="_blank" rel="noreferrer">Embers XD</a></strong> by mindfIux.
+<ul>
+<li>Version: v3.3.0, updated 2026-10-17.</li>
+<li>What it does: overhauls campfires and other fires.</li>
+<li>Lux support: its installer has a Lux Orbis plugin, and there’s a Light Placer add-on.</li>
+<li>Settings: it needs <code>iMaxDesired=10000</code> under <code>[Particles]</code> in SkyrimPrefs.ini. This profile has 2000.</li>
+</ul>
+</li>
+<li><strong>The alternative set: True Light with ATLM.</strong>
+<ul>
+<li>The mods: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/135488" target="_blank" rel="noreferrer">True Light</a> v3.6.5 by Bottle, now maintained by SkrubbySkrubInAShrub, with ATLM v3.1, <a href="https://www.nexusmods.com/skyrimspecialedition/mods/177961" target="_blank" rel="noreferrer">Luma Utility</a>, CS Light, Light Placer and Window Shadows Ultimate.</li>
+<li>Its strengths:
+<ul>
+<li>It was built for Community Shaders and inverse square lighting from the start.</li>
+<li>It edits cells through Luma Utility’s JSON files instead of plugins, so it doesn’t conflict there.</li>
+<li>It casts window shadows.</li>
+</ul>
+</li>
+<li>Its weaknesses:
+<ul>
+<li>It doesn’t rework roads or exterior lights the way Lux Via and Orbis do. True Light’s exterior bulbs are optional, and 2 of these lists add Lux Via anyway.</li>
+<li>It has fewer patches.</li>
+<li>True Light can’t be counted in Wabbajack’s index.</li>
+</ul>
+</li>
+<li>Time of day: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/181533" target="_blank" rel="noreferrer">Helios</a>, or the older DIAL, can make interiors follow the weather and the time of day. Helios also appears with Lux in 3 lists.</li>
+</ul>
+</li>
+<li><strong>Not recommended:</strong> Enhanced Lights and FX (last updated 2017), Luminosity (2021), Relighting Skyrim and Modern Lighting Overhaul 2. Few Community Shaders lists use them, and none of them is tuned for inverse square lighting. Mixing Lux CS with Window Shadows Ultimate or ATLM is out too: Lux CS’s author calls them incompatible.</li>
+</ul>
+<h2 id="fit-with-this-list">Fit with this list</h2>
+<ul>
+<li><strong>Requirements are installed:</strong> SKSE Menu Framework, powerofthree’s Tweaks, and Community Shaders with Inverse Square Lighting in its core.</li>
+<li><strong>1.5.97:</strong> ISL Helper SKSE and Lux CS’s plugin share one source, built for SE and AE alike. Light Placer needs checking at install. Lux, Orbis, Via, CS Light and Embers XD have no DLLs.</li>
+<li><strong>Landscape:</strong> Lux Via carries landscape and navmesh edits. Run AutoBlend again afterwards, then PGPatcher.</li>
+<li><strong>Patches:</strong> the patch hubs’ installers pick patches for what’s installed. They don’t say whether they cover Tomato’s Riften, the Imperial Forts or the farmhouses, or Vanaheimr’s caves. Check with <code>tools/fomod.py show</code> and <code>tools/mo2.py conflicts</code> at install.</li>
+<li><strong>Weather:</strong> there’s none yet. Lux Orbis works with any weather. The Lux CS lists pair it with NAT.CS III or Obsidian CS, and that’s a separate choice.</li>
+<li><strong>Particles:</strong> Embers XD needs <code>iMaxDesired</code> raised to 10000. Particle Patch is already installed, as it is in 10 of the 15 Lux CS lists.</li>
+<li><strong>LOD:</strong> Lux Via and Orbis add objects to the world. DynDOLOD, planned for later, would take them into account.</li>
+<li><strong>Separator:</strong> a new <code>Lighting &#x26; Weather</code> separator between Architecture and Gameplay, so that Lux Via and Orbis load after the landscape and town mods. The weather mod goes there too. Light Placer belongs in SKSE &#x26; Frameworks and ISL Helper SKSE in Shaders.</li>
+</ul>
+<h2 id="recommendation">Recommendation</h2>
+<p><strong>Lux, Lux Orbis and Lux Via, converted with Lux CS, in a new <code>Lighting &#x26; Weather</code> separator.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Order</th><th>Mod</th><th>Separator</th><th>Installer choices</th></tr></thead><tbody><tr><td>1</td><td>Light Placer</td><td>SKSE &#x26; Frameworks</td><td>The SE build</td></tr><tr><td>2</td><td>ISL Helper SKSE</td><td>Shaders</td><td>Main file</td></tr><tr><td>3</td><td>Lux Via, then Lux via - Patch Hub</td><td>Lighting &#x26; Weather</td><td>Main file, with the patches its installer detects</td></tr><tr><td>4</td><td>Lux, then Lux - Patch Hub</td><td>Lighting &#x26; Weather</td><td>No optimized meshes; the detected patches</td></tr><tr><td>5</td><td>Lux Orbis, then Lux Orbis - Patch Hub</td><td>Lighting &#x26; Weather</td><td>The detected patches; keep the meshes with a “Lux” prefix</td></tr><tr><td>6</td><td>Lux CS</td><td>Lighting &#x26; Weather</td><td>SKSE plugin, Light Placer add-on, CS Light compatibility</td></tr><tr><td>7</td><td>CS Light, First person magic hand light fix</td><td>Lighting &#x26; Weather</td><td>The options that match Lux CS</td></tr><tr><td>8</td><td>Embers XD 2K</td><td>Lighting &#x26; Weather</td><td>The Lux Orbis plugin, with its Light Placer add-on</td></tr></tbody></table>
+<p>The owner chose this kit on 2026-11-03. That’s about 2.4 GB of downloads, most of it Lux Via. Then raise <code>iMaxDesired</code>, sort with LOOT, and have the owner run AutoBlend before PGPatcher. Look at it in game in interiors and in towns at night.</p>
+<p>This kit was installed on 2026-11-03, as the <a href="/skyrim-modlist-decisions/changelog/">changelog</a> records, with the official update files from Lux’s and Lux Via’s pages. What the install settled:</p>
+<ul>
+<li><strong>1.5.97:</strong> Light Placer’s installer has an SE 1.5.97 option, and its DLL exports the entry point SKSE needs on 1.5.97. ISL Helper SKSE’s DLL exports both entry points.</li>
+<li><strong>Lux CS 2.6.0</strong> has no separate SKSE plugin option any more: that plugin is now ISL Helper SKSE, which it requires. Its Light Placer add-on is the <code>LightPlacer</code> folder that comes with its main option. It lights candles, chandeliers, lanterns, torches, Nordic halls, furniture and vanilla fires. CS Light 2.0 no longer lights the first five, so the only overlap is furniture: CS Light’s Furniture option stays out, as its own installer suggests for Lux CS.</li>
+<li><strong>The “Lux” prefix:</strong> Lux Orbis’s installer makes you pick a set of “optimized meshes”. Of the 113 meshes it installs, 108 sit at vanilla paths, cut up for the old light limit that Light Limit Fix in Community Shaders removes. They would have overridden Assorted Mesh Fixes, Faultier’s, SMIM, Particle Patch, TomatoRim, Blended Roads and AutoBlend’s output, so they were removed. The 5 with a “Lux” prefix are new assets, not replacements, and they stay. Two of them are used by Lux, Orbis and Via themselves.</li>
+<li><strong>Patches:</strong> the three hubs add 34 patches, all for Creation Club content and Skyrim Unbound. None covers Tomato’s Riften, Imperial Forts or farmhouses, or Vanaheimr’s caves. Tomato’s Whiterun and Faultier’s ship their own Lux window masks, so Lux’s vanilla masks were removed to let theirs win. Faultier’s Whiterun mask is hidden too, since Tomato’s mod supplies Whiterun’s windows.</li>
+<li><strong>Landscape:</strong> Lux Via’s landscape and navmesh edits overlap no other landscape plugin in this list.</li>
+<li><strong>Load order:</strong> two LOOT rules make Orbis and Lux CS’s Orbis plugin win over Lux Via’s plugin, as Via’s author asks. No rule puts Lux CS’s Orbis plugin after the Orbis patches, although its installer asks for that. It shares no references with them, and its copies of their cells would undo region and water fixes.</li>
+</ul>
+<p><strong>Weather:</strong> Lux Orbis doesn’t depend on it, but exteriors and the overall tone change with it. <a href="/skyrim-modlist-decisions/research/weather/">The weather note</a> recommends Obsidian Weathers with Obsidian CS, installed alongside this kit.</p>
+<p><strong>The other way:</strong> if window shadows and a set designed for Community Shaders matter more than roads and patch coverage, choose True Light with ATLM and Window Shadows Ultimate, and keep Lux Via for the roads, as Morkeskygge does.</p>
+<h2 id="not-verified">Not verified</h2>
+<ul>
+<li>No visual comparison was made, and none of these mods had been seen in this list’s game when this was written.</li>
+<li>How Lux Via’s road and bridge edits look with Northern Roads, which replaced Blended Roads later on 2026-11-03. Lux Via’s Blended Roads bridge option came out then. Northern Roads’ Patch Collection covers Lux, Lux Orbis and Lux Via, and keeps Lux Via’s bridges where both mods have one. Lux Via’s optional Better Dynamic Snow patch, for version 2, was left out. <a href="/skyrim-modlist-decisions/research/roads/">The roads note</a> has the details. That leaves only what the game shows.</li>
+<li>How Lux CS’s tone mapping combines with a weather mod’s own tone mapping for Community Shaders. 11 of the 15 Lux CS lists combine them.</li>
+<li>How many lists run True Light, which Wabbajack’s index doesn’t name.</li>
+<li>What Placed Light is. It isn’t on Nexus under that name.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#takeaway">Takeaway</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-the-game-has-now">What the game has now</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-community-shaders-lists-install">What Community Shaders lists install</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#the-candidates">The candidates</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#fit-with-this-list">Fit with this list</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#recommendation">Recommendation</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#not-verified">Not verified</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

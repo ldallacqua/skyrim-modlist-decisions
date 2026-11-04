@@ -1,0 +1,465 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>MO2 plugins and companion tools for a Skyrim SE list (MO2 2.5.2, SE 1.5.97) · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">MO2 plugins and companion tools for a Skyrim SE list (MO2 2.5.2, SE 1.5.97)</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Checked 2026-11-02. Scope: what exists and works on MO2 2.5.2 (Qt and PyQt 6.7.1, Python 3.12.3).</p>
+<p>How to read the evidence:</p>
+<ul>
+<li><strong>Nexus was not readable.</strong> WebFetch returned 403 and the browser stopped at a Cloudflare check, which I did not try to get past. No Nexus date, description, or compatibility note was read directly. Anything from Nexus or forums seen only through search results is labeled as a search summary or snippet, and those claims are weak.</li>
+<li><strong>Dates</strong> come from GitHub (releases and commits, read through the API on 2026-11-02) or from the manifest files in Kezyma’s repo.</li>
+<li><strong>“Works on 2.5.2” has three strengths:</strong>
+<ul>
+<li><strong>Proven locally:</strong> loaded in the user’s install, shown by compiled Python 3.12 files or SKSE logs.</li>
+<li><strong>Code evidence:</strong> the repo imports PyQt6 and/or its release notes name 2.5 or 2.5.2. This is not a test run.</li>
+<li><strong>Unverified:</strong> stated as such.</li>
+</ul>
+</li>
+<li><strong>Local evidence</strong> refers to <code>C:\Modding\MO2</code> and was inspected read-only. Plugins with both PyQt5 and PyQt6 imports most likely use a try/except fallback, but I counted imports and did not read those files.</li>
+</ul>
+<h2 id="which-mo2-plugins-are-worth-having-and-which-work-on-252">Which MO2 plugins are worth having, and which work on 2.5.2?</h2>
+<h3 id="takeaway">Takeaway</h3>
+<p>MO2 2.5.2 is still the newest stable release, so the user is not behind. Most plugins named in the brief are bundled, not chosen. The most useful additions are LOOT Warning Checker, a diff path (List Exporter and/or Load Order Library), and FOMOD reinstall help. Bethesda Plugin Manager and NIF Preview are the most interesting items I could not verify.</p>
+<h3 id="cited-findings">Cited Findings</h3>
+<p><strong>MO2 itself</strong></p>
+<ul>
+<li>v2.5.2 was published 2024-08-04 and is the latest non-prerelease. It lists Qt and PyQt 6.7.1, Python 3.12.3, libloot 0.23.0, and usvfs 0.5.0 — <a href="https://github.com/ModOrganizer2/modorganizer/releases" target="_blank" rel="noreferrer">MO2 releases</a></li>
+<li>The main repo is still active (latest master commit 2026-10-05) with no newer release — <a href="https://github.com/ModOrganizer2/modorganizer/commits/master" target="_blank" rel="noreferrer">MO2 commits</a></li>
+<li>ModdingLinked’s fork last released 2.5.2-ML1.5 on 2024-08-16, and its notes say “many of the previous features in this fork are now part of mainline” — <a href="https://github.com/ModdingLinked/modorganizer/releases/tag/2.5.2-ML1.5" target="_blank" rel="noreferrer">fork release</a></li>
+</ul>
+<p><strong>What the user’s “installed plugins” actually are</strong></p>
+<ul>
+<li>These files all carry the same 2024-08-04 timestamp as MO2’s own DLLs, which points to the stock 2.5.2 install: <code>DDSPreview.py</code>, <code>FNISPatches.py</code>, <code>FNISTool.py</code>, <code>FNISToolReset.py</code>, <code>Form43Checker.py</code>, <code>pyCfg.py</code>, <code>ScriptExtenderPluginChecker.py</code>, <code>bsa_extractor.dll</code>, <code>bsa_packer.dll</code>, <code>check_fnis.dll</code>, <code>diagnose_basic.dll</code>, <code>inibakery.dll</code>, <code>inieditor.dll</code>, <code>preview_bsa.dll</code> — local, <code>C:\Modding\MO2\plugins</code></li>
+<li>Form43Checker “Checks plugins (.ESM/.ESP files) to see if any are lower than Form 44 (Skyrim SE)”; ScriptExtenderPluginChecker “Checks script extender log to see if any plugins failed to load” — local plugin source</li>
+<li><strong>Root Builder 5.1.1 is also installed but missing from the brief.</strong> Its compiled Python 3.12 files are present, and SKSE is installed through a <code>Root</code> folder in <code>mods</code> — local (<code>plugins\rootbuilder</code>, <code>rootbuilder_plugin.py</code>, <code>ModOrganizer.ini</code>)</li>
+<li>Root Builder is set to copy mode (<code>copyfiles=**</code>) with hashing on — local <code>ModOrganizer.ini</code></li>
+<li>FNIS Integration Tool has never been configured (<code>initialised=false</code>, empty <code>fnis-path</code>). The only FNIS-named mod is “Dyn FNIS AA functions” — local</li>
+</ul>
+<p><strong>Ranked shortlist of additions</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>#</th><th>Plugin</th><th>What it does</th><th>Latest verified</th><th>2.5.2 evidence</th><th>Maintenance</th></tr></thead><tbody><tr><td>1</td><td><a href="https://github.com/JonathanFeenstra/modorganizer-loot-warning-checker/releases" target="_blank" rel="noreferrer">LOOT Warning Checker</a></td><td>Shows LOOT warnings as MO2 notifications without sorting</td><td>v1.4.0, 2024-08-04</td><td>Code: release note “Add support for Mod Organizer 2.5.2 (Python 3.12)”</td><td>Dormant since release, still compatible on paper</td></tr><tr><td>2</td><td><a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/listexporter.json" target="_blank" rel="noreferrer">List Exporter</a> (Kezyma)</td><td>Exports the mod list to HTML, Markdown, CSV, JSON; multi-profile; <code>&#x3C;LE_Exclude></code> tag</td><td>2.0.0, 2026-01-07</td><td>Code: repo tooling targets 2.5.2; manifest max is 2.5.0</td><td>Active</td></tr><tr><td>3</td><td><a href="https://github.com/phinocio/loadorderlibrary-mo2-plugin/releases" target="_blank" rel="noreferrer">Load Order Library plugin</a></td><td>Uploads a list directly to Load Order Library, whose main feature is list comparison</td><td>v2.0.0, 2025-06-01</td><td>Code: PyQt5 and PyQt6 imports</td><td>Maintained, low activity</td></tr><tr><td>4</td><td><a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/reinstaller.json" target="_blank" rel="noreferrer">Reinstaller</a> (Kezyma)</td><td>Backs up installers and re-runs them on demand, including large FOMOD patch installers</td><td>2.0.1 (entry dated 2024-01-16)</td><td>Code: note “(2.0.1) Update for MO2 2.5.2”</td><td>Stable, not recently updated</td></tr><tr><td>5</td><td><a href="https://raw.githubusercontent.com/aglowinthefield/mo2-fomod-plus/main/README.md" target="_blank" rel="noreferrer">FOMOD Plus</a></td><td>FOMOD installer rewrite: remembers prior choices, FOMOD filter, non-blocking window</td><td>v1.19.1, 2026-02-18</td><td>Code: manifest min 2.5.2, builds against 2.5.2 sources</td><td>Very active (commit 2026-11-01); README calls it “barely in alpha”</td></tr><tr><td>6</td><td><a href="https://github.com/miere43/remember-installation-choices" target="_blank" rel="noreferrer">Remember Installation Choices</a></td><td>Shows previous install choices on reinstall; a lighter alternative to #5</td><td>1.2.4, 2025-03-28</td><td>Unverified on 2.5.2</td><td>Quiet</td></tr><tr><td>7</td><td><a href="https://github.com/aglowinthefield/mo2-notes" target="_blank" rel="noreferrer">Notes Panel</a></td><td>Markdown notes panel inside MO2</td><td>v1.0.2, 2026-01-24</td><td>Code: built against Qt 6.7 and Python 3.12</td><td>Active</td></tr><tr><td>8</td><td><a href="https://github.com/aglowinthefield/mo2-download-manager" target="_blank" rel="noreferrer">MO2 Download Manager+</a></td><td>Batch install and delete, removes old duplicate versions, batch metadata queries</td><td>v1.8.0, 2026-01-26</td><td>Code: PyQt5 and PyQt6 imports</td><td>Very active</td></tr><tr><td>9</td><td><a href="https://github.com/tkoopman/MO2-BodySlide-Batch-Builder" target="_blank" rel="noreferrer">BodySlide Batch Builder</a></td><td>Runs BodySlide for up to 5 groups, presets, and output mods</td><td>v2.2.0, 2026-06-05</td><td>Code: PyQt6 imports</td><td>Active</td></tr><tr><td>10</td><td><a href="https://github.com/MaskPlague/ESLifier" target="_blank" rel="noreferrer">ESLifier</a> plus its MO2 integration plugin</td><td>Finds and compacts ESL candidates and patches dependents</td><td>v0.16.17, 2026-09-07</td><td>Code: mostly PyQt6; tool is standalone</td><td>Very active</td></tr></tbody></table>
+<p><strong>ESLifier cautions</strong></p>
+<ul>
+<li>It needs Backported Extended ESL Support below 1.6.1130, and it warns that compacting changes Form IDs and may affect existing saves — <a href="https://raw.githubusercontent.com/MaskPlague/ESLifier/main/README.md" target="_blank" rel="noreferrer">ESLifier README</a></li>
+<li><code>skse64.log</code> shows BackportedESLSupport.dll “loaded correctly”, so the prerequisite is already in place — local <code>Documents\My Games\Skyrim Special Edition\SKSE</code></li>
+</ul>
+<p><strong>Requested items, evaluated</strong></p>
+<ul>
+<li><strong>Root Builder:</strong> 5.1.1, released 2026-01-09; earlier note “(5.0.5) Updates for MO2 2.5.2” — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/rootbuilder.json" target="_blank" rel="noreferrer">manifest</a>. Proven locally. Docs were updated 2026-04-02 — <a href="https://github.com/Kezyma/ModOrganizer-Plugins/commits/main/docs/rootbuilder.md" target="_blank" rel="noreferrer">rootbuilder.md history</a></li>
+<li><strong>Root Builder open issues (user reports):</strong> path containing “root” (#33), performance (#38), <code>NoneType</code> error on 5.0.3 (#26), and a proposal for deployment sessions without sync-back (#51) — <a href="https://github.com/Kezyma/ModOrganizer-Plugins/issues" target="_blank" rel="noreferrer">issues</a></li>
+<li><strong>Profile Sync:</strong> 2.2.0, 2026-01-07, fixed “various issues that could cause the mod list for all profiles in a group to be wiped” — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/profilesync.json" target="_blank" rel="noreferrer">manifest</a></li>
+<li><strong>Plugin Finder:</strong> newest entry labeled 2.0.0, dated 2023-12-04, with notes through 2.0.1 — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/pluginfinder.json" target="_blank" rel="noreferrer">manifest</a>. Its directory includes both current plugins and ones the MO2 wiki marks deprecated — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugin_directory.json" target="_blank" rel="noreferrer">directory</a></li>
+<li><strong>Shortcutter:</strong> 2.0.0, dated 2024-01-16, “Total rewrite” — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/shortcutter.json" target="_blank" rel="noreferrer">manifest</a></li>
+<li><strong>Curation Club:</strong> 1.1.0a, 2023-01-16, “Added support for MO 2.5.0”; no 2.5.2 note — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/curationclub.json" target="_blank" rel="noreferrer">manifest</a></li>
+<li><strong>Local CC content:</strong> <code>STOCK\Data</code> holds 74 <code>cc*</code> plugins and a <code>Skyrim.ccc</code>, with game exe 1.5.97.0 — local</li>
+<li><strong>Shader Cache Tool (Kezyma): not found.</strong> It is absent from the repo’s file tree including <code>archive/</code>, from the <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/README.md" target="_blank" rel="noreferrer">README list</a>, from the Plugin Finder directory, and from the <a href="https://raw.githubusercontent.com/wiki/ModOrganizer2/modorganizer/List-of-MO2-Extension-Plugins.md" target="_blank" rel="noreferrer">MO2 wiki list</a>. A web search also found nothing</li>
+<li><strong>Merge Plugins Hide (deorder):</strong> release 1.3 says “Only 2.5 and up is supported”, and latest is 1.4, 2024-09-29, with PyQt6 imports — <a href="https://github.com/deorder/mo2-plugins/releases" target="_blank" rel="noreferrer">releases</a></li>
+<li><strong>Sync Mod Order</strong> ships in the same deorder repo — <a href="https://raw.githubusercontent.com/deorder/mo2-plugins/master/README.md" target="_blank" rel="noreferrer">README</a></li>
+<li><strong>Batch Plugin Cleaner (tkoopman):</strong> v1.3.1, 2026-07-31; manifest max 2.5.2; PyQt6. Runs xEdit Quick Auto Clean over the load order, records results to skip processed mods, and can use LOOT’s masterlist — <a href="https://raw.githubusercontent.com/tkoopman/MO2-Batch-Plugin-Cleaner/master/README.md" target="_blank" rel="noreferrer">README</a>, <a href="https://github.com/tkoopman/MO2-Batch-Plugin-Cleaner/releases" target="_blank" rel="noreferrer">releases</a></li>
+<li><strong>Own plugin compared:</strong> CleanLoadOrder also uses Quick Auto Clean and LOOT knowledge and skips unchanged plugins, and it adds a copy to <code>cleaning-backups</code> before touching a plugin — local <code>CleanLoadOrder.py</code></li>
+<li><strong>Newer plugins, active on GitHub in 2026 but not assessed further:</strong> <a href="https://github.com/Pickysaurus/MO2-Plugin-Browser" target="_blank" rel="noreferrer">Plugin Browser</a> v1.1.0 (2026-07-06), <a href="https://github.com/MaskPlague/MO2-Plugins" target="_blank" rel="noreferrer">MaskPlague MO2-Plugins</a> (pushed 2026-09-15), <a href="https://github.com/KylerNyhagen/Kodex" target="_blank" rel="noreferrer">Kodex</a> (pushed 2026-02-13), and <a href="https://gitlab.com/z929669/pbr-conflict-audit" target="_blank" rel="noreferrer">PBR Conflict Audit</a> (GitLab activity 2026-07-11)</li>
+<li><strong>Prolific closed listings:</strong> alhimik.ph has 25+ wiki entries, and none list a repo — <a href="https://raw.githubusercontent.com/wiki/ModOrganizer2/modorganizer/List-of-MO2-Extension-Plugins.md" target="_blank" rel="noreferrer">MO2 wiki list</a></li>
+</ul>
+<p><strong>Rootbuilder alternatives</strong></p>
+<ul>
+<li>Root Builder itself offers Copy, Link, USVFS, and Custom modes — <a href="https://github.com/Kezyma/ModOrganizer-Plugins/blob/main/docs/rootbuilder.md" target="_blank" rel="noreferrer">rootbuilder docs</a></li>
+<li>deorder’s repo has a link deployment plugin “now supporting ‘root’ modding”, described as an alpha — <a href="https://github.com/deorder/mo2-plugins/releases/tag/1.3" target="_blank" rel="noreferrer">release 1.3</a></li>
+<li>Root Linker’s repo is archived, last pushed 2021-12-14, even though the wiki still lists it as active — <a href="https://github.com/Vaneixus/modorganizer-rootlinker" target="_blank" rel="noreferrer">repo</a>, <a href="https://raw.githubusercontent.com/wiki/ModOrganizer2/modorganizer/List-of-MO2-Extension-Plugins.md" target="_blank" rel="noreferrer">MO2 wiki list</a></li>
+</ul>
+<p><strong>BSA tools and conflict viewers</strong></p>
+<ul>
+<li>BSA extraction, packing, and preview are bundled (<code>bsa_extractor.dll</code>, <code>bsa_packer.dll</code>, <code>preview_bsa.dll</code>) — local</li>
+<li>BSA Extractor 2 was last pushed 2024-02-01, and 2.5.2 compatibility is unverified — <a href="https://github.com/Ryan-rsm-McKenzie/mo2-bsa-extractor-new" target="_blank" rel="noreferrer">repo</a></li>
+<li>Conflict viewing is native; see the MO2 features section below</li>
+<li>Load Order Miner by Hymlock reportedly compares files, folders, and text inside MO2. This comes from a search summary only: page not opened, not on the MO2 wiki list, and no link recorded because the summary did not tie the claim to one URL.</li>
+</ul>
+<h3 id="inferences">Inferences</h3>
+<ul>
+<li><strong>Disable the three FNIS tool plugins</strong> (<code>FNISTool</code>, <code>FNISPatches</code>, <code>FNISToolReset</code>). They appear dormant here because Pandora does the generation and no FNIS generator is installed.</li>
+<li><strong>Keep Form43Checker and ScriptExtenderPluginChecker.</strong> Both are cheap passive checks, and the second matters on 1.5.97, where version-mismatched SKSE DLLs are a real risk.</li>
+<li><strong>pyCfg overlaps BethINI Pie</strong> but costs nothing to leave enabled.</li>
+<li><strong>Do not replace CleanLoadOrder.</strong> Batch Plugin Cleaner is a close match, and CleanLoadOrder’s pre-clean backup is its distinguishing feature based on the two descriptions. Batch Plugin Cleaner’s code is still worth reading for ideas.</li>
+<li><strong>Profile Sync and Sync Mod Order are unnecessary today</strong> because the install has one profile (<code>Default</code>). If the user adds profiles, take Profile Sync 2.2.0 or later because of the list-wipe fixes.</li>
+<li><strong>Curation Club is only worth considering if the 74 CC plugins should be managed as mods.</strong> Its last note is about 2.5.0, so test it on a backup first.</li>
+<li><strong>Merge Plugins Hide is unnecessary</strong> unless the user starts merging plugins.</li>
+<li><strong>Do not recommend Shader Cache Tool.</strong> I could not verify it exists under Kezyma’s name.</li>
+<li><strong>Choose one FOMOD aid.</strong> FOMOD Plus replaces the installer and is self-described alpha, so Reinstaller or Remember Installation Choices is the lower-risk first try.</li>
+<li><strong>Closed-source Nexus-only plugins need a higher bar</strong>, since their code cannot be checked the way the repos above were.</li>
+</ul>
+<h3 id="gaps">Gaps</h3>
+<ul>
+<li>Nexus last-updated dates and compatibility notes for every plugin.</li>
+<li><a href="https://github.com/Exit-9B/modorganizer-bsplugins" target="_blank" rel="noreferrer">Bethesda Plugin Manager</a> (v0.1.5, 2024-02-15) and <a href="https://github.com/Exit-9B/modorganizer-preview_nif" target="_blank" rel="noreferrer">NIF Preview</a> (v0.2.0, 2024-02-16) are C++ builds that predate 2.5.2. Whether they load on 2.5.2 is unverified.</li>
+<li>I found no expert ranking of MO2 plugins from 2025 or 2026. The ranking above is my own, based on the user’s setup and on maintenance evidence.</li>
+<li>No plugin above was installed and test-run on this MO2 except those already present.</li>
+</ul>
+<h2 id="which-plugins-are-broken-or-unnecessary-on-mo2-25">Which plugins are broken or unnecessary on MO2 2.5?</h2>
+<h3 id="takeaway-1">Takeaway</h3>
+<p>A PyQt5-only plugin cannot import on this install, because the bundled runtime contains only PyQt6. Age alone does not prove breakage: several plugins untouched since 2024 target 2.5.2 explicitly.</p>
+<h3 id="cited-findings-1">Cited Findings</h3>
+<ul>
+<li>The 2.5.0 installer wipes third-party plugins because few 2.4.4 plugins are compatible, and most Python plugins needed updates after the Qt, Python, and pybind11 changes — <a href="https://github.com/ModOrganizer2/modorganizer/releases" target="_blank" rel="noreferrer">MO2 releases</a></li>
+<li><code>plugins\plugin_python\libs</code> contains <code>PyQt6</code> and no PyQt5 — local</li>
+<li>“Qt no longer natively reads DDS files and the mod info image viewer will not display them”, and “There are a few graphical issues due to Qt 6, particularly when using themes” — <a href="https://github.com/ModOrganizer2/modorganizer/releases/tag/v2.5.0" target="_blank" rel="noreferrer">v2.5.0 notes</a></li>
+<li>A Nexus user reportedly fixed a crash log plugin by switching imports to PyQt6 and updating calls. Another user in the same search results found MO2 ignored a plugin after editing. Both are user reports from a search summary; the posts were not opened, and the likely page for the first is <a href="https://www.nexusmods.com/skyrimspecialedition/mods/66743/?tab=posts" target="_blank" rel="noreferrer">Crash Log Tools posts</a></li>
+</ul>
+<p><strong>Avoid or treat as obsolete</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Item</th><th>Evidence</th><th>Status on 2.5.2</th></tr></thead><tbody><tr><td><a href="https://github.com/Exit-9B/ModOrganizer-CrashLogTools" target="_blank" rel="noreferrer">Crash Log Tools</a></td><td>v1.0.1, 2022; PyQt5 imports only; manifest max 2.4.4</td><td>Should fail without patching (inference from code)</td></tr><tr><td><a href="https://github.com/Exit-9B/LOOTConfigLoader" target="_blank" rel="noreferrer">LOOT Config Loader</a></td><td>v1.0.0, 2021; PyQt5 imports only; manifest max 2.4.4</td><td>Should fail without patching (inference from code)</td></tr><tr><td><a href="https://github.com/Vaneixus/modorganizer-rootlinker" target="_blank" rel="noreferrer">Root Linker</a></td><td>Archived, last pushed 2021-12-14</td><td>Obsolete</td></tr><tr><td><a href="https://github.com/Furglitch/modorganizer2-nxm-collection-dl" target="_blank" rel="noreferrer">Nexus Collection Downloader</a></td><td>Archived despite release 1.3.0 on 2026-09-23</td><td>Not for new setups; no longer developed</td></tr><tr><td>Conflict Deleter, Fix Game Registry Key, Game Redirector, LOOT Preventifier, Mappings Dumper, Requiem Redirector, Orphaned Script Extender Save Deleter</td><td>Listed under <a href="https://raw.githubusercontent.com/wiki/ModOrganizer2/modorganizer/List-of-MO2-Extension-Plugins.md" target="_blank" rel="noreferrer">“no longer supported”</a></td><td>Avoid, even though <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugin_directory.json" target="_blank" rel="noreferrer">Plugin Finder still lists several</a></td></tr><tr><td><a href="https://github.com/Levalicious/MO2-Oracle" target="_blank" rel="noreferrer">Oracle</a></td><td>v0.0.0.1a, 2025-05-01; states 2.5.2</td><td>Works on paper; experimental ML load-order toy, no reason to use it</td></tr><tr><td><a href="https://github.com/phinocio/loadorderlibrary-mo2-plugin/releases" target="_blank" rel="noreferrer">Load Order Library plugin v1.2.0</a></td><td>Flagged “DO NOT USE”: leaks API tokens in debug logs</td><td>Use v2.0.0</td></tr></tbody></table>
+<p><strong>Stale but not proven broken</strong></p>
+<ul>
+<li><a href="https://github.com/mihaifm/broom" target="_blank" rel="noreferrer">Broom</a> 1.1.1 (2024-02-19; imports both) predates 2.5.2</li>
+<li><a href="https://github.com/Al12rs/modorganizer-GrassPrecacher" target="_blank" rel="noreferrer">Grass Precacher</a> (last commit 2023-06-30; imports both) predates 2.5.2. Step’s 2.3 guide uses Grass Cache Helper NG for this job — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step 2.3</a></li>
+<li><a href="https://github.com/ForgottenGlory/mo2-master-order-checker" target="_blank" rel="noreferrer">Master Order Checker</a> (2023-07-19; no PyQt imports found) has unverified compatibility</li>
+<li><a href="https://github.com/JonathanFeenstra/modorganizer-auto-activator" target="_blank" rel="noreferrer">Auto-Activator</a> v1.0.0 (2023-09-14; last commit 2024-09-20; PyQt6)</li>
+</ul>
+<p><strong>Kezyma distribution change</strong></p>
+<ul>
+<li>Commit 2026-07-03: “No longer needed now that plugins are getting removed from nexusmods.” — <a href="https://github.com/Kezyma/ModOrganizer-Plugins/commits/main" target="_blank" rel="noreferrer">commits</a></li>
+<li>On 2026-07-01 and 2026-07-02, Nexus URLs were removed from the Reinstaller, Plugin Finder, and Shortcutter manifests and their download links were changed — <a href="https://github.com/Kezyma/ModOrganizer-Plugins/commits/main" target="_blank" rel="noreferrer">commits</a></li>
+<li>A June 2026 Reddit thread says Nexus has been pushing MO2 plugins toward its Modding Tools section and discusses a different plugin’s removal (user report) — <a href="https://reddit.sentinel-team.org/posts/1u88kih/snapshots/2026-06-18T06%3A18%3A17.64778Z" target="_blank" rel="noreferrer">Reddit snapshot</a></li>
+</ul>
+<p><strong>Plugin Finder trap</strong></p>
+<ul>
+<li>Its hosted Merge Plugins Hide and Sync Mod Order entry shows version 1.1 (2020-12-21) with max support 2.4.2 — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/hosted/mergepluginhidesyncmodorder.json" target="_blank" rel="noreferrer">hosted manifest</a>, while the author’s current release is 1.4 — <a href="https://github.com/deorder/mo2-plugins/releases" target="_blank" rel="noreferrer">releases</a></li>
+</ul>
+<h3 id="inferences-1">Inferences</h3>
+<ul>
+<li><strong>Get Kezyma plugins from GitHub</strong>, because the author appears to be moving away from Nexus and Wabbajack meta files were dropped. Root Builder’s own docs still link both.</li>
+<li><strong>Check manifests before using Plugin Finder installs.</strong> At least one entry is years behind and predates the Qt 6 move, so it may install something that cannot load.</li>
+<li><strong>Check for PyQt5 first when triaging any older plugin.</strong> A quick search of the plugin’s <code>.py</code> files for <code>PyQt5</code> without a PyQt6 fallback settles most cases on this install.</li>
+</ul>
+<h3 id="gaps-1">Gaps</h3>
+<ul>
+<li>Whether all Kezyma pages have actually left Nexus. The commit says “getting removed”, and Root Builder, Profile Sync, Curation Club, and List Exporter still carry Nexus URLs in their manifests.</li>
+<li>The reason for that removal is not stated in the commits I read.</li>
+</ul>
+<h2 id="which-external-tools-are-standard-and-what-is-their-status">Which external tools are standard, and what is their status?</h2>
+<h3 id="takeaway-2">Takeaway</h3>
+<p>All the core tools are maintained except CAO and NifSkope, which are old but not replaced by anything I could verify. The real gaps in this setup are LOD generation and save tooling. Crash Logger and Pandora are behind their latest releases.</p>
+<h3 id="cited-findings-2">Cited Findings</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Tool</th><th>Latest verified</th><th>User’s copy (local)</th><th>Notes</th></tr></thead><tbody><tr><td><a href="https://github.com/loot/loot/releases" target="_blank" rel="noreferrer">LOOT</a></td><td>0.29.2, 2026-08-16</td><td>0.29.2, current</td><td>Commit 2026-10-29</td></tr><tr><td><a href="https://github.com/TES5Edit/TES5Edit/releases" target="_blank" rel="noreferrer">xEdit</a></td><td>GitHub tag xedit-4.1.5f, 2024-04-28</td><td>SSEEdit.exe 4.1.5.0</td><td>Repo commits to 2026-10-31; the file version cannot distinguish 4.1.5 letters</td></tr><tr><td><a href="https://github.com/hakasapl/PGPatcher/releases" target="_blank" rel="noreferrer">PGPatcher</a> (formerly ParallaxGen)</td><td>2.3.1, 2026-10-19</td><td>2.3.1, current</td><td>Active; Nexus file ID 120946 matches the old ParallaxGen page</td></tr><tr><td><a href="https://github.com/Monitor221hz/Pandora-Behaviour-Engine-Plus/releases" target="_blank" rel="noreferrer">Pandora Behaviour Engine+</a></td><td>v5.0.0-beta, 2026-10-01</td><td>v4.4.0-beta, <strong>behind</strong></td><td>5.0.0 refactors FNIS animation building and adds Nemesis format conversion</td></tr><tr><td><a href="https://github.com/alandtse/CrashLoggerSSE/releases" target="_blank" rel="noreferrer">Crash Logger SSE</a></td><td>v1.27.0, 2026-10-25</td><td>1.25.0, <strong>behind</strong></td><td>1.27.0 logs game state on crash and recovers model paths</td></tr><tr><td><a href="https://github.com/DoubleYouC/Bethini-Pie-Performance-INI-Editor" target="_blank" rel="noreferrer">BethINI Pie</a></td><td>Last commit 2026-01-31</td><td>Installed</td><td>No GitHub release date captured</td></tr><tr><td><a href="https://github.com/Mutagen-Modding/Synthesis/releases" target="_blank" rel="noreferrer">Synthesis</a></td><td>0.36.6, 2026-08-08</td><td><strong>Not installed</strong></td><td>Patcher pipeline for code-based mods</td></tr><tr><td><a href="https://github.com/wrye-bash/wrye-bash/releases" target="_blank" rel="noreferrer">Wrye Bash</a></td><td>v315, 2026-09-14</td><td><strong>Not installed</strong></td><td>Commit 2026-10-27</td></tr><tr><td><a href="https://dyndolod.info/" target="_blank" rel="noreferrer">DynDOLOD and xLODGen</a></td><td>Docs cite an August 2026 DLL update</td><td><strong>Not installed</strong></td><td>“DynDOLOD DLL NG supports 1.5.x, 1.6.x, 1.7.x”; DynDOLOD 3 labeled alpha; old versions stop working after several months</td></tr><tr><td>BodySlide</td><td>Nexus only, unverified</td><td>Installed</td><td></td></tr><tr><td><a href="https://github.com/hexabits/nifskope/releases" target="_blank" rel="noreferrer">NifSkope</a></td><td>v2.0.dev9, 2023-09-23</td><td><strong>Not installed</strong></td><td>Still the latest release I could verify</td></tr><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/23316" target="_blank" rel="noreferrer">Cathedral Assets Optimizer</a></td><td>Unverified</td><td><strong>Not installed</strong></td><td>A search summary cites an undated forum post saying it was hidden on Nexus; post not opened</td></tr><tr><td>ReSaver (FallrimTools)</td><td>Unverified</td><td><strong>Not installed</strong></td><td>See below</td></tr><tr><td><a href="https://phostwood.github.io/crash-analyzer/skyrim.html" target="_blank" rel="noreferrer">Phostwood’s analyzer</a></td><td>“Last updated: May 29, 2026”</td><td>Web tool</td><td>See below</td></tr></tbody></table>
+<p>“Not installed” means no matching folder in <code>mods</code> or <code>TOOLS</code> and no executable entry in <code>ModOrganizer.ini</code> — local.</p>
+<p><strong>Crash tooling on 1.5.97</strong></p>
+<ul>
+<li>Proven locally: <code>skse64.log</code> shows CrashLogger <code>01190000</code> (1.25) “loaded correctly” on exe 1.5.97.0 with SKSE 2.0.20, alongside EngineFixes — local. Its README names only Address Library as a user requirement and does not state version support — <a href="https://raw.githubusercontent.com/alandtse/CrashLoggerSSE/main/README.md" target="_blank" rel="noreferrer">README</a></li>
+<li>Phostwood accepts Crash Logger SSE, .NET Script Framework (SE only), and Trainwreck as a backup. It warns “Not all crash issues can be detected with this tool” — <a href="https://phostwood.github.io/crash-analyzer/skyrim.html" target="_blank" rel="noreferrer">analyzer</a></li>
+<li>A Quick-Link plugin reportedly opens the analyzer automatically after a crash, for Vortex and MO2 users. This comes from a search summary; the Nexus page was not opened.</li>
+</ul>
+<p><strong>Pandora vs FNIS (user reports from 2024 to 2025, nothing dated 2026)</strong></p>
+<ul>
+<li>A search summary of Reddit and Steam threads has users calling Pandora actively developed and backward compatible with FNIS and Nemesis, while another says many mods remained incompatible. The threads were not opened individually; one of them is <a href="https://lr.eu.psf.lt/r/skyrimmods/comments/1gex2lg/why_do_people_still_use_fnis_se/ludrafi/?context=3" target="_blank" rel="noreferrer">this r/skyrimmods thread</a></li>
+</ul>
+<p><strong>ReSaver (search summaries only, treat as weak)</strong></p>
+<ul>
+<li>A community fork named FallrimTools-Re-Saver, by AI-Underdog, reportedly says the original stopped working after a Java 24 upgrade and offers a restored 7.28-SNAPSHOT from July 2025. A GitHub repository search for that name returned nothing, so <strong>the fork is unverified and not recommended</strong>.</li>
+<li>Users disagree on whether orphaned scripts matter; some say SKSE catches most of them. Posts not opened.</li>
+</ul>
+<p><strong>Step baseline (older; targets a different game version)</strong></p>
+<ul>
+<li>Step SkyrimSE 2.3 was released 2024-08-19 and targets 1.6.1170, not 1.5.97. Its content uses BethINI Pie, LOOT, xEdit, xEditQuickAutoClean, SKSE, xLODGen, DynDOLOD and TexGen, Grass Cache Helper NG, and No Grass In Objects — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step 2.3</a></li>
+<li>Pandora, Synthesis, Wrye Bash, and CAO did not appear in the portion I read (first 100,000 of about 390,000 characters) — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step 2.3</a></li>
+</ul>
+<h3 id="inferences-2">Inferences</h3>
+<p>Gaps in this setup, in priority order:</p>
+<ol>
+<li><strong>Update Crash Logger to 1.27.0.</strong> It is low risk and improves the log the user would feed into Phostwood.</li>
+<li><strong>Add xLODGen and DynDOLOD</strong>, provided the list changes worldspace or object content. Keep them current because old DynDOLOD versions expire.</li>
+<li><strong>Decide on Pandora 5.0.0-beta deliberately.</strong> It reworks FNIS handling, and this list loads <code>fnis_aa.dll</code>, so re-test animations and do not update mid-playthrough without a backup.</li>
+<li><strong>Add Phostwood to the routine.</strong> It costs nothing, and the user already produces Crash Logger logs.</li>
+<li><strong>Add a leveled-list and patching tool only on demand.</strong> Wrye Bash or Synthesis are both healthy. Neither is needed until a concrete patch need appears. CleanLoadOrder already excludes <code>synthesis.esp</code> and <code>Bashed Patch, 0.esp</code>, so it is ready for either.</li>
+<li><strong>Add NifSkope when debugging meshes</strong>, especially alongside PGPatcher output.</li>
+<li><strong>ReSaver is a diagnostic to keep on hand, not a routine step.</strong> Check Java compatibility first.</li>
+<li><strong>Skip CAO unless it is needed</strong> for an old mod. I could not confirm its availability.</li>
+</ol>
+<h3 id="gaps-2">Gaps</h3>
+<ul>
+<li>Current official ReSaver version, and its Java requirement. Nexus was unreadable.</li>
+<li>BodySlide’s latest version and date.</li>
+<li>Whether Pandora 5.0.0-beta is safe with this list. Nothing tested.</li>
+<li>The CAO repo I checked (Guekka, 2021, 0 stars) looks like a mirror, so I did not use it as evidence of status.</li>
+<li>Whether Phostwood uploads logs. The page links a privacy policy that I did not read.</li>
+</ul>
+<h2 id="which-mo2-features-are-underused">Which MO2 features are underused?</h2>
+<h3 id="takeaway-3">Takeaway</h3>
+<p>The user already uses custom overwrite for two tools, profile-local saves and INIs, and output mods. The next wins are routing the remaining tools the same way, cleaning Overwrite, and using conflict filters. Forced libraries are not in use, and I could not source a reason for them here.</p>
+<h3 id="cited-findings-3">Cited Findings</h3>
+<ul>
+<li><strong>Conflicts tab:</strong> the top pane lists what a mod overrides, and you can hide a file there with <code>.mohidden</code>; the bottom pane lists what it loses to others, where hiding is not possible — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a></li>
+<li><strong>Filters:</strong> presets include <code>&#x3C;Conflicted></code>, combine with And or Or, and show a red box around the list while active — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a></li>
+<li><strong>Data tab:</strong> shows the virtual Data folder with each file’s source, plus “Show only conflicts” — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a></li>
+<li><strong>Overwrite:</strong> check it after each tool run and use Create Mod — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a>. <code>check_overwrite</code> is on here — local <code>ModOrganizer.ini</code></li>
+<li><strong>User’s Overwrite today</strong> holds <code>Root</code> (DLSS5 screenshots, <code>RenoDX-DLSS5-crash.log</code>, <code>ReShade.ini.v10-backup</code>), <code>SKSE</code>, and <code>ShaderCache</code> — local</li>
+<li><strong>Custom overwrite:</strong> Step 2.3 uses “Create files in mod instead of overwrite” for tool executables with dedicated output mods — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step 2.3</a></li>
+<li><strong>Custom overwrite storage:</strong> it is stored per profile. Here <code>profiles\Default\settings.ini</code> routes only Pandora and BodySlide to output mods — local</li>
+<li><strong>Forced libraries:</strong> MO2 2.5.2’s binary contains <code>forced_libraries</code> and a “Configure Libraries” string, confirming the feature exists. No <code>[forced_libraries]</code> section exists in this profile — local</li>
+<li><strong>Profile-local settings:</strong> <code>LocalSaves=true</code>, <code>LocalSettings=true</code>, <code>AutomaticArchiveInvalidation=true</code> — local <code>settings.ini</code>. Step says profiles independently manage INIs, enabled mods, plugins, and priority — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a></li>
+<li><strong>Saves tab:</strong> shows ESPs a save needs that the current profile lacks and offers “Fix Mods…” — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a></li>
+<li><strong>Instance vs portable:</strong> Step says portable has “no known issues” and is generally more compatible with third-party tools, yet “highly recommends the ‘instanced’ configuration” — <a href="https://stepmodifications.org/wiki/Guide:Mod_Organizer" target="_blank" rel="noreferrer">Step MO guide</a></li>
+<li><strong>User’s layout:</strong> <code>ModOrganizer.ini</code>, <code>mods</code>, and <code>profiles</code> all live under <code>C:\Modding\MO2</code>, with no <code>portable.txt</code> — local</li>
+<li><strong>Age warning:</strong> the Step MO guide reads as old. It mentions FOMM, TES5Edit naming, and “As of version 1.2.15”. Its “Have MO manage archives” text may not match 2.5.2, so I am not relying on it</li>
+</ul>
+<h3 id="inferences-3">Inferences</h3>
+<ul>
+<li><strong>Clear Overwrite.</strong> The <code>Root</code> files are mostly tool debris, and the screenshots belong elsewhere. Run Create Mod for anything worth keeping.</li>
+<li><strong>Decide what to do with <code>ShaderCache</code>.</strong> It appears to be Community Shaders output, since that plugin loads in this install. Regenerable caches are poor candidates for a versioned or shared mod, so leaving them in Overwrite and ignoring the warning, or moving them to a dedicated excluded output mod, are both defensible.</li>
+<li><strong>Extend custom overwrite</strong> to SSEEdit if it creates new plugins, and check where PGPatcher writes (its executable lives inside <code>mods\PGPatcher</code>).</li>
+<li><strong>Note the profile trap.</strong> Custom overwrites live in the profile’s <code>settings.ini</code>, so a newly created profile may not carry them unless they are copied. Verify this when adding a second profile.</li>
+<li><strong>Stay with the current layout.</strong> A single-game modlist gains nothing obvious from changing it, and Step’s preference for instances is aimed at people running several builds.</li>
+</ul>
+<h3 id="gaps-3">Gaps</h3>
+<ul>
+<li>No current, sourced guidance on when to use forced libraries in a Skyrim SE setup. I confirmed the feature exists, not a recommended use.</li>
+<li>Whether archive handling in 2.5.2 still matches the Step text.</li>
+<li>Official MO2 documentation on these features was not found in this pass.</li>
+</ul>
+<h2 id="which-tools-track-changes-or-diff-a-modlist">Which tools track changes or diff a modlist?</h2>
+<h3 id="takeaway-4">Takeaway</h3>
+<p>The simplest reliable approach is plain text under version control, since MO2’s profile files are text. Load Order Library adds a shareable comparison view. Wabbajack could not be verified as a diff tool and should not be adopted for this purpose.</p>
+<h3 id="cited-findings-4">Cited Findings</h3>
+<ul>
+<li>Load Order Library is a support tool for Mod Organizer lists whose “premiere feature” is list comparison, showing missing or added files and differing contents. Uploads can be anonymous, and private lists are visible only by link — <a href="https://github.com/phinocio/loadorderlibrary-api" target="_blank" rel="noreferrer">API repo</a>, <a href="https://github.com/phinocio/loadorderlibrary-frontend" target="_blank" rel="noreferrer">frontend repo</a></li>
+<li>Its MO2 plugin v2.0.0 (2025-06-01) supports the new API — <a href="https://github.com/phinocio/loadorderlibrary-mo2-plugin/releases" target="_blank" rel="noreferrer">releases</a></li>
+<li><code>loadorderlibrary.com</code> returned HTTP 521 when I checked on 2026-11-02, so availability was not confirmed that day — <a href="https://www.loadorderlibrary.com/" target="_blank" rel="noreferrer">site</a></li>
+<li><code>profiles\Default</code> contains <code>modlist.txt</code>, <code>plugins.txt</code>, <code>loadorder.txt</code>, <code>lockedorder.txt</code>, <code>archives.txt</code>, and the profile INIs — local</li>
+<li>List Exporter outputs JSON, CSV, and Markdown, with column selection and an exclusion tag — <a href="https://raw.githubusercontent.com/Kezyma/ModOrganizer-Plugins/main/directory/plugins/listexporter.json" target="_blank" rel="noreferrer">manifest</a></li>
+<li>Wabbajack’s Compilation index describes a chapter on the full workflow for developing and deploying a modlist, and it says nothing about diffing in the part I could read — <a href="https://wiki.wabbajack.org/modlist_author_documentation/Compilation.html" target="_blank" rel="noreferrer">Wabbajack wiki</a></li>
+</ul>
+<h3 id="inferences-4">Inferences</h3>
+<ul>
+<li><strong>Recommended stack:</strong> keep the profile’s text files in git for exact load-order diffs, add a List Exporter JSON or CSV export when mod versions and categories matter, and upload to Load Order Library at milestones when a shareable comparison is useful.</li>
+<li><strong>A caveat for git:</strong> <code>modlist.txt</code> and <code>plugins.txt</code> capture order and state, not mod versions or file contents, which is why the export adds value. <code>meta.ini</code> files hold versions.</li>
+<li><strong>Wabbajack is a heavy way to get a diff.</strong> Compiling is meant for distributing a list, so it only makes sense if the user plans to publish one.</li>
+</ul>
+<h3 id="gaps-4">Gaps</h3>
+<ul>
+<li>Whether Wabbajack compile output can be diffed usefully. Its subpages (Meta Files, Compilation Settings, CLI) were not read, to stay within budget.</li>
+<li>Exact Load Order Library upload steps and current site status.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#which-mo2-plugins-are-worth-having-and-which-work-on-252">Which MO2 plugins are worth having, and which work on 2.5.2?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#which-plugins-are-broken-or-unnecessary-on-mo2-25">Which plugins are broken or unnecessary on MO2 2.5?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#which-external-tools-are-standard-and-what-is-their-status">Which external tools are standard, and what is their status?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#which-mo2-features-are-underused">Which MO2 features are underused?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#which-tools-track-changes-or-diff-a-modlist">Which tools track changes or diff a modlist?</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

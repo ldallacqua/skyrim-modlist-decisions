@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>DLSS 5 Neural Rendering through ReShade and RenoDX · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">DLSS 5 Neural Rendering through ReShade and RenoDX</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Checked 2026-11-03. Question: how DLSS 5 Neural Rendering (NR) is set up in this list, what each file and setting does, and what to try when NR seems to do nothing. NR is NVIDIA’s DLSS 5 feature that reworks the rendered image with a neural model. Skyrim has no support for it, so a ReShade add-on adds it on top of the DLSS upscale that Community Shaders already runs (<a href="/skyrim-modlist-decisions/decisions/0006-community-shaders-renderer/">0006</a>).</p>
+<p>How to read the evidence:</p>
+<ul>
+<li><strong>Local</strong> means read on this machine on 2026-11-03: the mod’s files with their versions and signatures, <code>reshade.ini</code>, <code>ModOrganizer.ini</code>, Root Builder’s source, the Upscaling archive’s file list, and Skyrim’s last <code>ReShade.log</code>.</li>
+<li><strong>Add-on text</strong> means a label, tooltip or message read from inside <code>renodx-dlss5.addon64</code>. It shows what the add-on says it does, not what was seen.</li>
+<li><strong>Conan Exiles</strong> means tested in that game on the same RTX 4090 on 2026-11-03, by the session that swapped the runtime. It isn’t Skyrim.</li>
+<li>Anything else is marked not verified.</li>
+</ul>
+<h2 id="takeaway">Takeaway</h2>
+<p><strong>Since 2026-11-04, Community Shaders’ Frame Generation is off, and frame generation comes from NVIDIA Smooth Motion in the driver.</strong> CS’s Frame Generation <a href="#why-the-renodx-route-broke-on-2026-11-03">breaks this route</a>. The add-on built to run NR alongside it, <a href="#community-shaders-nr-tried-on-2026-11-03">Community Shaders NR</a>, doesn’t start on 1.5.97. See <a href="#frame-generation-with-this-route">Frame generation with this route</a>.</p>
+<p>NR runs through ReShade and the RenoDX “DLSS5 Generic” add-on. They sit with their files in one Root Builder mod, <code>DLSS 5 - ReShade and RenoDX</code>. The add-on catches Community Shaders’ DLSS upscale and runs NR on its output, through its own Direct3D 11 bridge. The runtime is ShortFuse’s compat build, patched for RTX 20, 30 and 40 cards. NR starts off, and F6 turns it on.</p>
+<p><strong>The compat runtime hasn’t run in Skyrim yet.</strong> The last Skyrim session was an hour before the swap, and NR was off in it. Two capture pairs from earlier that day show NR changing the image in Skyrim, on the old runtime.</p>
+<p>If NR seems to do nothing, change the Style and the scene first. This <code>reshade.ini</code> is on Style Model A, the style that looked like no change at all in Conan Exiles.</p>
+<h2 id="how-a-frame-gets-nr">How a frame gets NR</h2>
+<ol>
+<li>Skyrim renders in Direct3D 11. Community Shaders’ Upscaling add-on runs DLSS through NVIDIA Streamline, from 1920x1080 to 3840x2160 (local, <code>ReShade.log</code>).</li>
+<li>Root Builder has copied ReShade’s <code>dxgi.dll</code> and the add-on next to <code>SkyrimSE.exe</code>. ReShade loads from there and loads the add-on from the same folder (local, <code>ReShade.log</code>).</li>
+<li>The add-on hooks NGX, the NVIDIA library that DLSS runs in, and leaves Streamline’s own modules alone (<code>EnableHooks=2</code>, local log). The log lists three hooked copies: the driver’s <code>_nvngx.dll</code> and <code>nvngx_dlssd.dll</code>, and Community Shaders’ <code>nvngx_dlss.dll</code>.</li>
+<li>When the game creates DLSS, the add-on records what DLSS gets: the flags IsHDR, MVLowRes and AutoExposure, a 1920x1080 render and a 3840x2160 output (local log).</li>
+<li>With <code>DX11Source=native</code>, its built-in bridge serves the game’s Direct3D 11 DLSS to NR, which runs on Direct3D 12 (local log, which names the bridge’s mode <code>copy</code>). That NR gets a private Direct3D 12 device is the add-on’s description; the log doesn’t show it.</li>
+<li>With <code>NRHookPoint=0</code>, NR works on DLSS’s output. That’s before the game’s HUD, which only the Present hook point includes (add-on text).</li>
+</ol>
+<h2 id="the-mod">The mod</h2>
+<p><code>DLSS 5 - ReShade and RenoDX</code> sits in <code>Shaders</code>, just below <code>Upscaling - Community Shaders</code> in MO2’s left pane. Its MO2 note reads “Root Builder mod: ReShade and Lecram RenoDX DLSS 5”. Everything is in its <code>Root</code> folder (local):</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>File</th><th>What it is</th><th>File version</th><th>Signed</th></tr></thead><tbody><tr><td><code>dxgi.dll</code></td><td>ReShade</td><td>6.8.0.2155</td><td>No</td></tr><tr><td><code>renodx-dlss5.addon64</code></td><td>RenoDX DLSS5 Generic v10.8.0, built 2026-10-20. ReShade lists it as “DLSS 5 Neural Rendering”.</td><td>0.2026.1020.1459</td><td>No</td></tr><tr><td><code>nvngx_dlssnr.dll</code></td><td>The NR runtime, ShortFuse’s compat build</td><td>310.9.16</td><td>No</td></tr><tr><td><code>nvngx_dlss.dll</code></td><td>DLSS upscaling</td><td>310.8.0</td><td>NVIDIA</td></tr><tr><td><code>reshade.ini</code></td><td>ReShade’s settings, with the add-on’s under <code>[RenoDX.DLSS5]</code></td><td></td><td></td></tr><tr><td><code>ReShadePreset.ini</code></td><td>ReShade’s effect preset. No effect is on.</td><td></td><td></td></tr><tr><td><code>reshade-shaders</code></td><td>Lilium’s HDR shaders. A marker file says RenoDX Commander (RDXC) manages the folder. None is on.</td><td></td><td></td></tr></tbody></table>
+<p>The mod’s files land in the game folder and Upscaling’s land in <code>Data</code>, so the two don’t conflict.</p>
+<h2 id="root-builder">Root Builder</h2>
+<p>Root Builder deploys the mod. Its settings in <code>ModOrganizer.ini</code> use copy mode (<code>copyfiles=**</code>), with backup, cache and hash checks on (local).</p>
+<ul>
+<li><strong>At launch</strong> it copies <code>Root</code> into <code>C:\Modding\STOCK</code>, next to <code>SkyrimSE.exe</code> (<a href="/skyrim-modlist-decisions/decisions/0002-separate-stock-game-folder/">0002</a>).</li>
+<li><strong>When the game closes</strong> it syncs, then clears. A copied file that changed goes back to the mod it came from. A new file goes to Overwrite’s <code>Root</code> (local, Root Builder’s <code>rootbuilder_builder.py</code>).</li>
+<li><strong>So</strong> a setting changed in the ReShade overlay is saved back into the mod’s <code>reshade.ini</code>. Screenshots go to <code>overwrite\Root</code>, which is the owner’s to sort. <code>ReShade.log</code> goes back to <code>ROOT - Outputs\Root</code>, where a copy already lives.</li>
+<li>With the game closed, <code>STOCK</code> holds none of these files (local).</li>
+</ul>
+<h2 id="the-runtime">The runtime</h2>
+<p><code>nvngx_dlssnr.dll</code> is ShortFuse’s <code>compat-fp16-310.9.16-cuda13.4.3</code>. ShortFuse posted it on the RenoDX Discord on 2026-10-16, titled “Patched DLSS-NR for RTX20, RTX30, and RTX40”. It replaced a modified 310.8.0 on 2026-11-03.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th></th><th>Now</th><th>Before</th></tr></thead><tbody><tr><td>Build</td><td><code>compat-fp16-310.9.16-cuda13.4.3</code></td><td>310.8.0, modified</td></tr><tr><td>Size</td><td>276 MB</td><td>166 MB</td></tr><tr><td>Signature</td><td>None</td><td>NVIDIA’s, but it no longer matches the file</td></tr><tr><td>sha256</td><td><code>cdfa6c1e…</code></td><td><code>8270b350…</code></td></tr><tr><td>GPU time per frame at 4K, in Conan Exiles</td><td>About 7 ms</td><td>10 to 12 ms</td></tr></tbody></table>
+<ul>
+<li><strong>Full hash</strong> of the compat file, to check a copy: <code>cdfa6c1ec784867182164c7836f324f087b5c9f374d0c9fe46f54999feabf3ed</code> (local).</li>
+<li><strong>Why a patched build.</strong> This PC has an RTX 4090 (local log). The post’s title says the build is for RTX 20 to 40 cards. The add-on also warns about runtimes “built for GeForce RTX 50-series (Blackwell) GPUs” on older cards (add-on text). Whether NVIDIA’s own build refuses this card wasn’t tested.</li>
+<li><strong>Where it loads from.</strong> The add-on looks next to itself or the game’s exe (add-on text), which is where Root Builder puts it. The session that swapped the runtime also named <code>%LOCALAPPDATA%\DLSS5-NR\runtime</code> as a second place. The add-on’s text names a DLSS5-NR runtime folder only for its Studio, and that folder doesn’t exist here, so this isn’t verified.</li>
+<li><strong>A second copy</strong> of the same file sits in <code>Upscaling - Community Shaders\Shaders\Upscaling\Streamline</code>. It replaced an NVIDIA-signed 310.8.0 there (sha256 <code>e16bcf15…</code>).
+<ul>
+<li>The Upscaling 1.4.0 archive ships no NR runtime. Its own <code>nvngx_dlss.dll</code> is 310.5.2, while the installed one is 310.8.0 (local, archive listing). So both files were added or swapped after install, and what did it isn’t recorded.</li>
+<li>No Community Shaders DLL names <code>nvngx_dlssnr.dll</code> (local).</li>
+</ul>
+</li>
+<li><strong>Which copy runs isn’t known.</strong> The last log shows an <code>nvngx_dlssnr.dll</code> loaded, but not from which folder.</li>
+<li><strong>Backups</strong> of both 310.8.0 files are in <code>C:\Modding\_cleanup-backup\2026-11-03-dlssnr-compat</code>, under their mod paths.</li>
+<li>The compat build is unsigned, so only its source vouches for it.</li>
+<li><code>nvngx_dlss.dll</code>, the upscaler, stays at NVIDIA’s signed 310.8.0 in both mods (local).</li>
+</ul>
+<h2 id="settings">Settings</h2>
+<p>The add-on’s settings are in <code>reshade.ini</code> under <code>[RenoDX.DLSS5]</code>. The ReShade overlay edits them under Add-ons, then DLSS 5 Neural Rendering. The overlay opens with Home (<code>KeyOverlay=36</code>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Setting</th><th>Value here</th><th>What it does</th></tr></thead><tbody><tr><td><code>DX11Source</code></td><td><code>native</code></td><td>Serves the game’s own Direct3D 11 DLSS through the built-in bridge (log).</td></tr><tr><td><code>EnableHooks</code></td><td><code>2</code></td><td>NGX hooks only. Streamline’s modules stay unpatched (log).</td></tr><tr><td><code>NRHookPoint</code></td><td><code>0</code>, After Upscaling</td><td>NR works on DLSS’s output.</td></tr><tr><td><code>NRResolutionScale</code></td><td><code>0.67</code></td><td>The scale NR works at (log: <code>resolution_scale=0.67</code>). What it’s a fraction of wasn’t checked.</td></tr><tr><td><code>NRStyle</code></td><td><code>0</code>, Model A</td><td>Which of the model’s three styles NR asks for.</td></tr><tr><td><code>NRToggleKey</code></td><td><code>117</code>, F6</td><td>Turns NR on and off.</td></tr><tr><td><code>NRScreenshotKey</code></td><td><code>116</code>, F5</td><td>Saves a screenshot.</td></tr><tr><td><code>NRShotKey</code></td><td><code>118</code>, F7</td><td>Saves a capture for the Studio. Shift+F7 saves one and opens the Studio.</td></tr></tbody></table>
+<p><strong>Hook points</strong> (add-on text):</p>
+<ul>
+<li><strong>After Upscaling</strong>: on DLSS’s 3840x2160 output. This is the one in use.</li>
+<li><strong>Before Upscaling</strong>: on the 1920x1080 image the game hands DLSS, against the game’s own depth and motion, so NR works on fewer pixels. Where that image has a shape NR can’t use, the add-on keeps the game’s own DLSS image.</li>
+<li><strong>Present</strong>: on the finished frame at the swap chain, with the game’s post-processing and HUD. In a Direct3D 11 game it needs <code>DX11Source=native</code>, which is set.</li>
+</ul>
+<p><strong>Styles</strong> (add-on text): Model A is the runtime’s own choice. Version 10.7 of the add-on called the three Default, Natural and Cinematic, so B and C are probably Natural and Cinematic. The add-on also says Models B and C may darken bright highlights, which can read as no NR there.</p>
+<p><strong>Model version.</strong> The overlay also has a Model version setting (add-on text). The session that swapped the runtime reported its choices as Default, Old and New. Its key in <code>reshade.ini</code> wasn’t found.</p>
+<p><strong>NR starts off.</strong> At the start of the last session the log said NR was off, and how to turn it on: tick “Enable DLSS Neural Rendering” in the overlay, or press F6. Whether that choice survives a restart wasn’t checked.</p>
+<p><strong>Screenshots.</strong> NR screenshots are saved in pairs to a <code>DLSS5 Screenshots</code> folder next to the exe: the result, and the original marked <code>_NR_OFF</code> (add-on text, and the files in Overwrite). Root Builder then moves them to <code>overwrite\Root</code>. A pair is the quickest check that NR changes anything.</p>
+<p><strong>The Studio is missing.</strong> Shift+F7 needs <code>Offline Studio for Neural Rendering.exe</code> next to the add-on (add-on text). It isn’t in the mod or anywhere under <code>C:\Modding</code> (local), so the Studio can’t open here.</p>
+<p><strong>Settings changed since 2026-11-02.</strong> The older <code>reshade.ini</code> in that day’s backup had <code>NRStyle=1</code>, <code>NRIntensity=2</code>, <code>NRPreset=1</code> and <code>NRAutoMask=1</code>. The current one has <code>0</code>, <code>1</code>, <code>0</code> and <code>0</code>, with <code>ConfigVersion=10</code>. A <code>ReShade.ini.v10-backup</code> in Overwrite suggests the v10 add-on rewrote the file when it came in (not verified). So the list left Style 1 at intensity 2 for Model A at intensity 1, maybe without anyone choosing it.</p>
+<h2 id="what-skyrim-has-shown">What Skyrim has shown</h2>
+<p><strong>The last session.</strong> <code>ROOT - Outputs\Root\ReShade.log</code> is from 19:11 on 2026-11-03 (local). The runtime was swapped at 20:11, by its backup folder’s time, so this session had the old 310.8.0.</p>
+<ul>
+<li>ReShade 6.8.0.2155 loaded into <code>SkyrimSE.exe</code> from <code>STOCK</code> and registered the add-on.</li>
+<li>The add-on took the Direct3D 11 bridge route and hooked three NGX copies.</li>
+<li>DLSS was created with IsHDR, MVLowRes and AutoExposure, a 1920x1080 render and a 3840x2160 output.</li>
+<li>The swap chain is 3840x2160 at 120 Hz in <code>R8G8B8A8_UNORM</code>, plain 8-bit output, though DLSS’s input is flagged HDR.</li>
+<li>NR was off the whole time, with zero NR evaluations. The game ran at about 115 fps, 8.7 ms a frame, in its second 30-second window.</li>
+<li>Every 30 seconds the add-on writes an <code>NR-VERDICT</code> line. With NR on, its <code>evals</code> count and <code>ratio</code> show whether NR ran on the frames. That’s the second check, after a screenshot pair.</li>
+</ul>
+<p><strong>Earlier captures.</strong> Pairs in <code>overwrite\Root\DLSS5 Screenshots</code> date from 2026-08-31, 2026-11-02 and 2026-11-03 at 00:08 and 00:12 (local).</p>
+<ul>
+<li>The two from 2026-11-03 have <code>.meta.txt</code> files that name the hook <code>0</code> and a Present capture path. In both, the NR image and the <code>_NR_OFF</code> image differ in size, so NR changed something.</li>
+<li>In the older pairs, both images have exactly the same size, so they show nothing either way.</li>
+<li>The images weren’t looked at for this note.</li>
+</ul>
+<h2 id="when-nr-seems-to-do-nothing">When NR seems to do nothing</h2>
+<p>Seen in Conan Exiles on the same RTX 4090 on 2026-11-03, not in Skyrim:</p>
+<ul>
+<li>With Style Model A in the character creator, NR on and NR off looked almost the same, though NR ran on 99.9% of frames. A pixel diff of the two showed only animation.</li>
+<li>Switching to Model C, and to other scenes, made the effect plain. The runtime wasn’t the cause.</li>
+</ul>
+<p>So, in this order:</p>
+<ol>
+<li>Try another Style, Model C first, and another scene.</li>
+<li>Then the hook point and the resolution scale.</li>
+<li>Swap the runtime last. The 310.8.0 backups are kept for that.</li>
+</ol>
+<p>To check, compare a screenshot pair, and read the <code>NR-VERDICT</code> lines in <code>ReShade.log</code>.</p>
+<h2 id="the-setup-before-2026-11-02">The setup before 2026-11-02</h2>
+<p>Two backups show it (local): <code>C:\Modding\_cleanup-backup\2026-11-02-renodx-upgrade</code> and <code>2026-11-02-dlss5-feed</code>. The changelog doesn’t mention it, so its reasons weren’t written down.</p>
+<ul>
+<li><strong>A separate bridge.</strong> <code>dlss5-dx11-bridge.addon64</code> 1.0.27 ran beside an older <code>renodx-dlss5.addon64</code>, file version 0.2026.0828.0517.</li>
+<li><strong>A synthetic feed.</strong> <code>dlss5-feed.addon64</code> 1.19.0 describes itself as a “synthetic DLSS contract from ReShade depth + estimated motion vectors”. It came with <code>DLSS5_Feed.fx</code> and LumeniteFX shaders, and with an installer record that names the method “Feeder”. These sat in Overwrite’s <code>Root</code>, by the backup’s folder name.</li>
+<li><strong>A Ray Reconstruction DLL</strong>, <code>nvngx_dlssd.dll</code> 310.7.129, sat in <code>ROOT - Outputs\Root</code>.</li>
+<li><strong>What replaced them.</strong> On 2026-11-02 the v10 add-on’s built-in bridge replaced the separate one. It reads the game’s real DLSS inputs (local log), which the synthetic feed had stood in for, so the feed went too. The <code>DLSS 5 - ReShade and RenoDX</code> mod was made the same afternoon. The profile’s <code>modlist.txt</code> backed up just before doesn’t list it.</li>
+<li><strong>Leftovers.</strong> <code>ReShadePreset.ini</code> still names the feed’s and Lumenite’s techniques in its sort order. No technique is on and their shaders are gone, so it should be harmless (not verified).</li>
+</ul>
+<h2 id="why-the-renodx-route-broke-on-2026-11-03">Why the RenoDX route broke on 2026-11-03</h2>
+<p>Local, read on 2026-11-03.</p>
+<ul>
+<li><strong>The cause:</strong> Bethini set the game to borderless windowed. Community Shaders 1.9.1 ships Frame Generation on (<code>frameGenerationMode=1</code>, also its default). Its menu says Frame Generation “Requires windowed mode”, so exclusive fullscreen had kept it off.</li>
+<li><strong>What changed:</strong> in borderless mode CS turned on AMD FSR frame generation through a Direct3D 11 to Direct3D 12 proxy (<code>CommunityShaders.log</code>). The game now presented through a Direct3D 12 swap chain.</li>
+<li><strong>How the add-on reacted:</strong> the RenoDX add-on serves Skyrim’s DLSS through its Direct3D 11 bridge only “in a process that presents through Direct3D 11” (add-on text). It took the Direct3D 12 route instead and never saw a DLSS call: <code>NR-VERDICT state=NOT_ENGAGED</code>, <code>seen=0 evals=0</code>, all session.</li>
+<li><strong>The misleading hint:</strong> its overlay suggested <code>EnableHooks=1</code>. That doesn’t help here.</li>
+<li><strong>Why it can’t be fixed in this add-on:</strong> it handles only NVIDIA’s DLSS-G. At Present it can’t serve “another vendor’s frame generation” (add-on text), and CS 1.9.1 has only FSR frame generation. So with this add-on, NR and CS’s Frame Generation can’t run together.</li>
+<li><strong>The compat runtime itself works:</strong> a capture pair from 20:35 that day, before Bethini ran, shows NR changing the image.</li>
+</ul>
+<h2 id="community-shaders-nr-tried-on-2026-11-03">Community Shaders NR, tried on 2026-11-03</h2>
+<p><a href="https://www.nexusmods.com/skyrimspecialedition/mods/197720" target="_blank" rel="noreferrer">Community Shaders Neural Rendering Addon</a> 1.2.1, by TheElderLord1337, is an SKSE plugin. It chains Community Shaders’ scene callback and runs NR before CS’s final HDR composition and Frame Generation. Its author confirms NR frames going through CS’s Frame Generation, but only on an RTX 5080 with Skyrim 1.7.104 and CS 1.9.1. RTX 20, 30 and 40 cards are experimental, using the same compat runtime this list has.</p>
+<p><strong>It doesn’t start on 1.5.97</strong> (local, 2026-11-04). Its log says <code>Game compatibility check failed; no hooks installed: SKSE and the executable report different Skyrim versions</code>. <code>skse64.log</code> then lists it as “reported as incompatible during load”. Its 1.2.0 release reworked how it reads SKSE’s version number, for GOG, and that check apparently misreads SKSE 2.0.20 on 1.5.97 (not verified). This would need a fix from its author.</p>
+<p>Both mods stay in <code>Shaders</code>, disabled:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Mod</th><th>What it holds</th></tr></thead><tbody><tr><td><code>Community Shaders Neural Rendering Addon</code></td><td>The plugin, its helper <code>nvngx.dll_csnr.dll</code> and <code>CommunityShadersNR.ini</code>. The INI has <code>ResolutionPercent=67</code> and the overlay on.</td></tr><tr><td><code>Community Shaders NR - Runtime compat 310.9.16</code></td><td>The compat <code>nvngx_dlssnr.dll</code>, in <code>SKSE\Plugins\CommunityShadersNR\Runtime</code>, copied from the RenoDX mod. Its hash was checked.</td></tr></tbody></table>
+<h2 id="frame-generation-with-this-route">Frame generation with this route</h2>
+<p>Since 2026-11-04:</p>
+<ul>
+<li><strong>CS Frame Generation is off:</strong> <code>frameGenerationMode=0</code> in <code>SKSE - Outputs\SKSE\Plugins\CommunityShaders\SettingsUser.json</code>.</li>
+<li><strong>The HDR mod is off:</strong> <code>HDR - Community Shaders</code> is disabled, so the swap chain is back to the 8-bit, Direct3D 11 one NR worked on. The owner also found CS’s HDR output looked broken.</li>
+<li><strong>The window stays borderless,</strong> as Bethini set it. With CS Frame Generation off, the window mode no longer changes the route. The last working session, at 20:35 on 2026-11-03, was still in exclusive fullscreen.</li>
+<li><strong>Frame generation comes from NVIDIA Smooth Motion,</strong> which the owner turns on in the NVIDIA App under Graphics, Program settings, for <code>SkyrimSE.exe</code>. Smooth Motion is a driver feature: it generates frames after the game presents, from the finished image, without the game’s motion vectors. RTX 40 cards have it since August 2025. It also interpolates the HUD.</li>
+</ul>
+<p>Smooth Motion works on the presented frame, after NR, so it doesn’t touch this route.</p>
+<p><strong>Seen in game on 2026-11-04, and the owner calls it perfect.</strong> Settings:</p>
+<ul>
+<li>Smooth Motion and VSync are on in the NVIDIA control panel.</li>
+<li>VSync is off in SSE Display Tweaks (<code>EnableVSync=false</code>, changed by the owner). Its 120 fps limit stays.</li>
+<li>CS upscales with DLSS, and NR runs through ReShade and the RenoDX add-on.</li>
+</ul>
+<p><code>ReShade.log</code> from that session (local):</p>
+<ul>
+<li><strong>Route:</strong> <code>api=d3d11 path=bridge</code> on every verdict line, and <code>NR-VERDICT state=ENGAGED</code>.</li>
+<li><strong>Coverage:</strong> NR ran on 99.99% of eligible frames, about 7,900 evaluations, while the owner switched it with F6.</li>
+<li><strong>Swap chain:</strong> 8-bit <code>R8G8B8A8_UNORM</code>, windowed.</li>
+<li><strong>Frame rate:</strong> the game presents at about 60 fps (16.6 ms a frame), and Smooth Motion’s frames come on top of that in the driver. The NR cost wasn’t measured.</li>
+</ul>
+<h2 id="fit-with-this-list">Fit with this list</h2>
+<ul>
+<li><strong>Renderer.</strong> After Upscaling needs Community Shaders’ Upscaling with DLSS on, because NR hooks that DLSS call (<a href="/skyrim-modlist-decisions/decisions/0006-community-shaders-renderer/">0006</a>).</li>
+<li><strong>Game folder.</strong> Root Builder leaves <code>STOCK</code> clean while the game is closed (<a href="/skyrim-modlist-decisions/decisions/0002-separate-stock-game-folder/">0002</a>).</li>
+<li><strong>Saves.</strong> NR only changes the image. It adds no plugin or script, so it’s safe for any save.</li>
+<li><strong>Generators.</strong> Nothing to regenerate. PGPatcher, AutoBlend and Pandora read <code>Data</code>, not these files.</li>
+<li><strong>No decision record.</strong> A decision gets one when it’s structural and expensive to reverse. This is one mod, undone by disabling it, and the runtime swap has backups.</li>
+</ul>
+<h2 id="not-verified">Not verified</h2>
+<ul>
+<li>How the compat runtime looks or performs in Skyrim. The cost figures come from Conan Exiles.</li>
+<li>Which <code>nvngx_dlssnr.dll</code> loads: the one next to the exe, or the copy in Community Shaders’ Streamline folder.</li>
+<li>Whether the <code>nvngx_dlss.dll</code> next to the exe is used at all. The log only shows Community Shaders’ copy being hooked.</li>
+<li>Whether the add-on also loads the runtime from <code>%LOCALAPPDATA%\DLSS5-NR\runtime</code> in a game.</li>
+<li>What swapped the files in Community Shaders’ Streamline folder after install.</li>
+<li>The Model version setting’s choices and its key, and whether NR’s on or off state survives a restart.</li>
+<li>The numbers behind the Before Upscaling and Present hook points in <code>reshade.ini</code>.</li>
+<li>What the add-on’s crash log means. <code>RenoDX-DLSS5-crash.log</code> in Overwrite marks each Skyrim session as unclean when the next one starts. That may be Skyrim’s abrupt exit rather than crashes.</li>
+<li>How the earlier capture pairs look.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#takeaway">Takeaway</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#how-a-frame-gets-nr">How a frame gets NR</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#the-mod">The mod</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#root-builder">Root Builder</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#the-runtime">The runtime</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#settings">Settings</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-skyrim-has-shown">What Skyrim has shown</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#when-nr-seems-to-do-nothing">When NR seems to do nothing</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#the-setup-before-2026-11-02">The setup before 2026-11-02</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#why-the-renodx-route-broke-on-2026-11-03">Why the RenoDX route broke on 2026-11-03</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#community-shaders-nr-tried-on-2026-11-03">Community Shaders NR, tried on 2026-11-03</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#frame-generation-with-this-route">Frame generation with this route</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#fit-with-this-list">Fit with this list</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#not-verified">Not verified</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

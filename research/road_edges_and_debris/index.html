@@ -1,0 +1,495 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>Road edges and road debris · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">Road edges and road debris</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<p>Checked 2026-11-03. Two questions from the owner, after the PBR conversion of Omen Apollo’s road texture went in (see <a href="/skyrim-modlist-decisions/research/roads/">the roads note</a>):</p>
+<ul>
+<li><strong>Edges:</strong> the road now has much more depth than the ground beside it, and the change at its edge looks wrong. Which ground textures pair best with it?</li>
+<li><strong>Debris:</strong> the roads have no leaves, pebbles or other debris on them.</li>
+</ul>
+<p>Sources:</p>
+<ul>
+<li><strong>This profile’s plugins:</strong> all 217 active plugins were read in load order, which covers 52,364 landscape records.</li>
+<li><strong>The height maps</strong> of the winning textures, decoded locally.</li>
+<li><strong>Community Shaders 1.9.1’s</strong> terrain shader source.</li>
+<li><strong>Wabbajack’s reports</strong>, read on 2026-11-03, and the earlier copies of seventeen lists’ <code>status.json</code>.</li>
+<li><strong>Nexus Mods’ public API.</strong></li>
+</ul>
+<p>Nothing was downloaded.</p>
+<h2 id="takeaway">Takeaway</h2>
+<p><strong>Outcome:</strong> the ground stayed TomatoRim’s and a debris plugin went in. The road’s depth went down to 0.5 first, but the owner found it flat, so it went back to 1.0. Deepening the ground instead smeared it in game, so the ground is back to TomatoRim’s own maps. See <a href="#what-was-chosen-2026-11-03">What was chosen</a> and <a href="#deeper-ground-instead-of-a-shallower-road">Deeper ground</a> below.</p>
+<ul>
+<li><strong>The mismatch is measured.</strong>
+<ul>
+<li>Northern Roads paints the converted dirt road in 506 landscape records (1,100 quadrants).</li>
+<li>Most of the ground beside it is TomatoRim’s pine forest, fall forest dirt, rocks, field grass and Dirt02.</li>
+<li>Their relief is 0.015 to 0.06. That’s the height map’s spread times its <code>displacementScale</code>, with a weighted median of about 0.04. The road’s is 0.118.</li>
+</ul>
+</li>
+<li><strong>The cheapest fix is to meet in the middle, inside this setup.</strong>
+<ul>
+<li>Lower the road’s <code>displacementScale</code> to about 0.5. That gives 0.059, still rougher than any common neighbour except rocks and snow.</li>
+<li>If the edges still look off, raise TomatoRim’s two flattest neighbours.</li>
+<li>Both are JSON edits, undone by disabling a mod. No download, no regeneration.</li>
+</ul>
+</li>
+<li><strong>The ground that lists actually pair with deep roads is Vanaheimr Landscapes.</strong>
+<ul>
+<li>In ten of the twelve lists that run Vanaheimr’s Northern Roads, Vanaheimr Landscapes comes with it.</li>
+<li>It runs in 18 of the 32 lists with a deep Northern Roads texture.</li>
+<li>Only Dovahmeme is shown to run its PBR files on Community Shaders.</li>
+<li>Whether its PBR heights are deeper than TomatoRim’s wasn’t measured.</li>
+<li>Switching would replace TomatoRim, the ground this list was built on.</li>
+</ul>
+</li>
+<li><strong>Debris:</strong>
+<ul>
+<li>Northern Roads’ road textures carry no grass records at all, so nothing ever grows on them, debris included. No Northern Roads add-on changes that.</li>
+<li>The models are already installed. DrJacopo’s library has pebbles, small rocks, pine needle debris and fallen aspen leaves, and Merethic already uses its pine debris in the pine forests.</li>
+<li>A small patch could give the dirt road a sparse debris mix. It would be the same everywhere, because one road texture can’t carry different grass by region.</li>
+</ul>
+</li>
+</ul>
+<h2 id="the-edge-measured">The edge, measured</h2>
+<p>What borders the converted dirt road. Northern Roads paints it with 10 landscape textures, all using the same texture set. Share is coverage in the quadrants it occupies, and relief is the height map’s spread times <code>displacementScale</code>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Share</th><th>Ground texture</th><th>Won by</th><th><code>displacementScale</code></th><th>Height spread</th><th>Relief</th></tr></thead><tbody><tr><td>12.7%</td><td>Pine forest 02 (two variants)</td><td>TomatoRim</td><td>0.325</td><td>0.047</td><td>0.015</td></tr><tr><td>9.9%</td><td>Fall forest dirt</td><td>TomatoRim</td><td>1.0</td><td>0.038</td><td>0.038</td></tr><tr><td>13.7%</td><td>Rocks (two variants)</td><td>TomatoRim</td><td>1.0</td><td>0.057</td><td>0.057</td></tr><tr><td>11.9%</td><td>Field grass 01 (two variants)</td><td>TomatoRim</td><td>1.0</td><td>0.022</td><td>0.022</td></tr><tr><td>6.6%</td><td>Dirt02</td><td>TomatoRim</td><td>1.0</td><td>0.030</td><td>0.030</td></tr><tr><td>5.6%</td><td>Snow</td><td>TomatoRim</td><td>1.0</td><td>0.124</td><td>0.124</td></tr><tr><td>5.7%</td><td>Tundra rocks (two variants)</td><td>TomatoRim</td><td>1.88</td><td>0.057</td><td>0.107</td></tr><tr><td>6.4%</td><td>Fall forest grass (three variants)</td><td>TomatoRim</td><td>1.0</td><td>0.034</td><td>0.034</td></tr><tr><td>4.2%</td><td>Tundra 01 (two variants)</td><td>TomatoRim</td><td>1.0</td><td>0.055</td><td>0.055</td></tr><tr><td>3.6%</td><td>Field grass 02 (two variants)</td><td>TomatoRim</td><td>1.0</td><td>0.094</td><td>0.094</td></tr><tr><td>3.7%</td><td>No texture (the default ground)</td><td>none</td><td>none</td><td>none</td><td>0</td></tr><tr><td></td><td><strong>The converted road</strong></td><td>this list</td><td>1.0</td><td>0.118</td><td><strong>0.118</strong></td></tr></tbody></table>
+<p>These rows cover 89% of the neighbour coverage. The rest is riverbeds, mud, other forest grounds and snow rocks, at 0.03 to 0.15. Weighted by coverage, the median relief is 0.038.</p>
+<p>What the shader does with it, from <code>ExtendedMaterialsTerrain.hlsli</code> and <code>ExtendedMaterialsParallaxCore.hlsli</code>:</p>
+<ul>
+<li><strong>Height blending is on here</strong> (<code>EnableHeightBlending</code>). Where two layers meet, the higher one shows. The road’s height averages 0.40 and its main neighbours’ 0.43 to 0.68, so the neighbours take the edge and the road reads as sunk below them. That part is natural. What isn’t is the relief changing three times over in a few steps.</li>
+<li><strong>Self-shadowing</strong> is the height difference toward the light, times 4 or 8. A deep layer next to a shallow one is lit very differently.</li>
+<li><strong>The parallax march</strong> scales with the deepest layer in the blend, so the road’s depth also shifts the neighbour’s texture at the edge.</li>
+</ul>
+<p>TomatoRim set the pine forest’s <code>displacementScale</code> to 0.325 itself. The field grass and fall forest maps have a spread of only 0.022 to 0.038. Raising them amplifies maps with little real height in them, so it may add little but swimming.</p>
+<h2 id="what-lists-pair-with-deep-roads">What lists pair with deep roads</h2>
+<p>Lists that install a deep Northern Roads texture: Omen Apollo’s, Rugge’s, Alternate Complex Parallax, HD Remastered, Vanaheimr’s, YXZ’s or 0ctoProcessor’s PBR. Grouped by their ground:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Ground</th><th>Lists</th><th>Of them on Community Shaders</th></tr></thead><tbody><tr><td>Vanaheimr Landscapes AIO</td><td>Authoria, CSVP, Diaries of Dibella, Dovahmeme, Hymns of Hircine, Journals of Jyggalag, Krentoraan, LoreRim, Lyra Requiem, Mantras of Mara, NGVO, ReSkyrimed, SUP, Tomes of Talos, Visions of Vaermina, Whispers of Mara, Wunduniik, tightarse</td><td>7</td></tr><tr><td>Tomato’s Complex Landscapes, TomatoRim’s non-PBR sibling</td><td>Diaries of Dibella, Hymns of Hircine, Journals of Jyggalag, Mantras of Mara, Tomes of Talos, Visions of Vaermina, CSVP, Chaos Mage, Eldergleam, Kirbylite, Krentoraan, Skyrim Odyssey, Viir Suum, apostasy</td><td>7</td></tr><tr><td>TomatoRim PBR Landscapes</td><td>Lumina, ReaperGleam, Whispers of Mara</td><td>1</td></tr><tr><td>Faultier’s PBR Skyrim, mostly under another ground</td><td>Dovahmeme, FILFY, the two Kirbykings lists, Lumina, ReaperGleam, Whispers of Mara</td><td>2</td></tr><tr><td>Vyrthland Landscapes (YXZ)</td><td>the two Kirbykings lists, Mages and Vikings</td><td>0</td></tr><tr><td>Skyland, Majestic, HD Remastered</td><td>Ainulindale, Ascended Fates, Chaos Mage, Eldergleam, ReaperGleam, apostasy</td><td>2</td></tr></tbody></table>
+<p>Some lists run two grounds, so the rows overlap. The first six of the Tomato’s Complex lists are one family, and they run Vanaheimr too.</p>
+<p>Which Vanaheimr file, where the lists’ files were checked:</p>
+<ul>
+<li><strong>Dovahmeme:</strong> PBR 2k.</li>
+<li><strong>Diaries of Dibella and Tomes of Talos:</strong> the plain 2k file from version 2.5, with no complex material or PBR.</li>
+<li><strong>Wunduniik and NGVO:</strong> complex material 2k.</li>
+</ul>
+<p>So of the seven Community Shaders lists with Vanaheimr, Dovahmeme is the only one shown to use its PBR files.</p>
+<ul>
+<li><strong>The most common matched set</strong> is Vanaheimr’s: Vanaheimr Landscapes plus Vanaheimr - Northern Roads, both by Cl3mus. Ten of the twelve lists with Vanaheimr’s roads take both.</li>
+<li><strong>Dovahmeme</strong> is the one PBR Community Shaders list doing it. It runs Vanaheimr Landscapes PBR 2k, Vanaheimr - Northern Roads PBR 2k, and TMD Dirt Roads made for Vanaheimr PBR, over Faultier’s.</li>
+<li><strong>Lumina,</strong> the list closest to this one, keeps TomatoRim’s PBR ground and pairs it with Vanaheimr’s PBR roads.</li>
+</ul>
+<h2 id="candidates-for-the-ground">Candidates for the ground</h2>
+<ul>
+<li><strong>Keep TomatoRim and tune the depth.</strong> No download. Change the road’s <code>displacementScale</code> in its own mod, and if needed a small JSON-only mod that raises chosen TomatoRim sets. It’s reversible by disabling. Nothing to regenerate, since the paths don’t change.</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/145439" target="_blank" rel="noreferrer">Vanaheimr - Landscapes - AIO</a></strong> by Cl3mus.
+<ul>
+<li>Version and popularity: v7.1, updated 2026-10-14, 2,383 endorsements, 1.25 million downloads.</li>
+<li>PBR files: 0.77 GB at 1k, 2.09 GB at 2k, 6.64 GB at 4k.</li>
+<li>Requirements:
+<ul>
+<li>Already here: ERM, Icy Mesh Remaster and PGPatcher. Terrain Helper is built into Community Shaders.</li>
+<li>New since 7.0: <a href="https://www.nexusmods.com/skyrimspecialedition/mods/192698" target="_blank" rel="noreferrer">XPMF</a>, an SKSE plugin for snow and ash materials. It’s v0.8.0, supports 1.5.97, and Lumina runs it.</li>
+<li>Snow: Simplicity of Snow Sulfur Ash Moss is recommended, and Better Dynamic Snow is supported through XPMF.</li>
+</ul>
+</li>
+<li>Designed around Freak’s Floral Fields. Merethic, installed here, has a “Vanaheimr Cut” file (v1.1, 0.15 GB), so the grass can stay PBR.</li>
+<li>It covers ground, ice and mountains. Farmhouses, mines, ore veins and Northern Roads are separate mods.</li>
+<li>It would replace TomatoRim PBR Landscapes, and TomatoRim’s Northern Roads add-on with it. The converted road could stay, or give way to Vanaheimr’s own.</li>
+</ul>
+</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/152575" target="_blank" rel="noreferrer">Vanaheimr - Northern Roads - PBR</a></strong>, v2.7, 0.42 GB at 2k. It’s the road made for Vanaheimr’s ground. Rugge’s PBR Rocky Mossy also installs over it.</li>
+<li><strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/190416" target="_blank" rel="noreferrer">Vyrthland - Landscapes - AIO</a></strong> with <strong><a href="https://www.nexusmods.com/skyrimspecialedition/mods/182981" target="_blank" rel="noreferrer">YXZ True Diverse Northern Roads Reforged</a></strong> by YXZvyr.
+<ul>
+<li>Vyrthland: v2.0, 150 endorsements, created 2026-09-04, 3.40 GB at 2k.</li>
+<li>YXZ’s roads: regional variants painted into the landscape, among them an “Autumnal Leaves Byway” with leaves in the texture.</li>
+<li>YXZ’s plugin repaints terrain over Northern Roads and its patches. Its page asks for an SSEEdit script run to re-sync the edges after every patch change.</li>
+<li>No Community Shaders list uses either. Too new and too invasive for now.</li>
+</ul>
+</li>
+<li><strong>Not for this list:</strong> Tomato’s Complex Landscapes, Skyland, Majestic and Cathedral Landscapes are non-PBR.</li>
+</ul>
+<h2 id="debris">Debris</h2>
+<p>What’s there now:</p>
+<ul>
+<li><strong>The road textures:</strong> Northern Roads’ 10 dirt road textures, its dry dirt and its mud carry no grass records. On purpose, roads stay clear.</li>
+<li><strong>Next to the road:</strong> Merethic gives pine forest 02 two debris records, <code>PineDebrisA</code> and <code>B</code>, which use DrJacopo’s <code>DeadPineDrJ03</code> and <code>04</code>. The field grass and fall forest grass get grass and flowers. Rocks and Dirt02 get nothing.</li>
+<li><strong>Nature of the Wild Lands</strong> places forest debris (logs, stumps, branches) as objects in the forests, not on roads. Lumina even installs a mod to reduce it.</li>
+</ul>
+<p>Debris mods found:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Mod</th><th>Lists</th><th>What it does</th><th>For the roads</th></tr></thead><tbody><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/80687" target="_blank" rel="noreferrer">DrJacopo’s 3D Landscapes and Grass Library</a></td><td>installed</td><td>Grass models, among them <code>PebbleGrass01</code>-<code>07</code>, <code>RockGrass01</code>-<code>04</code> in small and medium, <code>DeadPineDrJ03</code>/<code>04</code>, <code>DeadAspenDrJ01</code>-<code>14</code> and aspen leaves</td><td>The assets for a road debris patch, already here</td></tr><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/49413" target="_blank" rel="noreferrer">the Pebbles SE</a></td><td>6 (LoreRim)</td><td>Replaces the vanilla pebble meshes</td><td>Only better pebbles where pebbles already are</td></tr><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/82720" target="_blank" rel="noreferrer">More Pebbles Please</a></td><td>under 6</td><td>Adds rock grass to vanilla landscape textures</td><td>Not to Northern Roads’ textures</td></tr><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/170242" target="_blank" rel="noreferrer">Immersive 3D Leaves</a></td><td>under 6, LoreRim among them</td><td>3D fallen leaves</td><td>Not checked further; it would also need assigning to the road</td></tr><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/18247" target="_blank" rel="noreferrer">Skyrim 3D Landscapes</a></td><td>7</td><td>Groundcovers for vanilla textures, from 2020</td><td>Overlaps Merethic, and doesn’t touch the roads</td></tr><tr><td><a href="https://www.nexusmods.com/skyrimspecialedition/mods/113528" target="_blank" rel="noreferrer">Forest Fragments</a></td><td>under 6</td><td>Nature of the Wild Lands’ debris, standalone</td><td>Already here through Nature of the Wild Lands</td></tr><tr><td>Footprints / <a href="https://www.nexusmods.com/skyrimspecialedition/mods/175254" target="_blank" rel="noreferrer">Dynamic Footprints SKSE</a></td><td>42 / 12</td><td>Footprints where actors walk</td><td>Not debris, but life on the road</td></tr></tbody></table>
+<p>No Northern Roads add-on adds debris. Among the 124 Nexus mods named after it there are clutter-only, decluttered and no-clutter versions, all about its objects, not about debris on the surface.</p>
+<p><strong>A road debris patch</strong> would be a small ESL-flagged plugin:</p>
+<ul>
+<li><strong>New grass records:</strong> about four, using DrJacopo’s small pebbles, small rocks and pine needle debris, at low density so the road still reads as a road.</li>
+<li><strong>The road textures:</strong> Northern Roads’ 10 dirt road textures point at those records, and so could its dry dirt.</li>
+<li><strong>Limits:</strong>
+<ul>
+<li>One mix for every region, from the Whiterun tundra to the Rift. Aspen leaves would be wrong in the tundra, so leaves stay out.</li>
+<li>Real regional debris needs separate road textures per region painted into the terrain, which is YXZ’s approach.</li>
+</ul>
+</li>
+<li><strong>Grass cache:</strong> none needed. This list doesn’t cache grass (<a href="/skyrim-modlist-decisions/decisions/0014-extended-grass-without-cache/">0014</a>), so new grass shows straight away.</li>
+<li><strong>Settings:</strong> density, slope limits and size can be tuned in the plugin after a look in game.</li>
+</ul>
+<h2 id="recommendation">Recommendation</h2>
+<ol>
+<li><strong>Edges: tune first, here.</strong>
+<ul>
+<li>Set the road’s <code>displacementScale</code> to 0.5 in <code>Northern Roads - Omen Apollo Dirt PBR (converted)</code>. That’s 10 small JSON edits, done with MO2 closed.</li>
+<li>Look at the Riverwood and Whiterun roads again.</li>
+<li>If the edge still jars, add a JSON-only mod that raises pine forest 02 from 0.325 to 0.7 and fall forest dirt from 1.0 to 1.5, then look again.</li>
+<li>No downloads. Disabling undoes it.</li>
+</ul>
+</li>
+<li><strong>Only if the tuned road still looks out of place, consider Vanaheimr’s ground.</strong>
+<ul>
+<li>Before deciding, download Vanaheimr Landscapes PBR 1k (0.77 GB) and measure its height maps the same way, without installing it.</li>
+<li>If it is deeper, the switch means: Vanaheimr Landscapes PBR, Merethic’s Vanaheimr Cut, and XPMF. TomatoRim’s landscapes and its road add-on come out, and AutoBlend and PGPatcher run again.</li>
+<li>The pine trees, towns and farmhouses stay.</li>
+</ul>
+</li>
+<li><strong>Debris: a road debris patch built here from DrJacopo’s installed models.</strong> No download. Pebbles, small rocks and pine needles at low density on the dirt roads, tuned after a look in game.</li>
+</ol>
+<h2 id="what-was-chosen-2026-11-03">What was chosen, 2026-11-03</h2>
+<p>The owner left the choice open: TomatoRim or Vanaheimr for the ground, and back to Blended Roads if debris could never look right on Northern Roads. The record is <a href="/skyrim-modlist-decisions/decisions/0015-keep-tomatorim-ground-and-northern-roads/">0015</a>.</p>
+<ul>
+<li><strong>The ground stays TomatoRim’s.</strong>
+<ul>
+<li>Depth is a per-set setting here, and the brightness was already matched, so one author for road and ground isn’t needed for a clean edge.</li>
+<li>Switching would cost the PBR grass. <a href="https://www.nexusmods.com/skyrimspecialedition/mods/193219" target="_blank" rel="noreferrer">Merethic Grasslands PBR</a> converts only Merethic’s Vanilla and Exist files, and the Vanaheimr Cut isn’t among them.</li>
+<li>Vanaheimr’s PBR heights are still unmeasured, so a switch might not fix the edge anyway.</li>
+<li>Lumina mixes authors the same way. Vanaheimr’s own roads page suggests Rugge’s road textures to players who don’t like its own.</li>
+</ul>
+</li>
+<li><strong>The roads stay Northern Roads.</strong> Blended Roads lays meshes over the ground. Grass can’t grow on a mesh, and height blending can’t blend one into the terrain. Northern Roads’ roads are landscape textures, which can carry grass records.</li>
+<li><strong>Done:</strong>
+<ul>
+<li>
+<p>The converted road’s 10 texture set files went to <code>displacementScale</code> 0.5, a relief of 0.059. Reverted the same day, below.</p>
+</li>
+<li>
+<p><strong><code>Northern Roads - Road Debris</code></strong>, a new mod in <code>Landscape</code>, placed last there. It has no files that conflict. It holds <code>Northern Roads - Road Debris.esp</code>, ESL-flagged, built by <code>tools/road_debris.py</code>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Grass record</th><th>Model (DrJacopo’s)</th><th>Density</th></tr></thead><tbody><tr><td><code>NRDebris_Pebbles01</code></td><td><code>PebbleGrass01.nif</code></td><td>6</td></tr><tr><td><code>NRDebris_Pebbles03</code></td><td><code>PebbleGrass03.nif</code></td><td>5</td></tr><tr><td><code>NRDebris_Pebbles06</code></td><td><code>PebbleGrass06.nif</code></td><td>4</td></tr><tr><td><code>NRDebris_SmallRocks02</code></td><td><code>RockGrass02_Small.nif</code></td><td>2</td></tr></tbody></table>
+<ul>
+<li>Density is the share of points on the 40-unit grass grid (<code>iMinGrassSize=40</code>). Together, about one clump per 1.4 m of road, on average.</li>
+<li>Placement copies vanilla <code>RockGrass01</code>: slopes 0 to 40, offset up to 32 units, a 25% size spread, uniform scaling and fit to slope.</li>
+<li>It overrides the 10 dirt road textures and Whiterun’s outer road, which only Northern Roads.esp defined before, and adds four grass entries to each.</li>
+<li>All the models use the vanilla <code>RocksGrass01.dds</code> texture, so the debris is grey stone and not PBR. Grass doesn’t need to be PBR to sit next to PBR ground.</li>
+</ul>
+</li>
+<li>
+<p>LOOT placed the plugin after Northern Roads.esp and moved nothing else.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="deeper-ground-instead-of-a-shallower-road">Deeper ground instead of a shallower road</h2>
+<p>The owner’s second look, the same day: the debris helped, and the edge looked better at 0.5, but the road read as a flat texture. The depth is what makes the illusion. They asked to raise the ground instead.</p>
+<p>Raising the ground’s <code>displacementScale</code> alone would backfire. In <code>ExtendedMaterialsTerrain.hlsli</code>, height blending multiplies each layer’s weight by 3 to the power of 8 × <code>(height - 0.5) * displacementScale</code>, then cubes it. Most of the road’s neighbours sit high on average (fall forest dirt and field grass average 0.67, the road 0.40). Tripling their scale would triple that lead too. The ground would then swallow the road wherever its vertex weight is above a few percent, and fade faint trails out entirely.</p>
+<p>So <code>tools/terrain_depth.py</code> stretches each height map’s contrast around its own average instead:</p>
+<ul>
+<li><strong>Target relief 0.09</strong>, three quarters of the road’s 0.118. The stretch is at most 3 times, and backs off until under 0.5% of pixels clip.</li>
+<li><strong>The averages stay put</strong>, so the edges fall where they did. Sets under <code>displacementScale</code> 1 rise toward 1, only as far as needed, with the average re-centred so <code>(average - 0.5) * scale</code> doesn’t change. TomatoRim’s pine forest 02 goes from 0.325 to 1.0 this way.</li>
+<li><strong>A light 3x3 blur</strong> goes under any stretch above 1.5, so BC4 block noise isn’t amplified.</li>
+<li><strong>Left alone:</strong> the converted road, the reference, and 15 maps already at or above the target, among them snow, tundra rocks, river beds and the volcanic gravels.</li>
+</ul>
+<p>What was written, to <code>Terrain Depth - Outputs</code> in the <code>Outputs</code> separator, since it had to win over Faultier’s and Tomato’s town packs too:</p>
+<ul>
+<li><strong>59 height maps</strong>, all 1K BC4 like their sources, every mip checked.</li>
+<li><strong>9 texture set files</strong> with a raised scale: pine forest 02, Reach grass and seven Soul Cairn sets.</li>
+</ul>
+<p>The road’s main neighbours, before and after:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>Ground</th><th>Relief before</th><th>After</th></tr></thead><tbody><tr><td>Pine forest 02</td><td>0.015</td><td>0.086</td></tr><tr><td>Fall forest dirt</td><td>0.038</td><td>0.088</td></tr><tr><td>Rocks</td><td>0.057</td><td>0.089</td></tr><tr><td>Field grass 01</td><td>0.022</td><td>0.061 (capped by the 3 times limit)</td></tr><tr><td>Dirt02</td><td>0.030</td><td>0.085</td></tr><tr><td>Fall forest grass</td><td>0.034</td><td>0.089</td></tr><tr><td>Tundra 01</td><td>0.055</td><td>0.088</td></tr><tr><td>Snow, tundra rocks, field grass 02</td><td>0.094 to 0.124</td><td>unchanged</td></tr></tbody></table>
+<p>The full table is what the tool prints.</p>
+<p><strong>In game it failed.</strong> The owner’s screenshot showed the ground smeared into vertical streaks, the look of a parallax march overshooting. The files were as intended, so the cause is the approach:</p>
+<ul>
+<li>TomatoRim’s height maps are mostly fine surface detail, not real height. Stretched 1.6 to 3 times, their small bumps became slopes too steep for the shader’s 16-step march with its one refinement pass.</li>
+<li>The road’s map is Omen Apollo’s real height, smooth at large scale, which is why it carries 0.118 without smearing.</li>
+</ul>
+<p><code>Terrain Depth - Outputs</code> is disabled, and the ground is back to TomatoRim’s own maps and settings. The road stays at 1.0. Deeper ground would need height maps made deep from the start, not stretched ones.</p>
+<h2 id="not-verified">Not verified</h2>
+<ul>
+<li>How the debris looks on the road: pebble size, density, and whether it floats over the parallax ruts.</li>
+<li>How deep Vanaheimr’s PBR heights are. None of its files were downloaded.</li>
+<li>How DrJacopo’s debris models look on a road, and what density reads as debris rather than grass.</li>
+<li>Immersive 3D Leaves and More Pebbles Please, beyond their pages.</li>
+<li>Whether TomatoRim’s pine forest has a reason for its 0.325 beyond taste. Its height map is now at 1.0, stretched 1.9 times.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#takeaway">Takeaway</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#the-edge-measured">The edge, measured</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-lists-pair-with-deep-roads">What lists pair with deep roads</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#candidates-for-the-ground">Candidates for the ground</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#debris">Debris</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#recommendation">Recommendation</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-was-chosen-2026-11-03">What was chosen, 2026-11-03</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#deeper-ground-instead-of-a-shallower-road">Deeper ground instead of a shallower road</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#not-verified">Not verified</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

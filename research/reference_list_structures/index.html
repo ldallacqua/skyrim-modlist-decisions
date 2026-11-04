@@ -1,0 +1,882 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Why this Skyrim SE list is built the way it is: the real list, the decisions behind it and the research they rest on."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>Reference Skyrim SE modlist structures in Mod Organizer 2: primary evidence (as of 2026-11-02) · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" aria-current="page" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 bg-bg-3 text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><a href="/skyrim-modlist-decisions/research/" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-strong"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> All research</a><h1 class="mt-6 mb-10 max-w-3xl text-3xl leading-tight font-bold tracking-[-0.025em] text-balance text-strong sm:text-4xl">Reference Skyrim SE modlist structures in Mod Organizer 2: primary evidence (as of 2026-11-02)</h1><div class="grid items-start gap-10 lg:grid-cols-[1fr_16rem]"><article lang="en" class="doc min-w-0">
+<h2 id="what-separators-do-the-top-lists-use-in-what-order-and-how-many-mods-and-plugins-do-they-have">What separators do the top lists use, in what order, and how many mods and plugins do they have?</h2>
+<h3 id="takeaway">Takeaway</h3>
+<p>Real <code>modlist.txt</code> files were parsed for 25 lists through the Load Order Library API. Separator counts range from 13 to 289, with a median of about 22 mods per separator, so no single standard size exists. Nolvus, LoreRim, Lexy’s, Elysium, Eldergleam, Gate to Sovngarde, Licentia NEXT and Wildlander are verified from files. Step is verified from its official guide headings plus one personalized upload. Viva Skyrim could not be verified at all.</p>
+<h3 id="cited-findings">Cited Findings</h3>
+<h4 id="method-and-how-far-to-trust-the-numbers">Method and how far to trust the numbers</h4>
+<ul>
+<li>Load Order Library exposes the actual uploaded files as JSON at <code>https://api.loadorderlibrary.com/v1/lists/&#x3C;slug></code>, including line-by-line <code>content</code> — <a href="https://docs.loadorderlibrary.com/" target="_blank" rel="noreferrer">LOL API docs</a>; <a href="https://api.loadorderlibrary.com/v1/lists/lorerim" target="_blank" rel="noreferrer">example record</a>.</li>
+<li>The API’s <code>modlist.txt</code> content starts with the top of the MO2 pane and ends with the MO2 header line, so it is already in pane order. This was checked on the Nolvus 5.2.5, LoreRim and Elysium records, for example <code>CORE</code> and <code>Base Game, Unofficial Patches &#x26; Fixes</code> come first in LoreRim — <a href="https://api.loadorderlibrary.com/v1/lists/lorerim" target="_blank" rel="noreferrer">LoreRim record</a>.</li>
+<li>Counting rules: “mods” excludes separators and <code>*</code> unmanaged DLC/Creation Club lines. “Sep.” counts <code>_separator</code> entries. “Empty” counts separators with no mods directly below them. A mod belongs to the nearest separator above it.</li>
+<li>Plugins come from <code>plugins.txt</code> where uploaded, otherwise <code>loadorder.txt</code> (marked “LO”). Where a list has both, <code>loadorder.txt</code> runs about 80 lines longer in these records, for example Nolvus 5.2.5 at 2288 and 2367. These are upload counts, not official claims.</li>
+<li>Wabbajack “archives” come from each list’s <code>download_metadata.NumberOfArchives</code>, reached through the <a href="https://raw.githubusercontent.com/wabbajack-tools/mod-lists/master/repositories.json" target="_blank" rel="noreferrer">repositories index</a>. Archives are download files, not mods, so they are not comparable to the mod column.</li>
+<li>The upload flag <code>verified</code> was true only for Wildlander (Phinocio), Wunduniik Reloaded (Alaxouche), Lost Legacy (GreatPadinski), Aurora (Phoenix) and Septimus (Guitarninja). Other uploads are identified by uploader name and website field only.</li>
+</ul>
+<h4 id="per-list-comparison-table">Per-list comparison table</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>List and uploaded version</th><th>Upload date</th><th>Provenance</th><th>Mods (enabled)</th><th align="right">Plugins</th><th align="right">Sep.</th><th align="right">Empty</th><th align="right">Numbered</th><th>Naming scheme</th><th>Current WJ version and archives</th></tr></thead><tbody><tr><td><a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 “ULTIMATE Open Beta Start”</a></td><td>2024-12</td><td>Anonymous user, pre-release</td><td>3480 (3480)</td><td align="right">3861</td><td align="right">69</td><td align="right">1</td><td align="right">64</td><td>Decimal outline, <code>5.11.1 CITIES</code></td><td>Not on Wabbajack; <a href="https://www.nolvus.net/" target="_blank" rel="noreferrer">site shows v6.0.21</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/nolvus-v5-ultra-5-2-5" target="_blank" rel="noreferrer">Nolvus Ascension 5.2.5 Ultra</a></td><td>2025-11</td><td>User (Eizon); adds <code>NEW</code></td><td>2057 (2056)</td><td align="right">2288</td><td align="right">67</td><td align="right">1</td><td align="right">61</td><td>Same</td><td>Not on Wabbajack</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim 5.0.2</a></td><td>2026-06</td><td>Likely author (biggie_boss, lorerim.com)</td><td>3933 (3873)</td><td align="right">3410</td><td align="right">135</td><td align="right">11</td><td align="right">2 (incidental)</td><td>Plain names; ALL-CAPS empty parents, <code>Gameplay - X</code> prefixes</td><td><a href="https://raw.githubusercontent.com/biggie-boss/modlists/main/modlists.json" target="_blank" rel="noreferrer">5.0.4.8, 4447</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">Lexy’s LOTD 30.10.26</a></td><td>2026-10-30</td><td>Likely author (Darkladylexy, lexyslotd.com)</td><td>1566 (1543)</td><td align="right">1672 LO</td><td align="right">157</td><td align="right">11</td><td align="right">0</td><td><code>++++X++++</code>, plus <code>MOD INSTALLATION PART n</code> banners</td><td>Guide, not Wabbajack</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/step-2-3-skyrimae" target="_blank" rel="noreferrer">Step 2.3 upload</a></td><td>2026-02</td><td>User (rash-skyrim), personalized (<code>PARK</code>, <code>EXT-</code> groups)</td><td>803 (485)</td><td align="right">247</td><td align="right">42</td><td align="right">17</td><td align="right">25</td><td><code>02-Extenders</code> style, renumbered by the user</td><td>Guide, not Wabbajack</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">Elysium Remastered 3.3.0</a></td><td>2024-05</td><td>Anonymous user</td><td>1924 (1901)</td><td align="right">1216</td><td align="right">48</td><td align="right">2</td><td align="right">47</td><td>Flat two-digit, <code>09 GRAPHICS BASELINE</code></td><td><a href="https://raw.githubusercontent.com/TitansBane/Elysium-Remastered/main/modlists.json" target="_blank" rel="noreferrer">3.3.2, 2544</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/eldergleam-a-next-gen-modlist-4-0-2" target="_blank" rel="noreferrer">Eldergleam 4.0.2</a></td><td>2025-11</td><td>User upload</td><td>1692 (1660)</td><td align="right">not uploaded</td><td align="right">101</td><td align="right">5</td><td align="right">95</td><td>Decimal with dashes, <code>13.2 - ARCHITECTURE - SOLITUDE -</code></td><td><a href="https://raw.githubusercontent.com/CaptPandaYT/Eldergleam-NG/main/modlist.json" target="_blank" rel="noreferrer">4.0.2, 1961</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/gate-to-sovngarde-ae-wabbajack-conversion" target="_blank" rel="noreferrer">Gate to Sovngarde v115</a></td><td>2026-08</td><td>Wabbajack conversion by Flimsy of a <a href="https://raw.githubusercontent.com/FlimsyParking/Gate-to-Sovngarde-Wabbajack/main/README.md" target="_blank" rel="noreferrer">Nexus collection</a></td><td>1955 (1955)</td><td align="right">2155</td><td align="right">289</td><td align="right">59</td><td align="right">0</td><td>Path-like <code>A - B - C</code>, plus status tags</td><td><a href="https://raw.githubusercontent.com/FlimsyParking/Gate-to-Sovngarde-Wabbajack/main/modlists.json" target="_blank" rel="noreferrer">0.115.0, 2148</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/wildlander-ultra-profile" target="_blank" rel="noreferrer">Wildlander Ultra 1.0.0</a></td><td>2022-04 (old)</td><td>Verified (Phinocio)</td><td>569 (507)</td><td align="right">344</td><td align="right">23</td><td align="right">0</td><td align="right">0</td><td>Plain names</td><td><a href="https://raw.githubusercontent.com/dylanmade/dp-modlists/main/modlists.json" target="_blank" rel="noreferrer">1.1.14, 566</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/licentia-next" target="_blank" rel="noreferrer">Licentia NEXT 13.7.0</a></td><td>2026-09</td><td>Likely author (akzar, licentia.quest)</td><td>1571 (1562)</td><td align="right">1669 LO</td><td align="right">143</td><td align="right">26</td><td align="right">36</td><td>Numbered empty parents, unnumbered children</td><td><a href="https://raw.githubusercontent.com/akzar-dev/licentia/main/modlists.json" target="_blank" rel="noreferrer">13.7.0, 1826</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/tahrovin-4" target="_blank" rel="noreferrer">Tahrovin 3.0.5</a></td><td>2025-11</td><td>Anonymous; <strong>Skyrim VR, not SE</strong></td><td>1033 (895)</td><td align="right">not uploaded</td><td align="right">52</td><td align="right">3</td><td align="right">49</td><td><code>07 - X</code></td><td>VR, outside this filter</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/wunduniik-chapter-v" target="_blank" rel="noreferrer">Wunduniik Reloaded 1.0 beta</a></td><td>2026-09</td><td>Verified (Alaxouche)</td><td>3640 (3525)</td><td align="right">3554</td><td align="right">133</td><td align="right">17</td><td align="right">131</td><td>Ruled numbered parents plus decimal children</td><td><a href="https://raw.githubusercontent.com/Alaxouche/Wunduniik/main/modlist.json" target="_blank" rel="noreferrer">Wunduniik 7.3.0.0, 4791</a> (older list)</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/apostasy" target="_blank" rel="noreferrer">Apostasy 3.3.1</a></td><td>2026-08</td><td>Likely author (aljoxo)</td><td>3021 (3007)</td><td align="right">3394 LO</td><td align="right">152</td><td align="right">17</td><td align="right">0</td><td><code>--- VISUALS ---</code> parents</td><td>3.3.1, 3410</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/living-skyrim-5" target="_blank" rel="noreferrer">Living Skyrim 5.0.0.1</a></td><td>2025-04</td><td>Likely author (ForgottenGlory); alpha</td><td>1586 (1580)</td><td align="right">1629</td><td align="right">98</td><td align="right">13</td><td align="right">0</td><td><code>---------- ║ NATURE ║ -----</code> parents</td><td>4.3.0.1, 1439 (older line)</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/masterstroke-1905" target="_blank" rel="noreferrer">Masterstroke 2.2.4.1</a></td><td>2026-06</td><td>Anonymous; beta</td><td>1201 (1181)</td><td align="right">1047</td><td align="right">69</td><td align="right">6</td><td align="right">0</td><td><code>Graphics - Flora</code> prefixes</td><td>2.3.0.3, 1375</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/journals-of-jyggalag-5" target="_blank" rel="noreferrer">Journals of Jyggalag 6.5.0</a></td><td>2026-05</td><td>Anonymous</td><td>3554 (3430)</td><td align="right">3606</td><td align="right">135</td><td align="right">19</td><td align="right">2 (incidental)</td><td>Plain names and CAPS parents</td><td>8.1.2, 3752</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/tempus-maledictum-v8" target="_blank" rel="noreferrer">Tempus Maledictum 8.0.3</a></td><td>2025-04</td><td>Likely author (Lively)</td><td>2014 (1920)</td><td align="right">2088</td><td align="right">72</td><td align="right">2</td><td align="right">0</td><td><code>Textures - Base</code> prefixes</td><td>8.0.6, 2140</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/next-generation-visual-overhaul-7-2" target="_blank" rel="noreferrer">NGVO 7.2</a></td><td>2026-10</td><td>User (zeroicy)</td><td>1386 (1360)</td><td align="right">450</td><td align="right">80</td><td align="right">10</td><td align="right">0</td><td>Plain names</td><td>7.2.1.1, 1802</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/csvp-colloquy-s-skyrim-vanilla-plus-a-ngvo-fork-2" target="_blank" rel="noreferrer">CSVP 2.9.5</a></td><td>2026-08</td><td>Likely author (Colloquy); NGVO fork</td><td>1881 (1864)</td><td align="right">1297</td><td align="right">96</td><td align="right">12</td><td align="right">0</td><td>CAPS parents, <code>VISUALS PT. 1</code></td><td>2.9.6, 2070</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/keizaal-9-0-0-beta" target="_blank" rel="noreferrer">Keizaal 9.0.0 beta</a></td><td>2026-05</td><td>Likely author (Tate Taylor)</td><td>656 (628)</td><td align="right">611 LO</td><td align="right">21</td><td align="right">3</td><td align="right">0</td><td>Plain names</td><td><a href="https://raw.githubusercontent.com/Keizaal/Keizaal/main/modlists.json" target="_blank" rel="noreferrer">8.0.1.1, 1011</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/lost-legacy-2-wabbajack" target="_blank" rel="noreferrer">Lost Legacy 2.0.0</a></td><td>2026-06</td><td>Verified</td><td>650 (635)</td><td align="right">1463</td><td align="right">29</td><td align="right">2</td><td align="right">0</td><td>Plain names</td><td>2.0.2, 1024</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/aurora" target="_blank" rel="noreferrer">Aurora 1.5.0</a></td><td>2023-09 (old)</td><td>Verified (Phoenix)</td><td>1042 (946)</td><td align="right">314 LO</td><td align="right">59</td><td align="right">2</td><td align="right">0</td><td>Plain names</td><td>1.5.6, 1098</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/halls-of-sovngarde" target="_blank" rel="noreferrer">Halls of Sovngarde 1.3.4</a></td><td>2025-03</td><td>Likely author (Camboi)</td><td>2177 (2143)</td><td align="right">1941</td><td align="right">42</td><td align="right">1</td><td align="right">0</td><td>Plain names, <code>Enable for X ENB</code></td><td><a href="https://raw.githubusercontent.com/CamIce2002/HallsofSovngarde/main/modlists.json" target="_blank" rel="noreferrer">1.4, 2215</a></td></tr><tr><td><a href="https://loadorderlibrary.com/lists/nefaram" target="_blank" rel="noreferrer">NEFARAM 17</a></td><td>2026-06</td><td>Likely author (ConsolidatedSky)</td><td>1988 (1898)</td><td align="right">not uploaded</td><td align="right">41</td><td align="right">1</td><td align="right">0</td><td>Plain names</td><td>17.3.8, 2353</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/septimus" target="_blank" rel="noreferrer">Septimus 1.0.6</a></td><td>2026-01</td><td>Verified (Guitarninja)</td><td>210 (208)</td><td align="right">515</td><td align="right">13</td><td align="right">1</td><td align="right">0</td><td>Plain names</td><td>Not seen in the SE filter</td></tr><tr><td><a href="https://loadorderlibrary.com/lists/twisted-skyrim-4" target="_blank" rel="noreferrer">Twisted Skyrim 1.8.0.0</a></td><td>2026-04</td><td>Likely author (TwistedModding)</td><td>4243 (4117)</td><td align="right">4366</td><td align="right">146</td><td align="right">10</td><td align="right">0</td><td><code>~~AUDIO~~</code> parents, CAPS names</td><td>1.8.0.4, 6031</td></tr></tbody></table>
+<h4 id="official-guides-checked">Official guides checked</h4>
+<ul>
+<li><strong>Step 2.3:</strong> the official guide’s ModGroup headings run in this order: <code>02-Extenders</code>, <code>03-Resources</code>, <code>04-Foundation</code>, <code>05-Animation and Physics</code>, <code>06-Models and Textures</code>, <code>07-Sounds and Music</code>, <code>08-Character Appearance</code>, <code>09-Fixes</code>, <code>10-Gameplay-General</code>, <code>11-Gameplay-AI and Combat</code>, <code>12-Gameplay-Economy</code>, <code>13-Gameplay-Immersion</code>, <code>14-Gameplay-Quests</code>, <code>15-Gameplay-Skills and Perks</code>, <code>16-Interface</code>, <code>17-Locations</code>, <code>18-Lighting and Weather</code>, <code>19-Utilities</code>, <code>20-Patches</code>, <code>21-Post-Processing</code> — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li><strong>Step 2.3 on separators:</strong> “Step uses the guide ModGroup names, which are handy”, mods sit alphabetically within each group, and any exceptions are intentional — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step SkyrimSE 2.3</a>.</li>
+<li><strong>Nolvus:</strong> the v5 manual guide chapters use the same outline as the separators, for example <code>5.6.1 Trees and barks</code> and <code>10 Outputs</code> with <code>10.1 Synthesis</code> through <code>10.7 MAPS</code> — <a href="https://www.nolvus.net/guide/awakening" target="_blank" rel="noreferrer">Nolvus guide navigation</a>. Nolvus Awakening (v6) has no manual guide yet — <a href="https://www.nolvus.net/" target="_blank" rel="noreferrer">nolvus.net</a>.</li>
+<li><strong>Lexy’s:</strong> the guide is organized as Mod Installation Parts 1-10, then Merge Page and The Finishing Line, which matches the upload’s banners and final separators. Its homepage says both “over 1,500” and “over 1,400” modifications, and does not mention separators — <a href="https://lexyslotd.com/" target="_blank" rel="noreferrer">lexyslotd.com</a>.</li>
+</ul>
+<h4 id="exact-separator-sequences-from-the-files-top-of-pane-first">Exact separator sequences (from the files, top of pane first)</h4>
+<p>Names are quoted as they appear. Two display changes were made so the lists stay readable: long runs of <code>_</code> or <code>-</code> inside names are shortened to three characters and <code>…</code>, and the Gate to Sovngarde suffixes <code>===== ALL CONFLICTS WORK AS INTENDED (V115) =====</code> and <code>===== NO CONFLICTS =====</code> are removed.</p>
+<h5 id="nolvus-awakening-v6-pre-release-ultimate-open-beta-upload">Nolvus Awakening v6 (pre-release ‘ULTIMATE Open Beta’ upload)</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">nolvus-v6-ultimate-open-beta-start</a> (69 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>0. MASTER FILES</code> (0) → <code>1.1 SKSE PLUGINS</code> (34) → <code>1.2 BUG FIXES UTILITIES &#x26; TWEAKS</code> (62) → <code>1.3 ALTERNATE START</code> (3) → <code>2.1 HUDS</code> (80) → <code>2.2 HOTKEYS</code> (5) → <code>2.3 SCREEN FONTS &#x26; MAP</code> (13) → <code>2.4 CHARACTER</code> (6) → <code>3. MUSIC &#x26; SOUNDS</code> (85) → <code>4.1 VANILLA QUESTS EXPANSION</code> (76) → <code>4.2 LEGACY OF THE DRAGONBORN</code> (19) → <code>4.3 NEW QUESTS WORLDS &#x26; ADDONS</code> (275) → <code>5.1 BASE TEXTURES &#x26; MODELS</code> (19) → <code>5.2 LODS</code> (5) → <code>5.3 LANDSCAPE</code> (27) → <code>5.4 ICE SNOW &#x26; ASHES</code> (22) → <code>5.5 MOUNTAINS &#x26; ROCKS</code> (6) → <code>5.6.1 TREES &#x26; BARK</code> (39) → <code>5.6.2 GRASS</code> (23) → <code>5.6.3 PLANTS</code> (39) → <code>5.7 WEATHERS</code> (28) → <code>5.8 SKY</code> (6) → <code>5.9 WATER</code> (16) → <code>5.10.1 NPC's RESSOURCES</code> (99) → <code>5.10.2 ADDED NPC's</code> (17) → <code>5.10.3 FOLLOWERS</code> (45) → <code>5.10.4 NPC's VISUAL OVERHAULS</code> (90) → <code>5.10.5 CHARACTER PRESETS</code> (172) → <code>5.11.1 CITIES</code> (12) → <code>WHITERUN</code> (42) → <code>SOLITUDE</code> (28) → <code>RIFTEN</code> (17) → <code>MARKARTH</code> (14) → <code>WINDHELM</code> (15) → <code>5.11.2 TOWNS &#x26; VILLAGES</code> (115) → <code>5.11.3 FARMHOUSES</code> (16) → <code>5.11.4 PLAYER HOME</code> (8) → <code>5.11.5 OTHER LOCATIONS</code> (6) → <code>5.12.1 LANDS</code> (64) → <code>5.12.2 RUINS</code> (2) → <code>5.13 INTERIORS</code> (107) → <code>5.14.1 ARMORS</code> (320) → <code>5.14.2 CLOTHES</code> (61) → <code>5.14.3 WEAPONS</code> (145) → <code>5.15 ANIMALS &#x26; CREATURES</code> (112) → <code>5.16.1 JEWELRY</code> (22) → <code>5.16.2 CLUTTERS</code> (35) → <code>5.16.3 STATUES &#x26; SHRINES</code> (28) → <code>5.16.4 COLLECTABLES</code> (30) → <code>5.16.5 MISC MODELS</code> (109) → <code>5.17 LIGHTING EFFECTS &#x26; PARTICLES</code> (87) → <code>6.1 CORE ANIMATIONS &#x26; FRAMEWORK</code> (40) → <code>6.2.1 ATTACK ANIMATIONS</code> (76) → <code>6.2.2 MOVEMENT ANIMATIONS</code> (39) → <code>6.3 NPC's ANIMATIONS</code> (53) → <code>6.4 COMMON ANIMATIONS</code> (44) → <code>7.1 PERKS ABILITIES &#x26; POWER</code> (114) → <code>7.2 SURVIVAL &#x26; NEEDS</code> (35) → <code>7.3 CRAFTING</code> (51) → <code>7.4 COMBATS &#x26; ENEMIES</code> (119) → <code>7.5 ECONOMY</code> (10) → <code>7.6 AI</code> (16) → <code>7.7 RELIGION</code> (24) → <code>7.8 MISC GAMEPLAY</code> (32) → <code>7.9 RACES</code> (11) → <code>8. IMMERSION</code> (65) → <code>9. LATE LOADERS</code> (17) → <code>10. OUTPUTS</code> (26) → <code>11. ENB &#x26; RESHADE</code> (2)</p>
+<h5 id="nolvus-ascension-525-ultra">Nolvus Ascension 5.2.5 Ultra</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/nolvus-v5-ultra-5-2-5" target="_blank" rel="noreferrer">nolvus-v5-ultra-5-2-5</a> (67 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>0. MASTER FILES</code> (0) → <code>1.1 SKSE PLUGINS</code> (26) → <code>1.2 BUG FIXES &#x26; TWEAKS</code> (22) → <code>1.3 ALTERNATE START</code> (2) → <code>2.1 HUDS</code> (68) → <code>2.2 HOTKEYS</code> (2) → <code>2.3 SCREEN FONTS &#x26; MAP</code> (12) → <code>2.4 CHARACTER</code> (4) → <code>3. MUSIC &#x26; SOUNDS</code> (37) → <code>4. DLC MODS QUESTS &#x26; CONTENT ADDONS</code> (73) → <code>5.1 BASE TEXTURES &#x26; MODELS</code> (20) → <code>5.2 LODS</code> (5) → <code>5.3 LANDSCAPE</code> (11) → <code>5.4 ICE SNOW &#x26; ASHES</code> (15) → <code>5.5 MOUNTAINS &#x26; ROCKS</code> (10) → <code>5.6.1 TREES &#x26; BARK</code> (27) → <code>5.6.2 GRASS</code> (14) → <code>5.6.3 PLANTS</code> (36) → <code>5.7 WEATHERS</code> (28) → <code>5.8 SKY</code> (6) → <code>5.9 WATER</code> (11) → <code>5.10.1 NPC's RESSOURCES</code> (66) → <code>5.10.2 ADDED NPC's</code> (8) → <code>5.10.3 FOLLOWERS</code> (13) → <code>5.10.4 NPC's VISUAL OVERHAULS</code> (49) → <code>5.11.1 CITIES</code> (7) → <code>WHITERUN</code> (26) → <code>SOLITUDE</code> (19) → <code>RIFTEN</code> (14) → <code>MARKARTH</code> (6) → <code>WINDHELM</code> (14) → <code>5.11.2 TOWNS &#x26; VILLAGES</code> (76) → <code>5.11.3 FARMHOUSES</code> (10) → <code>5.11.4 PLAYER HOME</code> (12) → <code>5.11.5 OTHER LOCATIONS</code> (14) → <code>5.12.1 LANDS</code> (58) → <code>5.12.2 RUINS</code> (5) → <code>5.13 INTERIORS</code> (103) → <code>5.14.1 ARMORS</code> (158) → <code>5.14.2 CLOTHES</code> (25) → <code>5.14.3 WEAPONS</code> (70) → <code>5.15 ANIMALS &#x26; CREATURES</code> (83) → <code>5.16.1 JEWELRY</code> (18) → <code>5.16.2 CLUTTERS</code> (26) → <code>5.16.3 STATUES &#x26; SHRINES</code> (27) → <code>5.16.4 COLLECTABLES</code> (3) → <code>5.16.5 MISC MODELS</code> (87) → <code>5.17 LIGHTING EFFECTS &#x26; PARTICLES</code> (75) → <code>6.1 CORE ANIMATIONS &#x26; FRAMEWORK</code> (31) → <code>6.2.1 ATTACK ANIMATIONS</code> (33) → <code>6.2.2 MOVEMENT ANIMATIONS</code> (32) → <code>6.3 NPC's ANIMATIONS</code> (19) → <code>6.4 COMMON ANIMATIONS</code> (37) → <code>7.1 PERKS ABILITIES &#x26; POWER</code> (59) → <code>7.2 SURVIVAL &#x26; NEEDS</code> (36) → <code>7.3 CRAFTING</code> (55) → <code>7.4 COMBATS &#x26; ENEMIES</code> (72) → <code>7.5 ECONOMY</code> (9) → <code>7.6 AI</code> (16) → <code>7.7 RELIGION</code> (14) → <code>7.8 MISC GAMEPLAY</code> (26) → <code>7.9 RACES</code> (14) → <code>8. IMMERSION</code> (57) → <code>9. LATE LOADERS</code> (20) → <code>10. OUTPUTS</code> (22) → <code>11. ENB &#x26; RESHADE</code> (2) → <code>NEW</code> (2)</p>
+<h5 id="lorerim-502">LoreRim 5.0.2</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">lorerim</a> (135 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>5.0.1.2</code> (0) → <code>CORE</code> (0) → <code>Base Game, Unofficial Patches &#x26; Fixes</code> (9) → <code>Creation Club - Unofficial Patches</code> (6) → <code>Creation Club - Gameplay Changes</code> (28) → <code>SKSE &#x26; Core DLL Mods</code> (39) → <code>SKSE &#x26; DLL - Fixes</code> (44) → <code>Bug &#x26; Script Fixes</code> (75) → <code>SKSE &#x26; DLL - Gameplay Mods</code> (43) → <code>Mod Tools &#x26; Resources</code> (11) → <code>USER INTERFACE</code> (0) → <code>UI Foundation</code> (40) → <code>UI Fixes and Tweaks</code> (5) → <code>UI Addons</code> (82) → <code>Audio - Core</code> (9) → <code>Audio - Addons</code> (20) → <code>Audio - Clofas Series</code> (26) → <code>Audio - Music &#x26; UI</code> (8) → <code>Visuals - Core</code> (0) → <code>Core Foundation</code> (43) → <code>Weather and Sky</code> (35) → <code>Landscapes and World Improvements</code> (19) → <code>Grass</code> (13) → <code>Trees</code> (42) → <code>Flora</code> (43) → <code>Visuals - Worldspace &#x26; Expansions</code> (0) → <code>Minor Interior &#x26; Exterior Addons</code> (31) → <code>Locations - Environs and Evolving</code> (23) → <code>Locations - JK's Interiors &#x26; Exteriors</code> (55) → <code>Locations - Snazzy Interiors &#x26; Exteriors</code> (9) → <code>Locations - Snozz'</code> (40) → <code>Locations - Ryn's</code> (37) → <code>Solstheim</code> (11) → <code>Orc Strongholds</code> (18) → <code>Towns</code> (45) → <code>Winterhold</code> (5) → <code>Morthal</code> (5) → <code>Falkreath</code> (5) → <code>Dawnstar</code> (5) → <code>Whiterun</code> (27) → <code>Solitude</code> (28) → <code>Markarth</code> (17) → <code>Riften</code> (21) → <code>Windhelm</code> (21) → <code>Locations - New and Vanilla Overhauls</code> (20) → <code>Architecture</code> (23) → <code>Smaller Architecture</code> (24) → <code>Dawnguard and Dragonborn DLC</code> (17) → <code>Visuals - Late Loaders</code> (0) → <code>Underground &#x26; Ice</code> (38) → <code>Shrines and Statues</code> (27) → <code>Animals</code> (50) → <code>Creatures</code> (36) → <code>Clutter</code> (123) → <code>Furniture</code> (101) → <code>Valuables &#x26; JS Mods</code> (36) → <code>Food and Beverages</code> (44) → <code>Ingredients</code> (40) → <code>Clothing &#x26; Jewerly</code> (12) → <code>Retextures - Armor &#x26; Weapons</code> (77) → <code>Unique Artifacts</code> (20) → <code>Water</code> (11) → <code>Visual FX &#x26; Decals</code> (29) → <code>Dragons &#x26; Dragonpriests</code> (17) → <code>Embers, Lux, Via, Orbis &#x26; Lighting Overwrites</code> (83) → <code>Ancient Dwemer Metal Patches</code> (22) → <code>ENB Particle Lights</code> (44) → <code>Base Object and Model Swapper</code> (106) → <code>PC and NPC Overhauls</code> (0) → <code>Core Character Visuals</code> (14) → <code>Humanoids</code> (6) → <code>Scars, Overlays, and Misc</code> (25) → <code>Beast Races</code> (32) → <code>Hair</code> (22) → <code>Eyes</code> (11) → <code>Brows</code> (19) → <code>NPC Appearances</code> (49) → <code>Gameplay</code> (0) → <code>Gameplay - New Clothes</code> (81) → <code>Gameplay - New Armor</code> (128) → <code>3BA Conversions</code> (29) → <code>Gameplay - Followers</code> (87) → <code>Gameplay - New Weapons</code> (28) → <code>Gameplay - Supporter Weapons</code> (44) → <code>Gameplay - Spells &#x26; Magic</code> (44) → <code>Gameplay - Progression &#x26; Abilities</code> (29) → <code>Gameplay - Immersion</code> (124) → <code>Gameplay - Survival &#x26; Difficulty</code> (35) → <code>Gameplay - Lines Expansions &#x26; Dialogue</code> (51) → <code>Gameplay - Mihail's Creatures</code> (43) → <code>Gameplay - Other Creatures and NPCs</code> (38) → <code>Quests</code> (5) → <code>Quests - Vanilla Expansions</code> (101) → <code>Quests - New Quests</code> (44) → <code>Quests - Wyrmstooth</code> (21) → <code>Quests - Saints &#x26; Seducers Extended Cut</code> (6) → <code>Quests - The Forgotten City</code> (6) → <code>Quests - Undeath Lichdom</code> (7) → <code>Quests - The Gray Cowl of Nocturnal</code> (19) → <code>Quests - VIGILANT</code> (26) → <code>Animations</code> (0) → <code>Anim Foundations</code> (43) → <code>Idle Anims</code> (24) → <code>Locomotion Anims</code> (42) → <code>Combat Anims Non-MCO</code> (40) → <code>Smooth + Dynamic Animations</code> (13) → <code>Modern Combat</code> (82) → <code>MCO</code> (13) → <code>Anim Fixes</code> (13) → <code>Requiem &#x26; Late Loaders</code> (0) → <code>Requiem</code> (55) → <code>EnaiRim - Religion - Vampires - Werewolves</code> (41) → <code>Gameplay - Late Loaders</code> (100) → <code>Dragonborn Bestiary</code> (4) → <code>Finishing Line</code> (0) → <code>Late Patches</code> (71) → <code>Settings Loaders</code> (22) → <code>Northern Roads</code> (14) → <code>eFPS</code> (9) → <code>Outputs &#x26; Final Overwrites</code> (24) → <code>DO NOT DISABLE - DUMMY PLUGINS</code> (1) → <code>DO NOT TOUCH - DEFAULT PROFILE RESOURCES</code> (7) → <code>Optional - ReShade</code> (5) → <code>Flat Map Framework &#x26; LOD Overwrites</code> (21) → <code>ENB Core Files</code> (13) → <code>ENB Options (ONLY PICK 1)</code> (5) → <code>Optional - Extreme Visuals - High Performance Cost</code> (4) → <code>Optional - Gameplay</code> (10) → <code>Optional - Difficulty - If any load at the bottom, it's safe to ignore.</code> (8) → <code>Widescreen 21x9 - ALWAYS ENABLE IF ON THIS RESOLUTION</code> (9) → <code>Widescreen 32x9 - TURN OFF STB Widgets 16x9 IN OPTIONAL GAMEPLAY - ALWAYS ENABLE IF ON THIS RESOLUTION</code> (5) → <code>Controller Support (Enable BOTH Gamepad Plus Plus and Complete Controller Setup)</code> (3) → <code>DO NOT DISABLE - FINAL OVERWRITES</code> (4) → <code>Testing Mods - Ignore If Empty</code> (7) → <code>ADDING ANY MODS VOIDS SUPPORT - RULES IN DISCORD.GGBUNGALO</code> (4)</p>
+<h5 id="lexys-lotd-301026">Lexy’s LOTD 30.10.26</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">lexys-lotd-a-skyrim-modding-guide</a> (157 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>++++SKSE Scripts++++</code> (2) → <code>++++Cleaned Base ESMs++++</code> (1) → <code>MOD INTALLATION PART 1</code> (0) → <code>++++Optimized Baseline Textures++++</code> (3) → <code>++++Extension Frameworks - Engine Patches++++</code> (22) → <code>++++Extension Frameworks - Extended Functionality++++</code> (33) → <code>++++Extension Frameworks - Animation &#x26; Behavior Engine++++</code> (5) → <code>++++Extension Frameworks - Perks And Leveling++++</code> (10) → <code>++++Fixes &#x26; Resources - Unofficial Patches++++</code> (9) → <code>++++Essential Bug Fixes++++</code> (21) → <code>++++Interface - Console++++</code> (8) → <code>++++Interface - Menus++++</code> (23) → <code>++++Interface - HUD++++</code> (10) → <code>++++Interface - Icons++++</code> (13) → <code>++++Interface - Camera++++</code> (4) → <code>++++Interface - Controls++++</code> (7) → <code>++++Interface - Loading Screens++++</code> (3) → <code>++++Character Creation++++</code> (3) → <code>++++The World of Skyrim - Dynamic LOD++++</code> (6) → <code>++++World and Local Maps++++</code> (8) → <code>++++New Lands and Quests++++</code> (41) → <code>++++Main Quest Fixes &#x26; Tweaks++++</code> (9) → <code>++++Miscellaneous &#x26; Side Quest Fixes &#x26; Tweaks++++</code> (17) → <code>++++Faction Quest Fixes &#x26; Tweaks++++</code> (19) → <code>++++Legacy of The Dragonborn++++</code> (19) → <code>MOD INSTALLATION PART 2</code> (0) → <code>++++Weather Systems++++</code> (20) → <code>++++Stargazing++++</code> (5) → <code>++++Post Processing Resources &#x26; Essentials++++</code> (9) → <code>++++Core Audio Fixes &#x26; Overhauls++++</code> (7) → <code>++++General World Improvement++++</code> (28) → <code>++++Lighting Improvements and Mesh Fixes++++</code> (17) → <code>++++Grass++++</code> (13) → <code>++++Roads and Bridges++++</code> (4) → <code>++++Landscape and Environment++++</code> (12) → <code>++++Mountains++++</code> (10) → <code>++++Glaciers, Ice, Snow and Ash++++</code> (12) → <code>++++Trees and Flora++++</code> (22) → <code>++++Architecture &#x26; Settlements++++</code> (10) → <code>++++Dungeons and Ruins++++</code> (11) → <code>++++Dwemer Tech++++</code> (14) → <code>++++Cooking, Food, and Beverages++++</code> (6) → <code>++++Clutter and Miscellaneous++++</code> (46) → <code>++++Water++++</code> (9) → <code>++++Mesh Fixes Patches++++</code> (5) → <code>++++Locations++++</code> (40) → <code>++++Effects++++</code> (9) → <code>MOD INSTALLATION PART 3</code> (0) → <code>++++Immersive Citizens - AI Overhaul++++</code> (3) → <code>++++Races &#x26; Classes++++</code> (4) → <code>++++Weapons, Armour, Clothing, and Clutter Fixes++++</code> (2) → <code>++++Economy++++</code> (4) → <code>++++Morrowloot++++</code> (1) → <code>++++Open World Loot++++</code> (2) → <code>++++LOOT Overhauls++++</code> (5) → <code>++++Crafting++++</code> (13) → <code>++++Alchemy Overhauls++++</code> (19) → <code>++++Cooking Overhauls++++</code> (9) → <code>++++Skills &#x26; Perks++++</code> (13) → <code>++++Security Overhauls++++</code> (6) → <code>++++Combat and Traps++++</code> (22) → <code>++++Standing Stones, Shouts, and Powers++++</code> (8) → <code>++++Vampires, Lich, Werewolves, and Bears, Oh My++++</code> (17) → <code>MOD INSTALLATION PART 4</code> (0) → <code>++++Alternate Start Expansions &#x26; Tweaks++++</code> (15) → <code>++++At Your Own Pace++++</code> (4) → <code>++++Expanded Cities, Towns, and Villages++++</code> (5) → <code>++++Minor Town and City Overhauls++++</code> (23) → <code>++++Fort Dawnguard and Castle Volkihar Overhauls++++</code> (8) → <code>++++Falkreath City Overhauls++++</code> (3) → <code>++++Markarth City Overhauls++++</code> (6) → <code>++++Morthal City Overhauls++++</code> (3) → <code>++++Riften City Overhauls++++</code> (12) → <code>++++Solitude City Overhauls++++</code> (22) → <code>++++Whiterun City Overhauls++++</code> (15) → <code>++++Windhelm City Overhauls++++</code> (16) → <code>++++Winterhold City Overhauls++++</code> (8) → <code>++++Solstheim City Overhauls++++</code> (6) → <code>++++Cities, Towns, and Villages - Missives Board++++</code> (6) → <code>++++Statues and Shrines++++</code> (26) → <code>++++Interior Redesigns++++</code> (12) → <code>++++Travel++++</code> (10) → <code>++++Fire and Forges++++</code> (7) → <code>++++Worldspace - Late Loaders++++</code> (11) → <code>MOD INSTALLATION PART 5</code> (0) → <code>++++Vanilla Creature Retextures and Tweaks++++</code> (23) → <code>++++NPC Retextures++++</code> (46) → <code>++++The Courier Overhauls++++</code> (6) → <code>++++Beards, Brows, and Hair++++</code> (21) → <code>++++Eyes++++</code> (3) → <code>++++Scars, Tints, and Warpaints++++</code> (2) → <code>++++Animations++++</code> (22) → <code>++++Skeleton Stuff++++</code> (7) → <code>++++Option 1 - Body - NSFW (Nude)++++</code> (2) → <code>++++Option 2 - Body - SFW (NeverNude)++++</code> (3) → <code>++++Skin - Females++++</code> (3) → <code>++++Skin and Body - Argonians and Khajiits++++</code> (5) → <code>++++Dual Sheath++++</code> (2) → <code>++++Immersive Equipment Displays++++</code> (5) → <code>MOD INSTALLATION PART 6</code> (0) → <code>++++Enemy and Encounter Overhauls++++</code> (19) → <code>++++Animal Overhauls++++</code> (7) → <code>++++Dragon Overhauls++++</code> (7) → <code>++++Horse Overhauls++++</code> (8) → <code>++++NPCs and Behaviour++++</code> (5) → <code>++++Dialogue and NPC Interaction++++</code> (10) → <code>MOD INSTALLATION PART 7</code> (0) → <code>++++Follower Dialogue Expansions++++</code> (1) → <code>++++New Followers and NPCs - Interesting NPCs++++</code> (15) → <code>++++New Followers and NPCs - Lucien and Xelzaz++++</code> (10) → <code>++++New Followers and NPCs - Inigo and Khajiit Will Follow++++</code> (6) → <code>++++New Followers and NPCs - Thogra, Remiel, Auri, and Sofia++++</code> (19) → <code>++++Follower Management++++</code> (6) → <code>MOD INSTALLATION PART 8</code> (0) → <code>++++Optimized Baseline Armour Retextures++++</code> (2) → <code>++++Clothing and Jewellery++++</code> (13) → <code>++++Armour and Weapons Retextures and Tweaks++++</code> (34) → <code>++++New Weapons and Armours++++</code> (50) → <code>++++Armour Conversions++++</code> (4) → <code>MOD INSTALLATION PART 9</code> (0) → <code>++++Sound Improvements, FX, &#x26; Voice Overrides++++</code> (5) → <code>++++Basic Needs and Survival++++</code> (23) → <code>++++Gameplay++++</code> (9) → <code>++++Magic and Spells++++</code> (23) → <code>++++Enchantment Overhauls++++</code> (7) → <code>++++Soul Trap Management Overhauls++++</code> (4) → <code>++++Immersion++++</code> (8) → <code>++++Enhanced Lights and FX++++</code> (8) → <code>++++LUX++++</code> (8) → <code>++++ENB Particle Lights++++</code> (21) → <code>MOD INSTALLATION PART 10</code> (0) → <code>++++Kryptopyr’s Patch Hub Collection++++</code> (1) → <code>++++Ancient Dwemer Metal My Patches Collection++++</code> (21) → <code>++++Unofficial Skyrim Modders Patch Emporium++++</code> (1) → <code>++++Legacy of The Dragonborn Patch Collection++++</code> (13) → <code>++++Exterior and Interior Patch Collection++++</code> (17) → <code>++++Owl Patch Collection++++</code> (4) → <code>++++Miscellaneous Compatibility Patches++++</code> (17) → <code>++++Late Weapons and Armours Retextures++++</code> (3) → <code>++++Follower Compatibility Patches++++</code> (2) → <code>++++FormList Manipulator Patches++++</code> (9) → <code>++++UI Overhauls++++</code> (14) → <code>++++Utilities++++</code> (5) → <code>++++Consistency Patches++++</code> (2) → <code>++++Conflict Resolution++++</code> (1) → <code>++++Merge Page++++</code> (4) → <code>++++Finishing Line++++</code> (0) → <code>++++Moonpath to Elsweyr SSE - Music - Weather and Other Fixes - Ini’s for ENB++++</code> (1) → <code>++++Pandora Output++++</code> (1) → <code>++++SKSE Output++++</code> (1) → <code>++++Pre-Bash Delevelers++++</code> (1) → <code>++++Wrye Bash++++</code> (1) → <code>++++Bash Override++++</code> (2) → <code>++++Synthesis++++</code> (1) → <code>++++xLODGEN Output++++</code> (1) → <code>++++DynDOLOD Error Fixes++++</code> (5) → <code>++++DynDOLOD - Dynamic Distant LOD Generation++++</code> (5)</p>
+<h5 id="step-23-personalized-user-upload">Step 2.3 (personalized user upload)</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/step-2-3-skyrimae" target="_blank" rel="noreferrer">step-2-3-skyrimae</a> (42 separators; top of pane first; number in parentheses = mods directly under it; 6 mods above the first separator)</p>
+<p><code>SkyrimSE v2.3 Changelog Release Date August 19, 2024</code> (0) → <code>02-Extenders</code> (11) → <code>04-Resources</code> (3) → <code>06-Foundation</code> (32) → <code>08-Animation and Physics</code> (7) → <code>10-Models and Textures</code> (159) → <code>12-Sounds and Music</code> (21) → <code>14-Character Appearance</code> (16) → <code>16-Fixes</code> (32) → <code>18-Gameplay-General</code> (8) → <code>20-Gameplay-AI and Combat</code> (12) → <code>22-Gameplay-Economy</code> (2) → <code>24-Gameplay-Immersion</code> (20) → <code>26-Gameplay-Quests</code> (23) → <code>28-Gameplay-Skills and Perks</code> (15) → <code>30-Interface</code> (39) → <code>32-Locations</code> (18) → <code>34-Lighting and Weather</code> (11) → <code>36-Utilities</code> (3) → <code>38-Patches</code> (22) → <code>42-Post-Processing - ENB installation is optional</code> (20) → <code>--- PRESET ENB ---</code> (9) → <code>This mod should ONLY be enabled for terrain LOD generation</code> (1) → <code>44-Lod</code> (3) → <code>EXTENDED</code> (0) → <code>Step - Conflict Resolution</code> (0) → <code>Step - Lighting and Weather</code> (0) → <code>Step - Post-Processing + ENB</code> (0) → <code>Step - Post-Processing</code> (0) → <code>PARK</code> (305) → <code>- - - EXTENDED - FOLLOWER - - - -</code> (0) → <code>EXT- Community Shaders</code> (0) → <code>NO</code> (0) → <code>00-Vanilla Cleaned Masters</code> (0) → <code>000-SKSE</code> (0) → <code>-- 06.1 -- spostate da textures</code> (0) → <code>-- EXT -- FX --</code> (0) → <code>-- EXTENDED -- WATER --</code> (0) → <code>--- EXTENDED - - ENB ESSENTIALS</code> (0) → <code>06-Foundation continua</code> (0) → <code>EXT - 35 - LANDSCAPE</code> (0) → <code>- - - OUTPUT - - -</code> (5)</p>
+<h5 id="elysium-remastered-330">Elysium Remastered 3.3.0</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">elysium-remastered-332</a> (48 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Elysium Remastered v3.3.0</code> (0) → <code>00 ROOT FOLDER</code> (4) → <code>01 OFFICIAL MASTER FILES</code> (4) → <code>02 ESSENTIAL MODS</code> (18) → <code>03 UTILITIES</code> (48) → <code>04 SKSE PLUGINS</code> (36) → <code>05 FIXES</code> (90) → <code>06 TWEAKS</code> (42) → <code>07 CONTROLS &#x26; CAMERA</code> (13) → <code>08 INTERFACE</code> (64) → <code>09 GRAPHICS BASELINE</code> (42) → <code>10 WEATHER</code> (18) → <code>11 LIGHTING</code> (16) → <code>12 VISUAL FX</code> (33) → <code>13 LANDSCAPE</code> (48) → <code>14 TREES &#x26; PLANTS</code> (55) → <code>15 EXTERIOR OVERHAULS</code> (78) → <code>16 INTERIOR OVERHAULS</code> (44) → <code>17 NPC OVERHAULS</code> (111) → <code>18 APPEARANCE</code> (37) → <code>19 ARCHITECTURE</code> (97) → <code>20 MISC STRUCTURES</code> (72) → <code>21 INTERIORS</code> (32) → <code>22 DUNGEONS</code> (35) → <code>23 CLUTTER</code> (71) → <code>24 FOOD &#x26; INGREDIENTS</code> (38) → <code>25 APPAREL &#x26; WEAPONS</code> (54) → <code>26 UNIQUE ARTIFACTS</code> (35) → <code>27 CREATURES</code> (69) → <code>28 GAMEPLAY OVERHAULS</code> (39) → <code>29 BALANCING</code> (15) → <code>30 NON-PLAYER CHARACTERS</code> (62) → <code>31 IMPROVED VANILLA QUESTS</code> (42) → <code>32 COMBAT &#x26; ENCOUNTERS</code> (58) → <code>33 MISCELLANEOUS</code> (45) → <code>34 NEW GEAR</code> (20) → <code>35 CONTENT ADDON</code> (115) → <code>36 NEW MUSIC</code> (10) → <code>37 SOUND EFFECTS</code> (13) → <code>38 SKELETON &#x26; ANIMATIONS</code> (88) → <code>39 ENB PARTICLE LIGHTS</code> (54) → <code>40 FINAL PATCHES</code> (9) → <code>41 MERGES</code> (10) → <code>42 PATCHER OUTPUT</code> (15) → <code>43 PERFORMANCE MODE</code> (4) → <code>44 WIDESCREEN SUPPORT</code> (18) → <code>45 DLAA SUPPORT</code> (3) → <code>46 RULE 11</code> (0)</p>
+<h5 id="eldergleam-402">Eldergleam 4.0.2</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/eldergleam-a-next-gen-modlist-4-0-2" target="_blank" rel="noreferrer">eldergleam-a-next-gen-modlist-4-0-2</a> (101 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Eldergleam NG V4.0 (1.5.97)</code> (2) → <code>Creation Club Add-ons</code> (85) → <code>1 - MASTER FIXES -</code> (12) → <code>2 - ENGINE PATCHES -</code> (26) → <code>3 - MAIN ESSENTIALS -</code> (26) → <code>3.1 - ESSENTIAL EXTENTION FRAMEWORKS -</code> (10) → <code>3.2 - ESSENTIAL FUNCTIONALITY -</code> (14) → <code>3.3 - FRAMEWORKS -</code> (6) → <code>4 - SCRIPT FIXES -</code> (18) → <code>4.1 - GENERAL FIXES -</code> (67) → <code>5 - MAIN TWEAKS -</code> (20) → <code>5.1 - MISC TWEAKS &#x26; FIXES -</code> (14) → <code>6 - UI &#x26; HUD -</code> (28) → <code>6.1 - UI EMBELLISHMENTS -</code> (10) → <code>6.2 - UI RESKIN [16x9 &#x26; 21x9] -</code> (4) → <code>6.4 - UI PATCHES AND ADDITIONS [16x9 &#x26; 21x9] -</code> (17) → <code>6.3 - LOADING SCREENS &#x26; MAIN MENU [16x9 &#x26; 21x9] -</code> (7) → <code>7 - MUSIC &#x26; SOUNDS -</code> (77) → <code>8 - ANIMATION FRAMEWORK &#x26; FIXES -</code> (15) → <code>- ADDED QUESTLOCATION MODS -</code> (0) → <code>9 - MESH FIXES -</code> (28) → <code>10 - EARLY LOADERS -</code> (5) → <code>11 - MAIN VISUALS -</code> (23) → <code>11.1 - MAIN LANDSCAPE MODS -</code> (21) → <code>11.2 - LANDSCAPE ADDITIONS -</code> (0) → <code>11.3 - ROCK ENHANCEMENTS -</code> (4) → <code>11.4 - ICE &#x26; SNOW ENHANCEMENTS -</code> (13) → <code>11.5 - WATER ENHANCEMENTS -</code> (7) → <code>11.6 - TREES RELATED -</code> (10) → <code>11.7 PLANTS RELATED</code> (48) → <code>12 - CREATURE MESHES -</code> (20) → <code>12.1 - FRIENDLY CREATURES -</code> (32) → <code>12.2 - HOSTILE CREATURES -</code> (39) → <code>13 - ARCHITECTURE MESHES -</code> (7) → <code>13.1 - ARCHITECTURE - WHITERUN -</code> (20) → <code>13.2 - ARCHITECTURE - SOLITUDE -</code> (15) → <code>13.3 - ARCHITECTURE - WINDHELM -</code> (14) → <code>13.4 - ARCHITECTURE - RIFTEN -</code> (12) → <code>13.5 - ARCHITECTURE - MARKARTH -</code> (8) → <code>13.6 - ARCHITECTURE - FARMHOUSES -</code> (7) → <code>13.7 - ARCHITECTURE - RAVEN ROCK -</code> (8) → <code>13.8 - ARCHITECTURE - FORGOTTEN VALE -</code> (3) → <code>13.9 - ARCHITECTURE - FORTS -</code> (4) → <code>13.10 - ARCHITECTURE - SKYHAVEN -</code> (2) → <code>13.11 - ARCHITECTURE - SOUL CAIRN -</code> (2) → <code>13.12 - ARCHITECTURE - HIGH HROTHGAR -</code> (5) → <code>13.13 - ARCHITECTURE - SOVNGARDE -</code> (2) → <code>13.14 - ARCHITECTURE - APOCRYPHA -</code> (3) → <code>13.15 - ARCHITECTURE - COLLEGE OF WINTERHOLD -</code> (4) → <code>13.16 - ARCHITECTURE - CASTLE VOLKIHAR -</code> (4) → <code>14 - OTHER ARCHITECTURE -</code> (37) → <code>14.1 - DUNGEONS AND CAVE -</code> (30) → <code>14.2 - DWEMER RELATED ARCHITECTURE -</code> (29) → <code>15 - OTHER SETTLEMENT TEXTURES -</code> (2) → <code>15.1 - SETTLEMENT TWEAKS -</code> (5) → <code>15.2 - ADDITIONAL SETTLEMENT AREA TWEAKS -</code> (1) → <code>16 - MAIN CLUTTER -</code> (20) → <code>16.1 - FURNITURE &#x26; PAPER -</code> (29) → <code>16.2 - LIGHTS -</code> (10) → <code>16.3 - INGREDIENTS &#x26; CRAFTING -</code> (21) → <code>16.4 - FOOD -</code> (20) → <code>16.5 - SMALL ITEMS -</code> (37) → <code>16.6 - QUEST RELATED ITEMS -</code> (12) → <code>16.7 - BASE OBJECT SWAPPER MODS -</code> (27) → <code>17 - DAWNGUARD RELATED -</code> (15) → <code>18 - DRAGONBORN RELATED -</code> (11) → <code>19 - STATUES &#x26; SHRINES -</code> (18) → <code>20 - MISCELLANEOUS VISUALS -</code> (36) → <code>21 - CLOTHING -</code> (6) → <code>21.1 - WEAPONS AND ARMOR -</code> (49) → <code>22 - NPC OVERHAUL -</code> (26) → <code>23 - CHARACTER VISUAL ENHANCER -</code> (37) → <code>23.1 - HAIR -</code> (32) → <code>23.2 - EYE ENHANCERS -</code> (12) → <code>23.3 - TATTOOS OR BODYPAINTS -</code> (5) → <code>23.4 - BODYSLIDE AND OVERWRITE -</code> (14) → <code>23.5 - CHARACTER PRESETS -</code> (4) → <code>24 - GAMEPLAY FRAMEWORK -</code> (48) → <code>24.1 - MAIN CHARACTER MOVEMENT -</code> (51) → <code>24.2 - FIRST-PERSON GAMEPLAY -</code> (4) → <code>24.3 - PHYSICS &#x26; 3RD-PERSON GAMEPLAY -</code> (6) → <code>24.4 - SMOOTHCAM PRESETS -</code> (3) → <code>24.5 - CORE ANIMATIONS -</code> (16) → <code>25 - WEATHER -</code> (0) → <code>25.1 - NAT.III WEATHER -</code> (6) → <code>25.2 - WEATHER ENHANCEMENTS -</code> (11) → <code>26 - MAIN VISUAL FX -</code> (13) → <code>26.1 - MORE VISUAL FX -</code> (14) → <code>26.2 - ENB PARTICLE LIGHTS -</code> (29) → <code>27 - LATE LOADERS -</code> (12) → <code>27.1 - LATE PATCHES -</code> (40) → <code>28 - ENB &#x26; Frame Gen -</code> (5) → <code>28.2 - ENABLE AT ALL TIMES -</code> (0) → <code>28.4 - ENB PRESETS -</code> (14) → <code>28.4 - RESHADE RELATED -</code> (5) → <code>29 - PATCHER TOOLS -</code> (11) → <code>29.1 FINAL OUTPUTS</code> (15) → <code>29.2 UNUSED OUTPUT (DISABLE)</code> (4) → <code>CONTROLLER SUPPORT</code> (2) → <code>FWMF MAPS (MUST LOAD LAST)</code> (10) → <code>NEWLY DOWNLOADED MODS (DO NOT LEAVE IT HERE!!)</code> (0)</p>
+<h5 id="gate-to-sovngarde-v115-wabbajack-conversion">Gate to Sovngarde v115 (Wabbajack conversion)</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/gate-to-sovngarde-ae-wabbajack-conversion" target="_blank" rel="noreferrer">gate-to-sovngarde-ae-wabbajack-conversion</a> (289 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Bugfixes &#x26; Patches</code> (97) → <code>Utilities &#x26; Modder Resources</code> (62) → <code>Visuals &#x26; Graphics Overhaul</code> (3) → <code>Visuals &#x26; Graphics Overhaul - Community Shaders</code> (11) → <code>Misc. Low Priority</code> (3) → <code>User Interface (UI)</code> (41) → <code>User Interface (UI) - Main Menu</code> (0) → <code>User Interface (UI) - Loading Screens</code> (1) → <code>User Interface (UI) - Map</code> (1) → <code>User Interface (UI) - Crafting Menu</code> (1) → <code>User Interface (UI) - Reading Menu</code> (1) → <code>User Interface (UI) - Character Creation</code> (3) → <code>User Interface (UI) - Descriptions</code> (10) → <code>User Interface (UI) - Lockpicking Menu</code> (4) → <code>User Interface (UI) - Console</code> (3) → <code>User Interface (UI) - New Elements</code> (10) → <code>User Interface (UI) - New Elements - Patches &#x26; Add-ons</code> (13) → <code>Body, Face &#x26; Hair</code> (0) → <code>Body, Face &#x26; Hair - Body</code> (5) → <code>Body, Face &#x26; Hair - Body - Beast Races</code> (5) → <code>Body, Face &#x26; Hair - Face</code> (4) → <code>Body, Face &#x26; Hair - Eyes</code> (2) → <code>Body, Face &#x26; Hair - Hair &#x26; Facial Hair &#x26; etc.</code> (15) → <code>Body, Face &#x26; Hair - Presets</code> (2) → <code>Environment Overhauls</code> (0) → <code>Environment Overhauls - Weather Overhaul</code> (8) → <code>Environment Overhauls - Weather Overhaul - Patches &#x26; Add-ons</code> (3) → <code>Environment Overhauls - Water Overhauls</code> (2) → <code>Environment Overhauls - Underwater Overhauls</code> (2) → <code>Environment Overhauls - Seasons</code> (8) → <code>Mesh &#x26; Texture Replacers</code> (0) → <code>Mesh &#x26; Texture Replacers - Blood</code> (0) → <code>Mesh &#x26; Texture Replacers - Magic</code> (0) → <code>Mesh &#x26; Texture Replacers - Magic Effects</code> (1) → <code>Mesh &#x26; Texture Replacers - Magic Effects - Enchanted Weapons</code> (0) → <code>Mesh &#x26; Texture Replacers - Misc. Low Priority</code> (22) → <code>Mesh &#x26; Texture Replacers - Roads</code> (5) → <code>Mesh &#x26; Texture Replacers - Trees</code> (3) → <code>Mesh &#x26; Texture Replacers - Snow &#x26; Ice</code> (2) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Apocrypha</code> (1) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Blackreach</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - College of Winterhold</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Forgotten Vale</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Fort Dawnguard</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - High Hrothgar</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Markarth</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Raven Rock</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Riften</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Solitude</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Soul Cairn</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Whiterun</code> (0) → <code>Mesh &#x26; Texture Replacers - Cities and Major Locations - Windhelm</code> (0) → <code>Mesh &#x26; Texture Replacers - Misc. Statics</code> (45) → <code>Mesh &#x26; Texture Replacers - Creatures</code> (26) → <code>Mesh &#x26; Texture Replacers - Clothing, Weapons &#x26; Armor</code> (36) → <code>Mesh &#x26; Texture Replacers - Plants &#x26; Harvestables</code> (9) → <code>Mesh &#x26; Texture Replacers - Misc. Items</code> (12) → <code>Mesh &#x26; Texture Replacers - Tilesets</code> (1) → <code>Mesh &#x26; Texture Replacers - Misc. Effects</code> (3) → <code>Mesh &#x26; Texture Replacers - Skeletons</code> (2) → <code>Mesh &#x26; Texture Replacers - PRIORITY OVERRIDE</code> (5) → <code>Audio &#x26; Sound Replacers</code> (6) → <code>New Plants &#x26; Trees</code> (3) → <code>New Statics</code> (4) → <code>New Creatures</code> (27) → <code>New Creatures - Patches &#x26; Add-ons</code> (6) → <code>New Creatures - Followers</code> (2) → <code>New Creatures - Mounts</code> (1) → <code>New Places</code> (0) → <code>New Places - New Worlds</code> (2) → <code>New Places - New Worlds - Beyond Skyrim Bruma</code> (2) → <code>New Places - New Worlds - Beyond Skyrim Bruma - Patches &#x26; Add-ons</code> (23) → <code>New Places - New Worlds - Wyrmstooth</code> (1) → <code>New Places - New Worlds - Wyrmstooth - Patches &#x26; Add-ons</code> (14) → <code>New Places - Minor Towns and Settlements</code> (0) → <code>New Places - Minor Towns and Settlements - Patches &#x26; Add-ons</code> (0) → <code>New Places - Player Homes</code> (3) → <code>New Places - Player Homes - Patches &#x26; Add-ons</code> (4) → <code>New Places - Inns &#x26; Shops etc. INSIDE Cities</code> (0) → <code>New Places - Inns &#x26; Shops etc. OUTSIDE Cities</code> (1) → <code>New Places - Points of Interest</code> (12) → <code>New Places - Points of Interest - Patches &#x26; Add-ons</code> (1) → <code>New Places - Dungeons INSIDE Cities</code> (0) → <code>New Places - Dungeons, Forts, Camps etc.</code> (5) → <code>New Places - Dungeons, Forts, Camps etc. - Patches &#x26; Add-ons</code> (4) → <code>New Clothing, Weapons &#x26; Armor</code> (98) → <code>New Clothing, Weapons &#x26; Armor - Patches &#x26; Add-ons</code> (33) → <code>New Misc. Items</code> (6) → <code>New Spells</code> (11) → <code>New NPCs</code> (0) → <code>New NPCs - Major NPC Addition Mods</code> (0) → <code>New NPCs - Major NPC Addition Mods - Interesting NPCs (3DNPC)</code> (2) → <code>New NPCs - Major NPC Addition Mods - Interesting NPCs (3DNPC) - Patches &#x26; Add-ons</code> (19) → <code>New NPCs - Followers</code> (7) → <code>New NPCs - Followers - Patches and Add-ons</code> (11) → <code>New NPCs - Followers - Remiel</code> (2) → <code>New NPCs - Followers - Xelzaz</code> (4) → <code>New NPCs - Followers - Inigo</code> (3) → <code>New NPCs - Followers - Lucien</code> (22) → <code>New NPCs - Followers - Gore</code> (3) → <code>New NPCs - Followers - Kaidan</code> (2) → <code>New NPCs - Followers - Auri</code> (9) → <code>New NPCs - Followers - Val Serano</code> (5) → <code>New NPCs - Factions</code> (0) → <code>New NPCs - Non-Playable Factions</code> (0) → <code>New NPCs - Traders</code> (0) → <code>New NPCs - Misc. Citizens</code> (3) → <code>New Quests</code> (29) → <code>New Quests - Patches &#x26; Add-ons</code> (25) → <code>New Quests - VIGILANT</code> (1) → <code>New Quests - VIGILANT - Patches &#x26; Add-ons</code> (18) → <code>New Quests - Dac0da</code> (1) → <code>New Quests - Dac0da - Patches &#x26; Add-ons</code> (8) → <code>New Quests - Project AHO</code> (14) → <code>New Quests - New Dynamic Quests</code> (13) → <code>New Major Game Mechanics</code> (0) → <code>New Major Game Mechanics - Custom Skills</code> (7) → <code>New Major Game Mechanics - Lichdom</code> (7) → <code>New Major Game Mechanics - Reputation</code> (4) → <code>New Major Game Mechanics - Conquering</code> (7) → <code>New Major Game Mechanics - Playing Music</code> (12) → <code>New Major Game Mechanics - Climbing &#x26; Traversal</code> (4) → <code>New Major Game Mechanics - Durability and Degradation</code> (1) → <code>New Major Game Mechanics - Wounds and Injuries</code> (7) → <code>New Major Game Mechanics - Traits</code> (3) → <code>New Minor Game Mechanics</code> (0) → <code>New Minor Game Mechanics - Personal Hygiene</code> (4) → <code>New Minor Game Mechanics - Stress &#x26; Sanity</code> (1) → <code>New Minor Game Mechanics - Dreaming</code> (1) → <code>New Minor Game Mechanics - Footprints</code> (3) → <code>New Minor Game Mechanics - Fitness</code> (4) → <code>New Minor Game Mechanics - Holidays</code> (3) → <code>New Minor Game Mechanics - Dwemer Automaton Hacking</code> (3) → <code>New Minor Game Mechanics - Gambling</code> (3) → <code>New Music</code> (2) → <code>Overhauls for Major Game Mechanics</code> (0) → <code>Overhauls for Major Game Mechanics - Alternate Start</code> (9) → <code>Overhauls for Major Game Mechanics - Racial Abilities &#x26; Powers</code> (1) → <code>Overhauls for Major Game Mechanics - Follower Overhauls</code> (12) → <code>Overhauls for Major Game Mechanics - Follower Overhauls - Animals</code> (1) → <code>Overhauls for Major Game Mechanics - Hunting</code> (8) → <code>Overhauls for Major Game Mechanics - Survival Mode</code> (5) → <code>Overhauls for Major Game Mechanics - Animations</code> (0) → <code>Overhauls for Major Game Mechanics - Animations - Framework</code> (5) → <code>Overhauls for Major Game Mechanics - Animations - Misc.</code> (53) → <code>Overhauls for Major Game Mechanics - Animations - Facial Expression</code> (4) → <code>Overhauls for Major Game Mechanics - Animations - Magic</code> (4) → <code>Overhauls for Major Game Mechanics - Animations - Combat</code> (9) → <code>Overhauls for Major Game Mechanics - Animations - First Person</code> (5) → <code>Overhauls for Major Game Mechanics - Animations - Creatures</code> (9) → <code>Overhauls for Major Game Mechanics - Movement</code> (1) → <code>Overhauls for Major Game Mechanics - Combat</code> (12) → <code>Overhauls for Major Game Mechanics - Combat - Archery</code> (6) → <code>Overhauls for Major Game Mechanics - Combat - Dismemberment</code> (9) → <code>Overhauls for Major Game Mechanics - Diseases</code> (1) → <code>Overhauls for Major Game Mechanics - Encounters</code> (2) → <code>Overhauls for Major Game Mechanics - Encounter Zones</code> (3) → <code>Overhauls for Major Game Mechanics - Loot</code> (15) → <code>Overhauls for Major Game Mechanics - Currency</code> (3) → <code>Overhauls for Major Game Mechanics - Economy</code> (1) → <code>Overhauls for Major Game Mechanics - Romance &#x26; Marriage</code> (4) → <code>Overhauls for Major Game Mechanics - Magic</code> (10) → <code>Overhauls for Major Game Mechanics - Staves &#x26; Scrolls</code> (5) → <code>Overhauls for Major Game Mechanics - Soultrapping</code> (1) → <code>Overhauls for Major Game Mechanics - Shouts</code> (12) → <code>Overhauls for Major Game Mechanics - Skills &#x26; Perks</code> (9) → <code>Overhauls for Major Game Mechanics - Enchanting</code> (5) → <code>Overhauls for Major Game Mechanics - Crafting</code> (2) → <code>Overhauls for Major Game Mechanics - Alchemy</code> (10) → <code>Overhauls for Major Game Mechanics - Alchemy - Patches &#x26; Add-ons</code> (10) → <code>Overhauls for Major Game Mechanics - Cooking</code> (1) → <code>Overhauls for Major Game Mechanics - Cooking - Patches &#x26; Add-ons</code> (11) → <code>Overhauls for Major Game Mechanics - Stealth</code> (5) → <code>Overhauls for Major Game Mechanics - Crime</code> (12) → <code>Overhauls for Major Game Mechanics - Religion</code> (5) → <code>Overhauls for Major Game Mechanics - Standing Stones</code> (1) → <code>Overhauls for Major Game Mechanics - Vampire Overhaul</code> (6) → <code>Overhauls for Major Game Mechanics - Werewolf Overhaul</code> (4) → <code>Overhauls for Major Game Mechanics - Werebear Overhaul</code> (3) → <code>Overhauls for Major Game Mechanics - Equipment Display</code> (11) → <code>Overhauls for Major Game Mechanics - Camping</code> (14) → <code>Overhauls for Major Game Mechanics - Civil War</code> (9) → <code>Overhauls for Minor Game Mechanics</code> (0) → <code>Overhauls for Minor Game Mechanics - Fast Travel</code> (1) → <code>Overhauls for Minor Game Mechanics - Taverns &#x26; Inns</code> (2) → <code>Overhauls for Minor Game Mechanics - Carriages &#x26; Ferries</code> (2) → <code>Overhauls for Minor Game Mechanics - Sleeping</code> (6) → <code>Overhauls for Minor Game Mechanics - Mining</code> (1) → <code>Overhauls for Minor Game Mechanics - Fishing</code> (9) → <code>Overhauls for Minor Game Mechanics - Courier System</code> (3) → <code>Overhauls for Minor Game Mechanics - Storage and Containers</code> (1) → <code>Overhauls for Minor Game Mechanics - Jumping</code> (4) → <code>Overhauls for Minor Game Mechanics - Skill Books</code> (1) → <code>Overhauls for Minor Game Mechanics - Drugs &#x26; Alcohol</code> (2) → <code>Quest Overhauls &#x26; Expansions</code> (0) → <code>Quest Overhauls &#x26; Expansions - General Overhauls</code> (3) → <code>Quest Overhauls &#x26; Expansions - Main Quest</code> (9) → <code>Quest Overhauls &#x26; Expansions - Dragonborn DLC</code> (14) → <code>Quest Overhauls &#x26; Expansions - Dawnguard DLC</code> (6) → <code>Quest Overhauls &#x26; Expansions - Creation Club (CC) DLC</code> (58) → <code>Quest Overhauls &#x26; Expansions - Companions</code> (3) → <code>Quest Overhauls &#x26; Expansions - Dark Brotherhood</code> (8) → <code>Quest Overhauls &#x26; Expansions - College of Winterhold</code> (12) → <code>Quest Overhauls &#x26; Expansions - Thieves Guild</code> (6) → <code>Quest Overhauls &#x26; Expansions - Misc. Quests</code> (29) → <code>Quest Overhauls &#x26; Expansions - Misc. Quests - Patches &#x26; Add-ons</code> (4) → <code>Quest Overhauls &#x26; Expansions - Dynamic Quests</code> (1) → <code>Exterior Overhauls</code> (0) → <code>Exterior Overhauls - Worldspaces</code> (0) → <code>Exterior Overhauls - Landscape</code> (0) → <code>Exterior Overhauls - Major Cities</code> (1) → <code>Exterior Overhauls - Major Cities - Dawnstar</code> (1) → <code>Exterior Overhauls - Major Cities - Dawnstar - Patches &#x26; Add-ons</code> (3) → <code>Exterior Overhauls - Major Cities - Falkreath</code> (1) → <code>Exterior Overhauls - Major Cities - Falkreath - Patches &#x26; Add-ons</code> (5) → <code>Exterior Overhauls - Major Cities - Markarth</code> (0) → <code>Exterior Overhauls - Major Cities - Markarth - Patches &#x26; Add-ons</code> (0) → <code>Exterior Overhauls - Major Cities - Morthal</code> (1) → <code>Exterior Overhauls - Major Cities - Morthal - Patches &#x26; Add-ons</code> (2) → <code>Exterior Overhauls - Major Cities - Riften</code> (0) → <code>Exterior Overhauls - Major Cities - Riften - Patches &#x26; Add-ons</code> (0) → <code>Exterior Overhauls - Major Cities - Solitude</code> (2) → <code>Exterior Overhauls - Major Cities - Solitude - Patches &#x26; Add-ons</code> (3) → <code>Exterior Overhauls - Major Cities - Whiterun</code> (2) → <code>Exterior Overhauls - Major Cities - Whiterun - Patches &#x26; Add-ons</code> (8) → <code>Exterior Overhauls - Major Cities - Windhelm</code> (1) → <code>Exterior Overhauls - Major Cities - Windhelm - Patches &#x26; Add-ons</code> (7) → <code>Exterior Overhauls - Major Cities - Winterhold</code> (1) → <code>Exterior Overhauls - Major Cities - Winterhold - Patches &#x26; Add-Ons</code> (1) → <code>Exterior Overhauls - Major Cities' Outskirts</code> (1) → <code>Exterior Overhauls - Major Cities' Outskirts - Markarth</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Markarth - Patches</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Solitude</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Solitude - Patches &#x26; Add-ons</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Whiterun</code> (1) → <code>Exterior Overhauls - Major Cities' Outskirts - Whiterun - Patches &#x26; Add-ons</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Windhelm</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Windhelm - Patches &#x26; Add-ons</code> (0) → <code>Exterior Overhauls - Major Cities' Outskirts - Winterhold</code> (0) → <code>Exterior Overhauls - Minor Towns and Settlements</code> (7) → <code>Exterior Overhauls - Minor Towns and Settlements - Patches &#x26; Add-ons</code> (5) → <code>Exterior Overhauls - Dungeons, Forts, Camps etc.</code> (19) → <code>Exterior Overhauls - Dungeons, Forts, Camps, etc - Patches &#x26; Add-ons</code> (9) → <code>Exterior Overhauls - Points of Interest</code> (10) → <code>Exterior Overhauls - Points of Interest - Patches &#x26; Add-ons</code> (10) → <code>Exterior Overhauls - Player Homes</code> (0) → <code>Interior Overhauls</code> (0) → <code>Interior Overhauls - Player Homes</code> (4) → <code>Interior Overhauls - Dungeons, Forts, Mines etc.</code> (3) → <code>Interior Overhauls - Dungeons, Forts, Mines etc. - Patches &#x26; Add-ons</code> (1) → <code>Interior Overhauls - Faction Headquarters, Palaces etc.</code> (8) → <code>Interior Overhauls - Faction Headquarters, Palaces etc. - Patches &#x26; Add-ons</code> (5) → <code>Interior Overhauls - Misc. Buildings</code> (3) → <code>Interior Overhauls - Misc</code> (4) → <code>Interior Overhauls - Patches &#x26; Bugfixes</code> (1) → <code>Creatures Overhauls</code> (0) → <code>Creatures Overhauls - Horses Overhaul</code> (6) → <code>Creatures Overhauls - Horses Overhaul - Patches</code> (2) → <code>Creatures Overhauls - Dragons</code> (5) → <code>Creatures Overhauls - Misc.</code> (15) → <code>Plants &#x26; Harvestables Overhauls</code> (0) → <code>Clothing, Weapons &#x26; Armor Overhauls</code> (0) → <code>Clothing, Weapons &#x26; Armor Overhauls - Unique Artifacts</code> (3) → <code>Clothing, Weapons &#x26; Armor Overhauls - Unique Artifacts - Patches &#x26; Add-ons</code> (9) → <code>NPC Overhauls</code> (0) → <code>NPC Overhauls - General Overhauls</code> (2) → <code>NPC Overhauls - Non-Playable Factions Overhauls</code> (2) → <code>NPC Overhauls - Non-Playable Factions Overhauls - Patches &#x26; Add-ons</code> (3) → <code>NPC Overhauls - Followers</code> (18) → <code>NPC Overhauls - Followers - Patches &#x26; Add-ons</code> (11) → <code>NPC Overhauls - Equipment</code> (8) → <code>NPC Overhauls - Visual Effects</code> (3) → <code>NPC Overhauls - Names</code> (5) → <code>NPC Overhauls - Dialogue</code> (63) → <code>NPC Overhauls - Behaviour</code> (24) → <code>NPC Overhauls - Looks</code> (12) → <code>NPC Overhauls - Looks - Patches &#x26; Add-ons</code> (1) → <code>NPC Overhauls - Looks - Children</code> (8) → <code>Small Immersive Changes</code> (21) → <code>Tweaks &#x26; Balancing</code> (3) → <code>Misc. High Priority (Large Patch Hubs etc.)</code> (2) → <code>DynDOLOD</code> (7) → <code>Mod OUTPUT</code> (3) → <code>Mod OUTPUT - Priority Override</code> (1) → <code>FWMF - Flat World Map Framework</code> (15) → <code>PRIORITY OVERRIDE</code> (21) → <code>========== OPTIONAL MODS ==========</code> (0) → <code>N E W - SORTING REQUIRED!</code> (0)</p>
+<h5 id="wildlander-ultra-100-2022">Wildlander Ultra 1.0.0 (2022)</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/wildlander-ultra-profile" target="_blank" rel="noreferrer">wildlander-ultra-profile</a> (23 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>System &#x26; Bugfixing</code> (53) → <code>UI</code> (38) → <code>Camera</code> (7) → <code>Animations &#x26; Skeleton</code> (13) → <code>Follower Management</code> (4) → <code>Gameplay &#x26; Mechanics</code> (91) → <code>Quests</code> (15) → <code>Location Expansions</code> (27) → <code>Item Additions</code> (13) → <code>NPC Additions</code> (6) → <code>Core Audiovisual Enhancements</code> (66) → <code>Dev Resource - NPC Facegen</code> (62) → <code>Core NPC Enhancements</code> (18) → <code>Full Version - Humanoids</code> (33) → <code>Full Version - Creatures</code> (13) → <code>Full Version - Environment</code> (39) → <code>Full Version - Objects</code> (57) → <code>Full Version - Locations</code> (5) → <code>Wildlander</code> (1) → <code>Wildlander - Optionals</code> (1) → <code>Wildlander - Core Output</code> (3) → <code>Wildlander - NPC Output</code> (1) → <code>Wildlander - Full Output</code> (3)</p>
+<h5 id="licentia-next-1370">Licentia NEXT 13.7.0</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/licentia-next" target="_blank" rel="noreferrer">licentia-next</a> (143 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Licentia NEXT 13.7.0</code> (0) → <code>1 - BASE</code> (0) → <code>Bethesda Files</code> (1) → <code>SKSE, Unofficial Patches and Scripts</code> (12) → <code>Graphics Foundation Basis</code> (5) → <code>Essentials</code> (47) → <code>Utilities</code> (9) → <code>Various Fixes</code> (57) → <code>Useful SKSE mods</code> (11) → <code>Chargen</code> (12) → <code>LOD Generation</code> (15) → <code>Graphics Base</code> (75) → <code>2 - AUDIO</code> (0) → <code>Music</code> (33) → <code>Sound FX</code> (7) → <code>New and changed voices</code> (1) → <code>3 - USER INTERFACE</code> (0) → <code>Camera</code> (17) → <code>UI + HUD</code> (49) → <code>Gamepad and Keyboard Controls Settings</code> (4) → <code>4 - QUESTS</code> (0) → <code>Completionist NG suite</code> (3) → <code>Legacy of the Dragonborn</code> (4) → <code>College of Winterhold</code> (5) → <code>Major Quests</code> (62) → <code>Minor Quests</code> (21) → <code>5 - GRAPHICS</code> (0) → <code>Weathers</code> (21) → <code>Grass</code> (3) → <code>World</code> (57) → <code>Mountains</code> (7) → <code>Grass Fixes</code> (5) → <code>Water</code> (7) → <code>Clutter</code> (64) → <code>Plants</code> (16) → <code>Creature Retextures</code> (32) → <code>Shiny Retextures</code> (19) → <code>6 - GAMEPLAY</code> (0) → <code>Weapons and outfits gameplay improvements</code> (6) → <code>Travel</code> (7) → <code>Overall Difficulty Buffs</code> (4) → <code>Deadly Dragons Plus Extras</code> (10) → <code>Xanza's Draugr Overhaul Extraordinaire</code> (9) → <code>Monsters</code> (1) → <code>Humans</code> (17) → <code>Predators &#x26; Prey</code> (3) → <code>Other Encounters</code> (1) → <code>Horse Management</code> (11) → <code>7 - FOLLOWERS</code> (0) → <code>Framework - NFF &#x26; Additions</code> (5) → <code>1 - Auri</code> (8) → <code>2 - Inigo</code> (5) → <code>3 - Remiel</code> (7) → <code>4 - Xelzaz</code> (4) → <code>5 - Redcap</code> (2) → <code>6 - Lucien</code> (5) → <code>7 - Daumbra</code> (3) → <code>8 - Kaidan 2</code> (4) → <code>9 - Gore</code> (3) → <code>10 - Follower Dialogue Expansion suite</code> (25) → <code>11 - Serana + Ashe</code> (7) → <code>12 - Khajit Will Follow</code> (9) → <code>13 - Malryn</code> (1) → <code>14 - Heart of Ice - Astrid</code> (6) → <code>Furbabies</code> (5) → <code>8 - VISUAL ADDITIONS AND OVERHAULS</code> (0) → <code>8.1 - LICENTIA NON-PLAYER CHARACTERS</code> (0) → <code>Modded</code> (21) → <code>Main</code> (41) → <code>Children</code> (3) → <code>8.2 - LICENTIA PLAYER CHARACTERS</code> (0) → <code>Face</code> (18) → <code>Outright Tattoos</code> (9) → <code>RaceMenu Presets</code> (15) → <code>Makeup &#x26; Overlays</code> (19) → <code>Salt &#x26; Wind</code> (8) → <code>8.3 - GENERAL ADJUSTMENTS</code> (0) → <code>OBody</code> (3) → <code>BodySlide Presets</code> (5) → <code>Body Meshes (and physics)</code> (19) → <code>Body Textures</code> (3) → <code>Khajit, Argonian, Animals</code> (7) → <code>Skeletons</code> (2) → <code>9 - ECONOMY AND LOOT</code> (0) → <code>Loot and Barter</code> (22) → <code>Open World Loot</code> (9) → <code>10 - WEAPONS, ARMOR, OUTFITS, GEAR</code> (0) → <code>10.1 - WEAPONS</code> (0) → <code>Weapon Revamps</code> (1) → <code>Weapon Additions</code> (12) → <code>10.2 - ARMORS, OUTFITS</code> (0) → <code>Armor Revamps</code> (8) → <code>Armor Additions</code> (15) → <code>10.3 - OTHER GEAR</code> (0) → <code>Gear - Revamps</code> (5) → <code>Gear - Additions</code> (14) → <code>xavbio Retextures</code> (31) → <code>Small and funny additions</code> (5) → <code>11 - MAGIC, COMBAT, PERKS, LEVELING</code> (0) → <code>Transformations</code> (4) → <code>Perks &#x26; Leveling</code> (39) → <code>Magic</code> (18) → <code>Path of Sorcery Patches</code> (12) → <code>Melee</code> (22) → <code>Ranged</code> (13) → <code>A Pitiful Attempt At Balance</code> (14) → <code>Effects</code> (12) → <code>Gore and Blood</code> (30) → <code>12 - NSFW, RELATIONSHIP AND ANIMATIONS</code> (0) → <code>Pandora &#x26; Utilities</code> (11) → <code>SFW Animations</code> (12) → <code>SFW Animations - CATA suite</code> (14) → <code>Sorta-SFW Animations</code> (2) → <code>OStim</code> (5) → <code>NSFW Animations</code> (19) → <code>Converted SexLab Animations</code> (7) → <code>Ostim Addons</code> (10) → <code>Marriage &#x26; Family</code> (5) → <code>OStim Quests</code> (11) → <code>13 - ADDITIONAL MECHANICS</code> (0) → <code>Survival</code> (7) → <code>Extensive AE Additions</code> (8) → <code>New Game Start Mechanics</code> (10) → <code>Sleeping</code> (6) → <code>14 - LIGHNTING OVERHAUL</code> (0) → <code>Lighting</code> (21) → <code>quicklight</code> (4) → <code>98 - PATCHES</code> (0) → <code>Various Merges &#x26; Patches</code> (73) → <code>Followers Combo Patches</code> (5) → <code>99 - LN CUSTOM PATCHES AND OUTPUTS</code> (0) → <code>Licentia NEXT - Merged patches</code> (4) → <code>Licentia NEXT - SKSE Settings, MCM Recording and startup scripts</code> (5) → <code>Licentia NEXT - Facegen, Seq, CRDW, Nemesis and Synthesis outputs</code> (5) → <code>Licentia NEXT - LOD Output</code> (3) → <code>Licentia NEXT - Grass Cache</code> (4) → <code>FINAL SEPARATOR</code> (0) → <code>OPTIONAL MODS - ENABLE IF NEEDED</code> (0) → <code>Hard Drive Options - Long Load Times</code> (2) → <code>Frame Generation - Enable and Play</code> (2) → <code>Performance - Enable to use</code> (1) → <code>ADDED MODS - Make your additions below this line</code> (0) → <code>Licentia NEXT - Bodyslide Output - Needs to always stay at the end</code> (7)</p>
+<h5 id="tahrovin-305-skyrim-vr">Tahrovin 3.0.5 (Skyrim VR)</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/tahrovin-4" target="_blank" rel="noreferrer">tahrovin-4</a> (52 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>00 - Tahrovin V3.0.5</code> (0) → <code>01 - Game Files</code> (0) → <code>02 - The Essentials</code> (65) → <code>Community Shaders + Upscaler may cause swimming, disable upscaler if this happens for you</code> (0) → <code>03 - Skyrim VR Upscaler</code> (4) → <code>04 - CS Resources</code> (24) → <code>For Tahrovin ENB</code> (11) → <code>05 - ReShade (Incompatible with Open Composite)</code> (8) → <code>06 - UI</code> (16) → <code>07 - Controller Bindings (YOU SHOULD CHECK ONE OF THESE)</code> (3) → <code>08 - Gameplay Mods</code> (45) → <code>09 - Quality of Life Mods &#x26; Fixes</code> (39) → <code>10 - Regular Animations</code> (17) → <code>11 - Sound Stuff</code> (7) → <code>12 - Legacy of the Dragonborn</code> (9) → <code>13 - New Areas</code> (3) → <code>14 - Quests 'n' Stuff</code> (7) → <code>15 - Visuals &#x26; Textures</code> (132) → <code>16 - Weapons, Armour &#x26; Clothing Stuff</code> (48) → <code>17 - Appearance</code> (62) → <code>18 - Obody</code> (4) → <code>19 - SL &#x26; Ostim</code> (56) → <code>20 - OPTIONAL NSFW STUFF - see #tahrovin-modifications</code> (2) → <code>21 - SL Animations</code> (21) → <code>22 - Magic Stuff</code> (28) → <code>23 - Risky Mods - see #tahrovin-modifications</code> (2) → <code>24 - Towns &#x26; Cities</code> (6) → <code>25 - Player Homes</code> (3) → <code>26 - NPCs</code> (51) → <code>27 - Followers</code> (10) → <code>28 - Open World Loot</code> (5) → <code>29 - Weather Stuff</code> (9) → <code>30 - Lighting Stuff</code> (12) → <code>31 - Enemy Changes</code> (5) → <code>32 - Optionals</code> (37) → <code>33 - Jayserpa Quests</code> (27) → <code>34 - Mihail Creatures and Animals</code> (16) → <code>35 - Late Loaders &#x26; Overwriters</code> (19) → <code>36 - YOUR CHOICES</code> (5) → <code>37 - Merged Stuff</code> (17) → <code>38 - Female RaceMenu Presets</code> (24) → <code>39 - Male Racemenu Presets</code> (26) → <code>40 - Tahrovin Custom Patches &#x26; Stuff</code> (23) → <code>41 - Even Later Loaders</code> (21) → <code>42 - Natural Bodyslide Presets</code> (19) → <code>43 - Thicc Bodyslide Presets</code> (9) → <code>44 - Thiccc Bodyslide Presets</code> (10) → <code>45 - Mommy Bodyslide Presets</code> (7) → <code>46 - Death by Snu-Snu Bodyslide Presets</code> (8) → <code>Himbo Presets</code> (21) → <code>47 - Outputs (leave these at the end)</code> (15) → <code>48 - Disabled Mods (leave these alone)</code> (15)</p>
+<h5 id="wunduniik-reloaded-10-beta">Wunduniik Reloaded 1.0 beta</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/wunduniik-chapter-v" target="_blank" rel="noreferrer">wunduniik-chapter-v</a> (133 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>WUNDUNIIK RELOADED V1 - BETA 04</code> (0) → <code>00. ___… ROOT FOLDER ___…</code> (2) → <code>01. ___… CORE MODS ___…</code> (0) → <code>01.1 EARLY LOADERS - CORE</code> (38) → <code>01.2 MODDERS RESOURCES - UTILITIES</code> (59) → <code>01.3 GENERAL FIXES - SCRIPT FIXES - VANILLA QUEST FIXES</code> (148) → <code>01.4 TOOLS</code> (10) → <code>01.5 GAME TESTING</code> (14) → <code>02. ___… USER INTERFACE ___…</code> (0) → <code>02.1 CONSOLE</code> (9) → <code>02.2 HUD</code> (33) → <code>02.3 MENUS - UI FRAMEWORKS</code> (72) → <code>02.4 MAP</code> (9) → <code>02.5 CONTROLS</code> (2) → <code>02.6 CAMERA</code> (12) → <code>03. ___… SOUND ___…</code> (0) → <code>03.1 AUDIO - SOUND</code> (62) → <code>03.2 MUSIC</code> (3) → <code>06. ___… CITIES - TOWNS - VILLAGES ___…</code> (0) → <code>06.1 GENERAL CITIES - TOWNS - VILLAGES OVERHAUL</code> (11) → <code>06.2.1 CITY - SOLITUDE</code> (16) → <code>06.2.2 CITY - WHITERUN</code> (6) → <code>06.2.3 CITY - MARKARTH</code> (5) → <code>06.2.4 CITY - RIFTEN</code> (5) → <code>06.2.5 CITY - WINDHELM</code> (6) → <code>06.3.1 MAJOR TOWN - FALKREATH</code> (5) → <code>06.3.2 MAJOR TOWN - MORTHAL</code> (3) → <code>06.3.3 MAJOR TOWN - DAWNSTAR</code> (4) → <code>06.3.4 MAJOR TOWN - WINTERHOLD</code> (4) → <code>06.4.1 VILLAGE - RIVERWOOD</code> (5) → <code>06.4.2 VILLAGE - DRAGON BRIDGE</code> (3) → <code>06.4.3 VILLAGE - RORIKSTEAD</code> (3) → <code>06.4.4 VILLAGE - IVARSTEAD</code> (2) → <code>06.4.5 VILLAGE - SHOR'S STONE</code> (1) → <code>06.4.6 VILLAGE - KYNESGROVE</code> (1) → <code>06.4.7 VILLAGE - KARTHWASTEN</code> (1) → <code>06.4.8 OTHER VANILLA SETTLEMENTS</code> (8) → <code>06.4.9 DLC TOWNS - VILLAGES - STRONGHOLDS</code> (15) → <code>06.5 NEW CITIES - TOWNS - VILLAGES</code> (2) → <code>06.6 INTERIORS</code> (58) → <code>07. ___… WORLDSPACE &#x26; LOCATIONS ___…</code> (0) → <code>07.1 GENERAL ARCHITECTURE</code> (5) → <code>07.2 VANILLA LOCATIONS OVERHAUL</code> (89) → <code>07.3 NEW LOCATIONS - NEW DUNGEONS</code> (10) → <code>07.4 WORLDSPACE ADDITIONS - IMMERSION</code> (34) → <code>07.5 SHRINES - STATUES</code> (3) → <code>07.6 PLAYER HOMES</code> (1) → <code>05. ___… ENVIRONMENT &#x26; VFX ___…</code> (0) → <code>05.1 LANDSCAPE</code> (12) → <code>05.2 MOUNTAINS - ROCKS</code> (3) → <code>05.3 MINES - CAVES - DUNGEONS</code> (3) → <code>05.4.1 TREES</code> (28) → <code>05.4.2 GRASS</code> (8) → <code>05.4.3 FLORA</code> (49) → <code>05.5.1 WATER</code> (4) → <code>05.5.2 SNOW &#x26; ICE</code> (16) → <code>05.6 WEATHERS</code> (14) → <code>05.7 SKY</code> (7) → <code>05.8 PARTICLE LIGHTS - ENB LIGHT</code> (8) → <code>05.10 OTHER VISUAL EFFECTS</code> (5) → <code>04. ___… MESHES &#x26; TEXTURES ___…</code> (0) → <code>04.1 BASE MESHES &#x26; TEXTURES - EARLY LOADERS</code> (29) → <code>04.2 LANDSCAPE</code> (19) → <code>04.3 UNDERGROUND - DUNGEONS</code> (22) → <code>04.4 BUILDINGS</code> (149) → <code>04.5 FURNITURE - CONTAINERS</code> (144) → <code>04.6 CLUTTER - STATIC</code> (139) → <code>04.7 EQUIPMENT</code> (38) → <code>04.7 MISC ITEMS</code> (48) → <code>04.8 BASE LOD RESOURCES</code> (13) → <code>08. ___… LATE GRAPHICS ___…</code> (0) → <code>08.1 LIGHTING</code> (11) → <code>08.2 LATE TEXTURES &#x26; MESHES</code> (5) → <code>09. ___… GAMEPLAY ___…</code> (0) → <code>09.1 PERKS - RACIAL - CLASSES - SKILLS</code> (9) → <code>09.2 MAGIC - SHOUTS</code> (19) → <code>09.3 CRAFTING - ENCHANTING - ALCHEMY</code> (14) → <code>09.4 GAMEPLAY - BALANCE</code> (76) → <code>09.5 GAMEPLAY - NEW MECHANICS</code> (97) → <code>09.6 GAMEPLAY - IMMERSION</code> (139) → <code>10. ___… QUESTS ___…</code> (0) → <code>10.1 DLC-SIZED MOD - NEW LANDS</code> (12) → <code>10.2 QUESTS - VANILLA</code> (19) → <code>10.3 QUESTS - NEW</code> (50) → <code>10.4 CIVIL WAR</code> (2) → <code>11. ___… PLAYER &#x26; NPC ___…</code> (0) → <code>11.1 RACEMENU</code> (6) → <code>11.2 SKELETON - PHYSICS</code> (1) → <code>11.3.1 BODY - HEAD - FACIAL FEATURES</code> (13) → <code>11.3.2 SKIN - TATTOO - MAKEUP</code> (9) → <code>11.3.3 HAIR - BEARDS - EXTRA</code> (31) → <code>11.3.4 BODY PRESETS</code> (1) → <code>11.3.5 CHARACTER PRESETS</code> (2) → <code>11.4 FOLLOWERS - NEW NPCs</code> (19) → <code>NPCs RESOURCES (DO NOT ENABLE)</code> (31) → <code>11.5 NPC - LOOKS</code> (9) → <code>11.6 NPC - AI</code> (9) → <code>11.7 NPC DIALOGUE - INTERACTIONS</code> (69) → <code>12. ___… CREATURES ___…</code> (0) → <code>12.1 VAMPIRES - WEREWOLVES</code> (7) → <code>12.2 DRAGONS</code> (1) → <code>12.3 CREATURES - VANILLA</code> (65) → <code>12.4 CREATURES - NEW</code> (42) → <code>13. ___… WEAPONS &#x26; ARMOURS ___…</code> (0) → <code>13.1 WEAPONS - ARMOUR REPLACERS</code> (9) → <code>13.3 ARMOURS - NEW</code> (149) → <code>13.2 WEAPONS - NEW</code> (38) → <code>13.4 CLOTHING - ITEMS</code> (28) → <code>13.5 JEWELRY</code> (7) → <code>13.6 WEAPONS &#x26; ARMOUR - LATE FIXES &#x26; RETEXTURES</code> (7) → <code>14. ___… COMBAT &#x26; ANIMATIONS ___…</code> (0) → <code>14.1.1 CORE ANIMATIONS</code> (36) → <code>14.1.2 COMBAT</code> (69) → <code>14.2 COMBAT MOVESETS</code> (68) → <code>14.3 MOVEMENT ANIMATIONS</code> (39) → <code>14.4 IDLES - OTHER ANIMATIONS</code> (62) → <code>15. ___… GENERIC &#x26; LATE LOADERS ___…</code> (0) → <code>15.1 DYNAMIC DISTRIBUTION (KID - SPID - SKYPATCH - ETC.)</code> (37) → <code>15.2 MISCELLANEOUS PATCH HUBS</code> (394) → <code>15.3 PERFORMANCE - OPTIMIZATION</code> (10) → <code>15.6 MODS FIXES</code> (158) → <code>15.4 LATE LOADERS</code> (53) → <code>15.7 BODYSLIDE CONVERSIONS</code> (74) → <code>16. ___… OTHER ___…</code> (0) → <code>16.1 ENBSERIES</code> (2) → <code>16.1 ENBSERIES - PRESETS</code> (9) → <code>16.2 COMMUNITY SHADERS</code> (10) → <code>16.2 GAMEPAD SUPPORT</code> (3) → <code>16.3 WIDESCREEN</code> (14) → <code>16.5 OPTIONAL MODS</code> (18) → <code>16.5 FLAT MAP FRAMEWORK</code> (15) → <code>17. ___… TOOL OUTPUTS ___…</code> (20) → <code>99. ___… NEW &#x26; UNSORTED ___…</code> (6)</p>
+<h5 id="apostasy-331">Apostasy 3.3.1</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/apostasy" target="_blank" rel="noreferrer">apostasy</a> (152 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Apostasy - 3.3.1</code> (6) → <code>--- CORE MODS ---</code> (0) → <code>Base Game Files</code> (5) → <code>Skyrim Script Extender (SKSE)</code> (4) → <code>SkyUI</code> (1) → <code>Frameworks &#x26; Utilities</code> (62) → <code>Essentials</code> (16) → <code>Console Improvements</code> (6) → <code>Better Controls</code> (14) → <code>General Fixes</code> (63) → <code>Script Fixes</code> (22) → <code>SKSE Plugin Fixes</code> (50) → <code>SKSE Plugin Tweaks</code> (43) → <code>Mod Tools &#x26; Resources</code> (12) → <code>Alternate Start</code> (6) → <code>--- USER INTERFACE ---</code> (0) → <code>UI Foundation</code> (23) → <code>Camera</code> (6) → <code>Heads-up Display</code> (37) → <code>UI Overhauls</code> (24) → <code>UI Patches &#x26; Tweaks</code> (12) → <code>Main Menu, Loading Screens, &#x26; Misc</code> (6) → <code>Icon Overhauls</code> (11) → <code>--- AUDIO ---</code> (0) → <code>Audio Foundation</code> (1) → <code>Audio Overhauls</code> (10) → <code>Audio Tweaks &#x26; Patches</code> (33) → <code>Music and Sound Effects</code> (10) → <code>--- VISUALS ---</code> (0) → <code>Mesh Fixes</code> (36) → <code>Mesh Improvements</code> (30) → <code>Grass &#x26; Terrain Fixes</code> (6) → <code>Texture Foundations &#x26; AIOs</code> (7) → <code>ENBSeries</code> (9) → <code>Weather &#x26; Sky</code> (10) → <code>ENB Presets</code> (3) → <code>Landscape</code> (16) → <code>Mountains &#x26; Rocks</code> (11) → <code>Snow &#x26; Ice</code> (21) → <code>Water</code> (9) → <code>Interiors</code> (109) → <code>Architecture</code> (25) → <code>City Overhauls</code> (46) → <code>Minor Holds</code> (21) → <code>Minor Settlement Overhauls</code> (39) → <code>Markarth</code> (13) → <code>Riften</code> (9) → <code>Solitude</code> (12) → <code>Whiterun</code> (13) → <code>Windhelm</code> (13) → <code>Minor Location Overhauls</code> (52) → <code>College of Winterhold</code> (7) → <code>Smaller Architecture</code> (16) → <code>Clutter</code> (59) → <code>Furniture</code> (73) → <code>Shrines &#x26; Deities</code> (32) → <code>Dwemer &#x26; Falmer Dungeons</code> (22) → <code>Nordic Dungeons</code> (13) → <code>Misc Dungeons &#x26; Caves</code> (15) → <code>Dawnguard</code> (17) → <code>Dragonborn</code> (26) → <code>Northern Roads</code> (12) → <code>Vanilla Tree Replacers</code> (8) → <code>Tree Overhauls</code> (10) → <code>Grass</code> (9) → <code>Flora</code> (22) → <code>Harvestables &#x26; Food</code> (32) → <code>Plant Remeshes &#x26; Resizes</code> (11) → <code>Potions &#x26; Ingredients</code> (26) → <code>Clothing &#x26; Jewelry</code> (10) → <code>Vanilla Armors and Weapons Retextures</code> (31) → <code>Equipment Baseline</code> (25) → <code>Lighting, Visual FX, &#x26; Decals</code> (32) → <code>Animals</code> (30) → <code>Creatures &#x26; Monsters</code> (62) → <code>Dragons</code> (15) → <code>Lux Suite</code> (25) → <code>Yuril's FYX Series</code> (31) → <code>Lux Mesh Patches</code> (17) → <code>Particle Lights</code> (30) → <code>Visual Late Loaders</code> (45) → <code>--- CHARACTER &#x26; CUSTOMIZATION ---</code> (0) → <code>Head</code> (11) → <code>Body</code> (14) → <code>Remeshes &#x26; Bodyslide Refits</code> (9) → <code>Body &#x26; Face Textures</code> (7) → <code>Beast Races</code> (22) → <code>Children</code> (5) → <code>Hair &#x26; Beards</code> (33) → <code>Brows</code> (17) → <code>Eyes</code> (22) → <code>Makeup &#x26; Warpaints</code> (29) → <code>Bodypaints &#x26; Overlays</code> (28) → <code>Character Presets</code> (2) → <code>Physics</code> (6) → <code>Equipment &#x26; Gear Positioning</code> (14) → <code>--- NPC OVERHAUL ---</code> (0) → <code>NPC Appearances</code> (18) → <code>NPC Replacers</code> (0) → <code>OBody &#x26; Bodyslides</code> (47) → <code>--- GAMEPLAY ---</code> (0) → <code>Immersion &#x26; World-building</code> (58) → <code>Dialogue &#x26; Interactions</code> (56) → <code>Race, Standing Stones, Vampires, &#x26; Werewolves</code> (9) → <code>Spells</code> (19) → <code>Loot &#x26; Leveling</code> (7) → <code>Perks, Religion, &#x26; Custom Skills</code> (17) → <code>Alchemy &#x26; Food</code> (13) → <code>Artifacts &#x26; Enchantments</code> (17) → <code>Survival Mode</code> (8) → <code>--- ANIMATIONS &#x26; BEHAVIOR ---</code> (0) → <code>Animation Fixes and Improvements</code> (24) → <code>Behavior Edits</code> (22) → <code>Custom Skeletons</code> (26) → <code>Non-Combat Animations</code> (21) → <code>Combat &#x26; Magic Animations</code> (34) → <code>MCO Animations</code> (6) → <code>Movement Animations</code> (19) → <code>--- CONTENT ---</code> (0) → <code>Dungeons</code> (65) → <code>Environs Series</code> (15) → <code>Followers</code> (57) → <code>New Armors and Weapons</code> (70) → <code>New Lands &#x26; Quests</code> (44) → <code>Player Homes</code> (6) → <code>Quest Expansions, Improvements, &#x26; Overhauls</code> (58) → <code>Unslaad</code> (12) → <code>Vigilant</code> (42) → <code>Wyrmstooth</code> (16) → <code>--- ENEMIES &#x26; COMBAT ---</code> (0) → <code>AI &#x26; Difficulty Improvements</code> (11) → <code>Combat Systems &#x26; Overhauls</code> (37) → <code>Enemy Overhauls</code> (30) → <code>--- FINISHING LINE ---</code> (0) → <code>GDPR Patches</code> (52) → <code>Final Patches</code> (12) → <code>MCMs &#x26; INIs</code> (17) → <code>LOD Outputs</code> (3) → <code>Paper Maps</code> (18) → <code>Outputs</code> (13) → <code>Late Loaders</code> (6) → <code>--- OPTIONAL ADDONS ---</code> (0) → <code>Keybinds and Gamepad</code> (4) → <code>Performance Optimizations</code> (21) → <code>Optional Visual Tweaks</code> (11) → <code>Optional Gameplay Tweaks</code> (1) → <code>Ultrawide Support</code> (2) → <code>--- USER ADDONS ---</code> (0) → <code>Stock List [NoDelete]'s</code> (2) → <code>Rule 11</code> (0) → <code>--- DISABLED ---</code> (0) → <code>Disabled Mods</code> (0)</p>
+<h5 id="living-skyrim-5001">Living Skyrim 5.0.0.1</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/living-skyrim-5" target="_blank" rel="noreferrer">living-skyrim-5</a> (98 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>---… ║ DLC ║ ---…</code> (0) → <code>Living Skyrim v5.0.0.1 (Alpha 1)</code> (0) → <code>---… ║ CORE MODS ║ ---…</code> (0) → <code>Resources</code> (40) → <code>Bug Fixes</code> (120) → <code>Optimization</code> (4) → <code>QOL Tweaks</code> (26) → <code>---… ║ INTERFACE ║ ---…</code> (37) → <code>Menus</code> (13) → <code>Audio</code> (21) → <code>HUD</code> (14) → <code>Camera</code> (6) → <code>---… ║ VISUALS ║ ---…</code> (0) → <code>Mesh Overhauls</code> (6) → <code>Texture Overhauls</code> (32) → <code>Architecture</code> (18) → <code>Furniture</code> (8) → <code>Clutter</code> (61) → <code>---… ║ NATURE ║ ---…</code> (0) → <code>Landscapes</code> (17) → <code>Grass</code> (5) → <code>Named Flora</code> (3) → <code>Trees</code> (15) → <code>---… ║ ARMORY ║ ---…</code> (0) → <code>New Armor</code> (87) → <code>New Weapons</code> (54) → <code>Armor &#x26; Weapon Retextures</code> (50) → <code>Artifacts</code> (5) → <code>Clothing</code> (6) → <code>Jewelry &#x26; Accessories</code> (4) → <code>---… ║ PLACES ║ ---…</code> (0) → <code>City Overhauls</code> (1) → <code>Dawnstar</code> (2) → <code>Falkreath</code> (2) → <code>Markarth</code> (3) → <code>Morthal</code> (1) → <code>Riften</code> (3) → <code>Solitude</code> (5) → <code>Whiterun</code> (5) → <code>Windhelm</code> (4) → <code>Winterhold</code> (5) → <code>Solstheim</code> (2) → <code>Guilds</code> (5) → <code>Towns</code> (29) → <code>Statues</code> (1) → <code>Misc Locations</code> (57) → <code>Player Homes</code> (23) → <code>Interiors</code> (41) → <code>---… ║ QUESTS &#x26; NPCs ║ ---…</code> (0) → <code>New Lands</code> (6) → <code>New Quests</code> (44) → <code>NPC Additions</code> (34) → <code>Followers</code> (63) → <code>Quest Alterations</code> (4) → <code>Quest Expansions</code> (37) → <code>NPC Edits</code> (5) → <code>Dialogue</code> (42) → <code>---… ║ GAMEPLAY ║ ---…</code> (0) → <code>Character Creation</code> (5) → <code>Magic Overhauls</code> (27) → <code>Perk Overhauls</code> (5) → <code>Enemies</code> (19) → <code>Combat Systems</code> (22) → <code>Crafting</code> (12) → <code>Economy &#x26; Loot</code> (18) → <code>Stealth</code> (9) → <code>Immersion</code> (27) → <code>Misc Overhauls</code> (11) → <code>---… ║ APPEARANCE ║ ---…</code> (0) → <code>Skeletons</code> (3) → <code>Creature Textures</code> (48) → <code>NPC Overhauls</code> (20) → <code>Children</code> (1) → <code>Skins</code> (7) → <code>Hair + Eyes + Face</code> (40) → <code>Misc Appearance</code> (33) → <code>---… ║ ANIMATIONS ║ ---…</code> (0) → <code>Movement</code> (10) → <code>Idles</code> (4) → <code>Combat Animations</code> (29) → <code>Misc Animations</code> (24) → <code>---… ║ ATMOSPHERE ║ ---…</code> (0) → <code>Sky</code> (1) → <code>Water &#x26; Shaders</code> (3) → <code>Lighting</code> (8) → <code>CS Addons</code> (12) → <code>Weather</code> (9) → <code>Effects</code> (10) → <code>---… ║ LATE LOADERS ║ ---…</code> (0) → <code>Easter Eggs</code> (3) → <code>Misc Late Loaders</code> (10) → <code>Mesh &#x26; Texture Overwrites</code> (4) → <code>General Patches</code> (45) → <code>LOD Resources</code> (1) → <code>LS5 Patches</code> (1) → <code>Maps</code> (13) → <code>Output</code> (13) → <code>---… ║ JUST INSTALLED ║ ---…</code> (3)</p>
+<h5 id="masterstroke-2241">Masterstroke 2.2.4.1</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/masterstroke-1905" target="_blank" rel="noreferrer">masterstroke-1905</a> (69 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Masterstroke v2.2.4.0 Beta 2 Update 2 HF 4</code> (0) → <code>Cleaned Masters</code> (2) → <code>Creation Club Updates and Patches</code> (15) → <code>Essentials</code> (68) → <code>Modding Resources</code> (25) → <code>Quality of Life</code> (44) → <code>SexLab and Friends</code> (55) → <code>Gameplay Changes</code> (0) → <code>Gameplay Changes - Perks &#x26; Leveling</code> (10) → <code>Gameplay Changes - Loot &#x26; Trade</code> (5) → <code>Gameplay Changes - Magic, Shouts, &#x26; Powers</code> (16) → <code>Gameplay Changes - Combat &#x26; Enemies</code> (13) → <code>Gameplay Changes - Stealth</code> (3) → <code>Gameplay Changes - Character Creation</code> (8) → <code>Gameplay Changes - Miscellaneous</code> (12) → <code>Gameplay Additions</code> (0) → <code>Gameplay Additions - Immersion</code> (18) → <code>Gameplay Additions - Survival</code> (13) → <code>Items</code> (0) → <code>Items - Armors</code> (79) → <code>Armors - DX Armors</code> (18) → <code>Armors - ELLE</code> (7) → <code>Armors - Koza</code> (4) → <code>Armors - NordWar</code> (7) → <code>Armors - Obi</code> (5) → <code>Items - Armor Conversions</code> (23) → <code>Items - Weapons</code> (6) → <code>Items - Artifacts</code> (2) → <code>Items - Various</code> (1) → <code>New Dungeons &#x26; Lands</code> (2) → <code>New Questlines</code> (22) → <code>Player Homes</code> (9) → <code>Settlement Expansions</code> (1) → <code>Location Expansions</code> (44) → <code>Graphics</code> (7) → <code>Graphics - Community Shaders</code> (14) → <code>Graphics - Landscapes</code> (10) → <code>Graphics - Locations</code> (18) → <code>Graphics - Base</code> (3) → <code>Graphics - Weather &#x26; Skies</code> (6) → <code>Graphics - Flora</code> (24) → <code>Graphics - Fauna</code> (20) → <code>Graphics - Objects</code> (49) → <code>Graphics - Items</code> (33) → <code>Graphics - Lighting and Effects</code> (22) → <code>NPCs</code> (0) → <code>NPCs - Followers</code> (33) → <code>NPCs - Visual Overhaul</code> (6) → <code>HUD &#x26; UI</code> (48) → <code>Bodies, Heads, and Hair</code> (14) → <code>Character Customization</code> (30) → <code>Bodypaints and Overlays</code> (42) → <code>Bodyslide Presets</code> (61) → <code>RaceMenu Presets</code> (6) → <code>Audio</code> (12) → <code>SFW Animations</code> (50) → <code>Easter Eggs</code> (4) → <code>Fixes &#x26; Patches</code> (65) → <code>Late Loaders</code> (6) → <code>Mesh Improvement</code> (3) → <code>Script Patches</code> (2) → <code>NSFW Animations</code> (8) → <code>Creature Profile (USE PROFILE MENU TO ENABLE OR DISABLE)</code> (22) → <code>NSFW Creature Animations (USE PROFILE MENU TO ENABLE OR DISABLE)</code> (5) → <code>List Customization</code> (16) → <code>LOD Resources</code> (0) → <code>Generated Output</code> (12) → <code>Ultrawide Support</code> (3) → <code>Paper Maps</code> (10)</p>
+<h5 id="journals-of-jyggalag-650">Journals of Jyggalag 6.5.0</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/journals-of-jyggalag-5" target="_blank" rel="noreferrer">journals-of-jyggalag-5</a> (135 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Journals of Jyggalag 6.5.0</code> (0) → <code>CORE</code> (0) → <code>Creation Club + Cleaned Plugins</code> (2) → <code>Unofficial Patches</code> (7) → <code>SKSE &#x26; Core DLL Mods</code> (32) → <code>DLL &#x26; Plugin Enhancements</code> (40) → <code>Bug &#x26; Script Fixes</code> (46) → <code>Control Bug Fixes</code> (16) → <code>Quest Bug Fixes</code> (27) → <code>Mod Tools &#x26; Resources</code> (9) → <code>USER INTERFACE</code> (0) → <code>UI Foundation</code> (25) → <code>UI Addons</code> (126) → <code>Death Alternate and Safe Saves</code> (7) → <code>World Map</code> (5) → <code>Visuals</code> (0) → <code>Core Foundations</code> (17) → <code>Mesh Fixes</code> (27) → <code>Weather and Sky</code> (20) → <code>Landscapes and World Improvements</code> (23) → <code>Grass</code> (8) → <code>Trees</code> (18) → <code>Flora</code> (37) → <code>Legacy of the Dragonborn</code> (19) → <code>Cities, Towns &#x26; Architecture</code> (0) → <code>Towns</code> (35) → <code>Cities of the North &#x26; JK's</code> (18) → <code>Whiterun</code> (9) → <code>Markarth</code> (8) → <code>Riften</code> (11) → <code>Solitude</code> (7) → <code>Windhelm</code> (12) → <code>City Patch Collections</code> (11) → <code>Architecture</code> (18) → <code>Smaller Architecture</code> (19) → <code>Dawnguard and Dragonborn DLC</code> (24) → <code>Underground &#x26; Ice</code> (27) → <code>Shrines and Statues</code> (9) → <code>JK's Skyrim &#x26; Interiors</code> (53) → <code>Snazzy Overhauls</code> (31) → <code>Temryuu Interiors</code> (32) → <code>Player Homes</code> (18) → <code>Talos' Tease</code> (26) → <code>Hot Springs &#x26; Bathhouses</code> (22) → <code>Smaller Stuff</code> (0) → <code>Animals</code> (40) → <code>Creatures</code> (20) → <code>Clutter</code> (99) → <code>Furniture</code> (47) → <code>Valuables &#x26; JS Mods</code> (40) → <code>Food and Beverages</code> (32) → <code>Ingredients</code> (29) → <code>3DNPC</code> (8) → <code>Added Creatures</code> (21) → <code>Perks &#x26; Magic</code> (0) → <code>Perk Overhauls</code> (29) → <code>Magic Overhauls</code> (66) → <code>Race &#x26; Religion</code> (20) → <code>Crafting</code> (30) → <code>AI &#x26; Enemy Overhauls</code> (22) → <code>Armors &#x26; Clothing</code> (0) → <code>New Armors &#x26; Clothing - Immersive</code> (261) → <code>New Armors &#x26; Clothing - Exotic</code> (206) → <code>Vanilla Replacers &#x26; Addons</code> (21) → <code>SOS Armor &#x26; Clothing Distribution</code> (106) → <code>Equipment Overhauls</code> (0) → <code>Weapons</code> (53) → <code>Vanilla Equipment Retextures</code> (76) → <code>Gameplay Expansions &#x26; Additions</code> (0) → <code>Immersion</code> (58) → <code>Survival</code> (13) → <code>Bathing</code> (11) → <code>Dialogue Expansions</code> (29) → <code>Quest Expansions</code> (30) → <code>New Quests &#x26; Adventures</code> (101) → <code>Character Visuals &#x26; RaceMenu</code> (0) → <code>Core Character Visuals</code> (20) → <code>Humanoids</code> (13) → <code>Scars, Overlays, and Misc</code> (32) → <code>Beast Races</code> (11) → <code>Hair</code> (16) → <code>Eyes</code> (21) → <code>Brows</code> (7) → <code>Custom Races</code> (20) → <code>3BA BodySlide Presets</code> (22) → <code>HIMBO BodySlide Presets</code> (18) → <code>OBody</code> (5) → <code>Race Menu Presets</code> (1) → <code>World VFX</code> (0) → <code>Water</code> (6) → <code>Visual FX &#x26; Decals</code> (16) → <code>Dragons</code> (11) → <code>Lighting</code> (34) → <code>VFX - Later Loaders</code> (25) → <code>Ancient Dwemer Metal Patches</code> (24) → <code>ENB Particle Lights</code> (38) → <code>Visuals - Late Loaders</code> (23) → <code>Animations and Audio</code> (0) → <code>Audio Overhauls</code> (46) → <code>Anim Foundations</code> (29) → <code>Idle Anims</code> (34) → <code>Locomotion Anims</code> (29) → <code>Combat Animations</code> (41) → <code>Anim Fixes</code> (9) → <code>BFCO &#x26; Modern Combat</code> (0) → <code>Combat Framework</code> (56) → <code>BFCO Animation Packs</code> (30) → <code>Followers and NPCs</code> (0) → <code>Framework &#x26; Resources</code> (33) → <code>Added Followers &#x26; NPCs</code> (122) → <code>NPC Resources</code> (14) → <code>NPC Overhauls</code> (60) → <code>Follower Dialogue Expansion</code> (38) → <code>OStim</code> (0) → <code>Essentials</code> (7) → <code>Enhancements</code> (16) → <code>Gameplay &#x26; Quests</code> (10) → <code>Patches</code> (11) → <code>Animations</code> (39) → <code>Finishing Line</code> (0) → <code>eFPS</code> (8) → <code>Northern Roads &#x26; Patches</code> (20) → <code>Alternate Perpsective</code> (13) → <code>Open World Loot (OWL)</code> (5) → <code>Overrides and Patches</code> (37) → <code>Settings Loaders</code> (20) → <code>Controller Support</code> (6) → <code>Resolution Presets</code> (3) → <code>Outputs</code> (14) → <code>ENB Essentials</code> (19) → <code>ENB Preset Options</code> (6) → <code>Community Shaders</code> (36) → <code>Modder Tools</code> (0) → <code>Other Profiles (LEAVE DISABLED)</code> (11) → <code>Not Yet Installed</code> (0)</p>
+<h5 id="tempus-maledictum-803">Tempus Maledictum 8.0.3</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/tempus-maledictum-v8" target="_blank" rel="noreferrer">tempus-maledictum-v8</a> (72 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Tempus Maledictum v8.0.3</code> (0) → <code>Base Game Files</code> (3) → <code>SKSE - Utilities</code> (69) → <code>SKSE - Gameplay</code> (38) → <code>SKSE - Combat</code> (18) → <code>Experience Tweaks &#x26; Enhancements</code> (5) → <code>Necessities</code> (24) → <code>Necessities - Minor QOL</code> (39) → <code>EnaiRim</code> (21) → <code>Vampirism</code> (8) → <code>Vanilla Quest Enhancements</code> (64) → <code>Gameplay Mechanics</code> (57) → <code>Followers</code> (43) → <code>JaySerpa's Mods</code> (47) → <code>Survival Mode Support</code> (10) → <code>Audio</code> (14) → <code>Missives SE</code> (27) → <code>New Lands &#x26; Quests</code> (89) → <code>Magic</code> (21) → <code>NPC Replacers - Keep Inactive</code> (32) → <code>Skeleton</code> (7) → <code>Character Creation</code> (27) → <code>NPC Overhauling</code> (22) → <code>LotD</code> (8) → <code>Misc LotD Addons</code> (17) → <code>Weapons &#x26; Armors</code> (73) → <code>Custom Skills Framework &#x26; Add-ons</code> (14) → <code>Worldspace Stuff</code> (26) → <code>Creatures</code> (18) → <code>Mihail's Creatures</code> (35) → <code>Dragons</code> (12) → <code>Weather</code> (12) → <code>Landscape</code> (19) → <code>Trees</code> (15) → <code>Capital Holds</code> (67) → <code>Other Towns &#x26; Cities</code> (22) → <code>Interiors</code> (34) → <code>ASLAL</code> (3) → <code>Textures - Base</code> (13) → <code>Textures - Structures</code> (68) → <code>Textures - Environmental</code> (51) → <code>Textures - Dwemer</code> (41) → <code>Textures - Creatures</code> (43) → <code>Textures - Equippables</code> (48) → <code>Textures - Misc Objects</code> (111) → <code>Textures - Landscape</code> (15) → <code>CS - Community Shaders</code> (26) → <code>Lighting</code> (8) → <code>ENB Light</code> (44) → <code>Combat</code> (41) → <code>New Animations for Tempus</code> (29) → <code>Animations</code> (13) → <code>Combat Animations</code> (31) → <code>Non Combat Animations</code> (28) → <code>Vanargand Animations</code> (11) → <code>Animation Central</code> (22) → <code>Animation Sets - Base Groups</code> (6) → <code>Animation Sets - Unarmed</code> (5) → <code>Animation Sets - One Handed</code> (8) → <code>Animation Sets - Two Handed</code> (13) → <code>BFCO - Combat Add-ons</code> (8) → <code>Base Object Swapper and SPID Addons</code> (34) → <code>Late Loaders</code> (34) → <code>MCM Helper &#x26; Loaders</code> (2) → <code>UI</code> (85) → <code>Dragonborn Bestiary</code> (25) → <code>Lively's Jank</code> (23) → <code>The Real Heroes</code> (22) → <code>Outputs</code> (19) → <code>Optional - Ultrawide Support - OUTDATED - Use At Your Own Discretion</code> (17) → <code>Optionals &#x26; INI Overrides</code> (10) → <code>Rule 11 Violations</code> (0)</p>
+<h5 id="ngvo-72">NGVO 7.2</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/next-generation-visual-overhaul-7-2" target="_blank" rel="noreferrer">next-generation-visual-overhaul-7-2</a> (80 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>NGVO 7.2</code> (0) → <code>Creation Club + Cleaned Plugins</code> (2) → <code>Unofficial Patches</code> (10) → <code>SKSE &#x26; Core DLL Mods</code> (30) → <code>DLL &#x26; Plugin Enhancements</code> (46) → <code>Bug &#x26; Script Fixes</code> (67) → <code>Control Bug Fixes</code> (18) → <code>Quest Bug Fixes</code> (26) → <code>Mod Tools &#x26; Resources</code> (6) → <code>User Interface</code> (0) → <code>UI Foundation</code> (27) → <code>OPTIONAL - Widescreen Support (Also Re-Run The Elder Scrolls Loading Screens FOMOD)</code> (5) → <code>UI Addons</code> (47) → <code>Dragonborn Reskin ( Optional )</code> (14) → <code>OathveinUI ( Optional )</code> (2) → <code>NordenUI</code> (2) → <code>Optional UI</code> (2) → <code>Base Visuals</code> (0) → <code>Visual Foundations</code> (17) → <code>Mesh Fixes</code> (26) → <code>Weather and Sky</code> (17) → <code>Landscapes and World Improvements</code> (20) → <code>Grass</code> (6) → <code>Trees</code> (12) → <code>Flora</code> (37) → <code>Cities and Worldspace Visuals</code> (0) → <code>Whiterun</code> (4) → <code>Markarth</code> (7) → <code>Riften</code> (4) → <code>Solitude</code> (3) → <code>Windhelm</code> (11) → <code>Architecture</code> (13) → <code>Smaller Architecture</code> (20) → <code>Dawnguard and Dragonborn DLC</code> (23) → <code>Underground &#x26; Ice</code> (31) → <code>Shrines and Statues</code> (15) → <code>Smaller Visuals</code> (0) → <code>Animals</code> (39) → <code>Creatures</code> (20) → <code>Clutter</code> (74) → <code>Furniture</code> (38) → <code>Valuables &#x26; JS Mods</code> (38) → <code>Food and Beverages</code> (23) → <code>Ingredients</code> (23) → <code>Character Visuals</code> (0) → <code>Hair</code> (12) → <code>Core Character Visuals</code> (17) → <code>Humanoids</code> (8) → <code>Scars, Overlays, and Misc</code> (10) → <code>Beast Races</code> (7) → <code>Dragons</code> (6) → <code>Eyes</code> (10) → <code>Brows</code> (4) → <code>Vanilla Clothing &#x26; Jewerly</code> (11) → <code>Vanilla Armor &#x26; Weapons</code> (40) → <code>Vanilla Unique Artifacts</code> (14) → <code>Water, VFX &#x26; Light</code> (0) → <code>Water</code> (9) → <code>Visual FX &#x26; Decals</code> (26) → <code>Lighting</code> (33) → <code>VFX - Later Loaders</code> (18) → <code>Ancient Dwemer Metal Patches</code> (24) → <code>ENB Particle Lights</code> (40) → <code>Visuals - Late Loaders</code> (23) → <code>Animations &#x26; Audio</code> (0) → <code>Audio Overhauls</code> (40) → <code>Anim Foundations</code> (22) → <code>Idle Anims</code> (18) → <code>Locomotion Anims</code> (25) → <code>Combat Animations</code> (43) → <code>Anim Fixes</code> (22) → <code>Finishing Line</code> (0) → <code>Northern Roads &#x26; Patches</code> (20) → <code>Overrides and Patches</code> (9) → <code>Settings Loaders</code> (3) → <code>Outputs</code> (11) → <code>ENB</code> (14) → <code>Modder Tools</code> (12) → <code>Flat Map Framework</code> (10) → <code>Not Yet Installed (Move mods from here once installed to its proper place in the load order)</code> (0)</p>
+<h5 id="csvp-295">CSVP 2.9.5</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/csvp-colloquy-s-skyrim-vanilla-plus-a-ngvo-fork-2" target="_blank" rel="noreferrer">csvp-colloquy-s-skyrim-vanilla-plus-a-ngvo-fork-2</a> (96 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>CSVP 2.9.5</code> (0) → <code>CORE</code> (1) → <code>Unofficial Patches</code> (9) → <code>Creation Club Gameplay Changes</code> (20) → <code>SKSE &#x26; Core DLL</code> (28) → <code>DLL &#x26; Plugin Enhancements</code> (43) → <code>Bug &#x26; Script Fixes</code> (101) → <code>Mod Tools &#x26; Resources</code> (14) → <code>USER INTERFACE</code> (0) → <code>UI Foundation (32x9 USERS SEE NOTED MODS)</code> (31) → <code>UI Add-Ons</code> (35) → <code>UI Tweaks</code> (16) → <code>VISUALS PT. 1</code> (0) → <code>Visual Foundation</code> (19) → <code>Mesh Fixes</code> (25) → <code>Weather &#x26; Sky</code> (17) → <code>Landscape &#x26; World Improvements</code> (25) → <code>Grass</code> (11) → <code>Trees</code> (14) → <code>Flora</code> (36) → <code>CITIES &#x26; WORLDSPACE VISUALS</code> (0) → <code>Whiterun</code> (6) → <code>Markarth</code> (8) → <code>Riften</code> (7) → <code>Solitude</code> (6) → <code>Windhelm</code> (9) → <code>Towns &#x26; Cities</code> (19) → <code>Interiors</code> (30) → <code>Architecture</code> (13) → <code>Smaller Architecture</code> (21) → <code>Dawnguard &#x26; Dragonborn DLC</code> (28) → <code>Underground &#x26; Ice</code> (27) → <code>Shrines &#x26; Statues</code> (15) → <code>SMALLER VISUALS</code> (0) → <code>Animals</code> (44) → <code>Creatures</code> (32) → <code>Clutter</code> (81) → <code>Furniture</code> (33) → <code>Valuables &#x26; JS Mods</code> (42) → <code>Food &#x26; Beverages</code> (33) → <code>Ingredients</code> (24) → <code>Dragons</code> (6) → <code>NPC &#x26; PLAYER VISUALS</code> (0) → <code>Visual Base</code> (18) → <code>Humanoids</code> (10) → <code>Scars, Overlays, and Misc</code> (5) → <code>Beast Races</code> (20) → <code>Hair</code> (16) → <code>Eyes</code> (11) → <code>Brows</code> (4) → <code>Character Creation</code> (8) → <code>Clothing, Weapon, &#x26; Armor Add-ons</code> (8) → <code>Clothing &#x26; Jewelry</code> (12) → <code>Armor &#x26; Weapons</code> (42) → <code>Unique Artifacts</code> (13) → <code>VISUALS PT. 2</code> (0) → <code>Water</code> (12) → <code>Visual FX, Decals, &#x26; Details</code> (33) → <code>Lighting</code> (27) → <code>VFX Late Loaders</code> (20) → <code>Ancient Dwemer Metal Patches</code> (24) → <code>ENB Particle Lights</code> (44) → <code>Visuals - Late Loaders</code> (25) → <code>AUDIO &#x26; ANIMATIONS</code> (0) → <code>Audio Overhauls and Additions</code> (65) → <code>Animation Foundation</code> (50) → <code>Idle Animations</code> (25) → <code>Locomotion</code> (52) → <code>Fixes</code> (23) → <code>GAMEPLAY CHANGES</code> (0) → <code>Evolving Locations</code> (31) → <code>Existing Improvements and Tweaks</code> (17) → <code>Gameplay &#x26; Systems Changes</code> (12) → <code>World Changes &#x26; Enhancements</code> (34) → <code>Overhauls</code> (14) → <code>Consistency Patches &#x26; Tweaks</code> (15) → <code>Crafting</code> (10) → <code>Cheats</code> (16) → <code>Combat</code> (21) → <code>NPCs and Immersion</code> (51) → <code>SPID Distribution</code> (8) → <code>Questline &#x26; Civil War Tweaks</code> (47) → <code>VISUAL FINISH LINE</code> (0) → <code>Northern Roads &#x26; Patches</code> (21) → <code>Visuals - Base Object Swapper</code> (6) → <code>Overrides, Patches, &#x26; Cubemaps</code> (10) → <code>Final Touches (AMD GPUs LOOK HERE)</code> (7) → <code>FINISH LINE</code> (0) → <code>Map</code> (4) → <code>Settings Loaders</code> (16) → <code>Outputs</code> (14) → <code>ENB</code> (16) → <code>OPTIONAL</code> (2) → <code>WIDESCREEN (REMEMBER TO READ THE MOD NOTES)</code> (6) → <code>Necessary Overwrites</code> (7) → <code>Not Installed Yet</code> (0)</p>
+<h5 id="keizaal-900-beta">Keizaal 9.0.0 beta</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/keizaal-9-0-0-beta" target="_blank" rel="noreferrer">keizaal-9-0-0-beta</a> (21 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Skyrim Anniversary Edition 1.6.1170</code> (0) → <code>Keizaal 9.0.0-beta7</code> (0) → <code>Essentials</code> (52) → <code>Utilities</code> (54) → <code>User Interface</code> (42) → <code>Visuals</code> (111) → <code>Gameplay</code> (38) → <code>Quests</code> (31) → <code>Locations</code> (47) → <code>Items</code> (46) → <code>Creatures</code> (32) → <code>Companions</code> (10) → <code>Audio</code> (20) → <code>Animations</code> (36) → <code>Patches</code> (69) → <code>Miscellaneous</code> (13) → <code>Keizaal Exclusives</code> (25) → <code>Optional Content</code> (0) → <code>Optional Mods</code> (1) → <code>SimonRim</code> (27) → <code>Uncategorized</code> (2)</p>
+<h5 id="lost-legacy-200">Lost Legacy 2.0.0</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/lost-legacy-2-wabbajack" target="_blank" rel="noreferrer">lost-legacy-2-wabbajack</a> (29 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Lost Legacy - Revenge of the Curator - 2.0.0</code> (0) → <code>Core &#x26; Frameworks</code> (37) → <code>Fixes &#x26; Tweaks</code> (30) → <code>User Interface &#x26; Controls</code> (55) → <code>Audio</code> (7) → <code>Graphics Improvements</code> (35) → <code>JKs Skyrim</code> (58) → <code>Cities - Towns - Interiors</code> (5) → <code>Weather</code> (13) → <code>Lighting</code> (12) → <code>Animations</code> (23) → <code>Creatures</code> (19) → <code>Gameplay &#x26; Balance</code> (65) → <code>EnaiRim</code> (17) → <code>Vokriinator Black</code> (13) → <code>Followers</code> (25) → <code>NPCs</code> (5) → <code>Appearances</code> (9) → <code>Quests &#x26; New Locations</code> (70) → <code>Vicn Quest Mods</code> (17) → <code>JaySerpa Quest &#x26; Line Expansions</code> (28) → <code>New Items &#x26; Distribution</code> (41) → <code>Legacy of the Dragonborn</code> (17) → <code>MCMs</code> (16) → <code>Optional</code> (5) → <code>Optional Ultrawide Stuff</code> (6) → <code>Late Patches</code> (16) → <code>Map</code> (6) → <code>The Danger Zone</code> (0)</p>
+<h5 id="aurora-150-2023">Aurora 1.5.0 (2023)</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/aurora" target="_blank" rel="noreferrer">aurora</a> (59 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Vanilla Game</code> (3) → <code>Creation Club</code> (75) → <code>Cleaned Plugins</code> (2) → <code>Creation Kit</code> (5) → <code>AURORA 1.5.0</code> (2) → <code>Based on Skyrim Modding Essentials 2.6.1</code> (0) → <code>Skyrim Script Extender</code> (4) → <code>SkyUI</code> (7) → <code>Frameworks</code> (19) → <code>Utilities</code> (11) → <code>Essentials</code> (22) → <code>Console</code> (6) → <code>Controls</code> (9) → <code>Animations</code> (10) → <code>General Fixes</code> (25) → <code>Script Fixes</code> (17) → <code>Texture &#x26; Mesh Fixes</code> (35) → <code>Grass &#x26; Terrain Fixes</code> (13) → <code>SKSE Plugin Fixes</code> (17) → <code>SKSE Plugin Tweaks</code> (3) → <code>Interface</code> (1) → <code>Maps &#x26; Markers</code> (4) → <code>Widescreen Support</code> (7) → <code>LOD Resources</code> (6) → <code>Mesh Improvements</code> (42) → <code>Graphics Baseline</code> (29) → <code>ENBSeries</code> (12) → <code>Weather &#x26; Sky</code> (13) → <code>Lux Lighting</code> (7) → <code>Fire &#x26; Candles</code> (16) → <code>Visual FX</code> (31) → <code>Mountains &#x26; Rocks</code> (12) → <code>Water &#x26; Splash FX</code> (20) → <code>Snow &#x26; Ice</code> (19) → <code>Improved Trees</code> (21) → <code>Grass Overhaul</code> (18) → <code>Plants &#x26; Mushrooms</code> (45) → <code>Appearance</code> (33) → <code>Rudy ENB</code> (11) → <code>EVC ENB</code> (6) → <code>Architecture</code> (28) → <code>Misc Structures</code> (27) → <code>Interiors &#x26; Dungeons</code> (34) → <code>Various Clutter</code> (42) → <code>Valuable Objects</code> (32) → <code>Food &#x26; Ingredients</code> (43) → <code>Clothing &#x26; Jewelry</code> (8) → <code>Armor &#x26; Weapons</code> (16) → <code>Xavbio's Retextures</code> (35) → <code>Unique Artifacts</code> (15) → <code>Wild Creatures</code> (35) → <code>Undead Daedra Dragons</code> (19) → <code>Final Patches</code> (4) → <code>Outputs</code> (8) → <code>Phoenix' Little Helpers</code> (1) → <code>Testing</code> (28) → <code>Undecided</code> (24) → <code>Backups</code> (5) → <code>---…</code> (0)</p>
+<h5 id="halls-of-sovngarde-134">Halls of Sovngarde 1.3.4</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/halls-of-sovngarde" target="_blank" rel="noreferrer">halls-of-sovngarde</a> (42 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>System</code> (212) → <code>LOD</code> (5) → <code>Nexus Community Shaders</code> (15) → <code>Armor &#x26; Clothing</code> (26) → <code>Weapons</code> (5) → <code>Creatures &#x26; NPCs</code> (117) → <code>Gameplay Changes - Weapons &#x26; Armor</code> (27) → <code>Gameplay Changes - Crafting &#x26; Items</code> (20) → <code>Gameplay Changes - Player</code> (36) → <code>Gameplay Changes - Narrative &#x26; Worldspace</code> (108) → <code>Gameplay Changes - Hardcore Effects</code> (47) → <code>Animations</code> (117) → <code>Locations &#x26; Player Homes</code> (146) → <code>Quests &#x26; Adventures</code> (90) → <code>Sounds &#x26; Music</code> (24) → <code>Misc</code> (0) → <code>Requiem &#x26; Mods</code> (93) → <code>General Item Meshes &#x26; Textures</code> (164) → <code>Worldspace &#x26; Large Mesh &#x26; Texture Packs</code> (89) → <code>Weapons &#x26; Armor Meshes &#x26; Textures</code> (61) → <code>NPC &#x26; Creature Meshes &#x26; Textures</code> (172) → <code>Food &#x26; Aid Meshes &#x26; Textures</code> (47) → <code>Other Meshes &#x26; Textures</code> (64) → <code>User Interface</code> (44) → <code>Weather &#x26; Lighting</code> (54) → <code>Skeletons &#x26; Movement</code> (51) → <code>Patches</code> (295) → <code>Enable for All ENB</code> (3) → <code>Enable for Rudy ENB</code> (2) → <code>Enable for Bjorn ENB</code> (2) → <code>Enable for Ebony ENB</code> (2) → <code>Enable for NAT ENB</code> (4) → <code>Enable for PRT XII ENB</code> (4) → <code>Enable for Berserkyr ENB</code> (2) → <code>Enable for Silent Horizons 2 ENB</code> (3) → <code>Enable for KAUZ ENB (Requires Files Under SH2 Separator)</code> (1) → <code>Enable for GRIM ENB</code> (2) → <code>Enable for Amon ENB</code> (2) → <code>Enable for Dawnfire ENB</code> (2) → <code>Resources</code> (14) → <code>Enable for Controller Support</code> (2) → <code>Author Testing Separator</code> (3)</p>
+<h5 id="nefaram-17">NEFARAM 17</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/nefaram" target="_blank" rel="noreferrer">nefaram</a> (41 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>NEFARAM 17</code> (9) → <code>SKSE Utility Mods</code> (81) → <code>Fixes</code> (70) → <code>User Interface</code> (116) → <code>Landscape</code> (73) → <code>Creatures</code> (39) → <code>Architecture</code> (85) → <code>Furniture &#x26; Clutter</code> (108) → <code>Sound</code> (37) → <code>Interiors</code> (31) → <code>Cities</code> (52) → <code>Magic &#x26; Alchemy</code> (42) → <code>Quests - Changes</code> (40) → <code>Quests - New</code> (55) → <code>Outfits</code> (64) → <code>Weapons</code> (12) → <code>Weapon &#x26; Outfits Textures</code> (48) → <code>Roleplay and dialogue</code> (104) → <code>Travel</code> (23) → <code>Combat</code> (40) → <code>Survival</code> (36) → <code>Balance</code> (60) → <code>Leveled Lists &#x26; Distribution</code> (50) → <code>Animations</code> (118) → <code>Camera</code> (13) → <code>People &#x26; Followers</code> (57) → <code>ENB Light</code> (59) → <code>Seasons</code> (19) → <code>People Visual</code> (46) → <code>Character Visual</code> (84) → <code>CBBE 3BA HIMBO</code> (78) → <code>Bodyslide Presets</code> (12) → <code>Racemenu Presets</code> (31) → <code>Sexlab Frameworks</code> (49) → <code>Sexlab Content</code> (74) → <code>AI Voices (Can be safely disabled any time)</code> (19) → <code>Late Loaders</code> (16) → <code>Overwrites</code> (16) → <code>OPTIONAL MODS</code> (10) → <code>Female Skin Options (Enable all mods with the same [prefix] and disable the others)</code> (12) → <code>Added Mods</code> (0)</p>
+<h5 id="septimus-106">Septimus 1.0.6</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/septimus" target="_blank" rel="noreferrer">septimus</a> (13 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>Septimus - Skyrim Enhanced - 1.0.6</code> (0) → <code>Core &#x26; Frameworks</code> (29) → <code>Fixes &#x26; Tweaks</code> (24) → <code>User Interface &#x26; Controls</code> (18) → <code>Graphics Improvements</code> (29) → <code>Sounds &#x26; Music</code> (4) → <code>Animations &#x26; Skeleton</code> (8) → <code>Gameplay &#x26; Balance</code> (24) → <code>Quests &#x26; Locations</code> (34) → <code>NPCs &#x26; Followers</code> (12) → <code>Items &#x26; Distribution</code> (18) → <code>Final Patches</code> (9) → <code>The Danger Zone</code> (1)</p>
+<h5 id="twisted-skyrim-1800">Twisted Skyrim 1.8.0.0</h5>
+<p>Source: <a href="https://loadorderlibrary.com/lists/twisted-skyrim-4" target="_blank" rel="noreferrer">twisted-skyrim-4</a> (146 separators; top of pane first; number in parentheses = mods directly under it; 0 mods above the first separator)</p>
+<p><code>BASE GAME STUFF</code> (3) → <code>SKY UI</code> (3) → <code>MODDERS RESOURCES</code> (104) → <code>ESSENTIALS</code> (32) → <code>CONSOLE STUFF</code> (6) → <code>CONTROLS</code> (16) → <code>General Fixes</code> (73) → <code>SCRIPT FIXES</code> (43) → <code>SKSE PLUGIN - FIXES</code> (95) → <code>SKSE PLUGIN TWEAKS</code> (45) → <code>SKSE</code> (2) → <code>SKSE PLUGIN - QUALITY OF LIFE</code> (32) → <code>SKSE PLUGIN GAMEPLAY</code> (23) → <code>Tools</code> (23) → <code>~~USER INTERFACE~~</code> (0) → <code>BASE UI</code> (13) → <code>Camera</code> (7) → <code>HUD</code> (37) → <code>UI OVERHAULS</code> (15) → <code>UI PATCHES AND TWEAKS</code> (45) → <code>MAIN MENU, LOADING SCREENS &#x26; MISC</code> (4) → <code>ICONS</code> (12) → <code>~~AUDIO~~</code> (0) → <code>AUDIO BASE</code> (2) → <code>AUDIO OVERHAUL</code> (14) → <code>AUDIO TWEAKS</code> (27) → <code>MUSIC &#x26; SFX</code> (15) → <code>MESHES BASELINE</code> (13) → <code>MESH FIXES</code> (56) → <code>SMALL LOCATIONS</code> (93) → <code>TERRAIN FIXES</code> (6) → <code>~~TEXTURES~~</code> (0) → <code>ENB</code> (4) → <code>WATER</code> (6) → <code>TEXTURE FOUNDATION</code> (9) → <code>LANDSCAPE</code> (13) → <code>MOUNTAINS &#x26; ROCKS</code> (11) → <code>INTERIORS</code> (68) → <code>ARCHITECTURE</code> (31) → <code>WEATHER &#x26; SKY</code> (18) → <code>CITY SHITE</code> (28) → <code>SETTLEMENTS</code> (18) → <code>WHITERUN</code> (15) → <code>WINDHELM</code> (14) → <code>MARKARTH</code> (10) → <code>SOLITUDE</code> (15) → <code>RIFTEN</code> (12) → <code>THE COLLEGE HARRY</code> (5) → <code>ARCHITECTURE - MISC</code> (29) → <code>Clutter</code> (130) → <code>Furniture</code> (79) → <code>GODS</code> (37) → <code>DWARVES &#x26; FALMER</code> (30) → <code>FOR THE NORDS</code> (14) → <code>Dungeons &#x26; Caves Misc</code> (20) → <code>DAWNGUARD (SERANA IS MOMMY)</code> (22) → <code>YOURE DRAGONBORN HARRY</code> (23) → <code>VANILLA TREES</code> (15) → <code>TREE OVERHAULS</code> (11) → <code>GRASS</code> (1) → <code>FLORA</code> (27) → <code>FOOD &#x26; HARVESTABLES</code> (40) → <code>PLANT MESHES</code> (10) → <code>POTIONS &#x26; INGREDIENTS</code> (27) → <code>CLOTHING &#x26; JEWELRY</code> (8) → <code>WEAPONS &#x26; ARMOR RETEXTURES &#x26; MODELS</code> (71) → <code>LIGHTING, VFX &#x26; DECALS</code> (51) → <code>Fauna</code> (48) → <code>MONSTER RETEXTURES</code> (39) → <code>DRAGONS</code> (21) → <code>LUX</code> (39) → <code>FYX</code> (50) → <code>SNOW &#x26; ICE</code> (27) → <code>PATCH COLLECTIONS</code> (21) → <code>PARTICLES</code> (26) → <code>RANDOM VISUAL SHITE</code> (32) → <code>~~CHARACTER TIME YEAHHHH~~</code> (1) → <code>~~NPCS~~</code> (0) → <code>NPC ADDITIONS</code> (2) → <code>NPC APPEARANCES</code> (111) → <code>HEAD (gimme some pls)</code> (14) → <code>BODY</code> (22) → <code>BODYSLIDE</code> (20) → <code>BODY &#x26; FACE TEXTURES</code> (21) → <code>FURRY</code> (15) → <code>KIDS</code> (4) → <code>HAIR &#x26; BEARDS</code> (36) → <code>BROWS</code> (21) → <code>EYES</code> (45) → <code>MAKE-UP &#x26; WARPAINTS</code> (24) → <code>BODY OVERLAYS</code> (24) → <code>CHARACTER PRESETS</code> (4) → <code>BOING BOING BOING</code> (6) → <code>GEAR POSITIONING</code> (10) → <code>OBODY</code> (20) → <code>~~GAMEPLAY~~ Finally the good shit</code> (0) → <code>IMMERSHUN</code> (78) → <code>DIALOGUE &#x26; NPC INTERACTIONS</code> (68) → <code>RACE, GENDER, STONES, VAMPIRES &#x26; WEREBEASTS</code> (9) → <code>SPELLS</code> (35) → <code>LOOT &#x26; LEVELS</code> (20) → <code>ECONOMY</code> (4) → <code>SKILLS, PERKS &#x26; RELIGION</code> (15) → <code>ALCHEMY &#x26; FOOD</code> (17) → <code>ENCHANTING &#x26; ATRIFACTS</code> (13) → <code>SURVIVAL</code> (4) → <code>~~ANIMATIONS &#x26; BEHAVIOR~~</code> (0) → <code>OSTIM</code> (53) → <code>SKELETONS</code> (26) → <code>ANIMATIONS FIXES &#x26; IMPROVEMENTS</code> (42) → <code>BEHAVIOR EDITS</code> (27) → <code>NON-COMBAT ANIMATIONS</code> (87) → <code>COMBAT ANIMATIONS</code> (47) → <code>MOVESETS</code> (30) → <code>MOVEMENT</code> (33) → <code>~~ENEMIES &#x26; COMBAT~~</code> (0) → <code>AI &#x26; DIFFICULTY</code> (21) → <code>COMBAT SYSTEMS</code> (18) → <code>ENEMY OVERHAULS</code> (30) → <code>~~CONTENT~~</code> (0) → <code>DUNGEONS</code> (37) → <code>ENVIRONS</code> (23) → <code>Followers</code> (89) → <code>GOON ARMORS</code> (170) → <code>NEW WEAPONS &#x26; ARMOR</code> (208) → <code>QUESTS &#x26; NEW LANDS</code> (34) → <code>PLAYER HOMES</code> (0) → <code>QUEST EXPANSIONS</code> (35) → <code>VIGILANT</code> (46) → <code>GLENMORIL</code> (18) → <code>UNSLAAD</code> (14) → <code>PROJECTAHO</code> (19) → <code>WYRMSTOOTH WHY CANT I NAME IT THIS</code> (18) → <code>DAc0da stuff</code> (8) → <code>Olenveld stuff</code> (2) → <code>~~ALMOST THERE~~</code> (0) → <code>ANCIENT DWEMER METAL PATCHES</code> (22) → <code>PATCHES</code> (217) → <code>MCMs &#x26; INIs</code> (41) → <code>LODs</code> (7) → <code>OUTPUTS</code> (21) → <code>OPTIONALS</code> (15) → <code>im lazy so this is staying here</code> (26) → <code>LATE LOADERS</code> (7) → <code>Modlist Maintenance</code> (3) → <code>UNSORTED</code> (2)</p>
+<h3 id="inferences">Inferences</h3>
+<ul>
+<li>Uploads are often behind the current release, so treat structure as stronger evidence than exact counts.</li>
+<li>The lists are not independent. NGVO, CSVP, Journals of Jyggalag and LoreRim share distinctive names such as <code>Ancient Dwemer Metal Patches</code> and <code>Valuables &#x26; JS Mods</code>. Apostasy and Twisted Skyrim share a template. Lost Legacy and Septimus share <code>The Danger Zone</code> and <code>Core &#x26; Frameworks</code>. A pattern seen in “most lists” can partly reflect shared lineage.</li>
+</ul>
+<h3 id="gaps">Gaps</h3>
+<ul>
+<li><strong>Viva Skyrim: not verified.</strong> <code>vivaskyrim.com</code> and <code>viva-skyrim.com</code> did not resolve, two searches found nothing, and Load Order Library has no match. I found no evidence of its structure, or that a list by this name currently exists.</li>
+<li><strong>Nolvus: no official file found.</strong> All Nolvus files are user uploads. Their numbering matches the official guide, but v6’s exact official separators and plugin count are unconfirmed. The nolvus.net homepage figures were ambiguous in the fetched text (“37” labelled mods, an unlabelled “2050”), so they are not used.</li>
+<li><strong>Step: no clean official file found.</strong> The upload’s numbers (<code>02</code>, <code>04</code>, <code>06</code> through <code>44-Lod</code>) differ from the guide’s and it carries personal groups. Use the guide headings for structure, and treat the upload’s counts as not representative.</li>
+<li><strong>Gate to Sovngarde:</strong> it is unconfirmed whether the separator scheme comes from JaySerpa’s collection or from the Wabbajack conversion.</li>
+<li><strong>Wildlander:</strong> the verified files are 1.0.0-era, while the current version is 1.1.14. The 1.1.6 <a href="https://loadorderlibrary.com/lists/wildlander-11-official-potato-mods" target="_blank" rel="noreferrer">upload</a> keeps the same scheme, but nothing newer was checked.</li>
+<li><strong>Tahrovin:</strong> it is Skyrim VR, so it is reported for reference only and excluded from the SE counts below.</li>
+<li><strong>Elysium and Eldergleam:</strong> these are user uploads, and it is unconfirmed whether they are untouched installs.</li>
+</ul>
+<h2 id="do-they-number-separators-and-what-naming-and-nesting-schemes-appear">Do they number separators, and what naming and nesting schemes appear?</h2>
+<h3 id="takeaway-1">Takeaway</h3>
+<p>Most lists do not number. Of 24 SE lists, 18 use no numbering, 5 number nearly everything and 1 numbers only its parents. Numbered lists are not better ordered by that fact alone: Wunduniik’s numbers have drifted out of pane order. MO2 nesting is simulated with empty header separators or with name prefixes.</p>
+<h3 id="cited-findings-1">Cited Findings</h3>
+<ul>
+<li><strong>Decimal outline, no parent separators:</strong> Nolvus uses <code>1.1 SKSE PLUGINS</code>, <code>5.6.2 GRASS</code> and <code>5.10.1 NPC's RESSOURCES</code>. There is no <code>5. VISUALS</code> separator; the hierarchy exists only in the numbers. It does add unnumbered <code>WHITERUN</code>, <code>SOLITUDE</code>, <code>RIFTEN</code>, <code>MARKARTH</code> and <code>WINDHELM</code> under <code>5.11.1 CITIES</code> — <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 upload</a>.</li>
+<li><strong>Flat zero-padded:</strong> Elysium runs from <code>00 ROOT FOLDER</code> to <code>46 RULE 11</code> — <a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">Elysium</a>. Tahrovin (VR) runs from <code>00 - Tahrovin V3.0.5</code> to <code>48 - Disabled Mods (leave these alone)</code> — <a href="https://loadorderlibrary.com/lists/tahrovin-4" target="_blank" rel="noreferrer">Tahrovin</a>. Step’s guide headings run from <code>02-Extenders</code> to <code>21-Post-Processing</code> — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step</a>.</li>
+<li><strong>Decimal with parent and child:</strong> Eldergleam uses <code>13 - ARCHITECTURE MESHES</code> followed by <code>13.1 - ARCHITECTURE - WHITERUN -</code> through <code>13.16 - ARCHITECTURE - CASTLE VOLKIHAR -</code> — <a href="https://loadorderlibrary.com/lists/eldergleam-a-next-gen-modlist-4-0-2" target="_blank" rel="noreferrer">Eldergleam</a>.</li>
+<li><strong>Ruled parents plus decimals:</strong> Wunduniik uses <code>01. ___ CORE MODS ___</code> with <code>01.1 EARLY LOADERS - CORE</code>. Its top-level order in the pane is 01, 02, 03, 06, 07, 05, 04, 08, and <code>04.7</code>, <code>16.1</code>, <code>16.2</code> and <code>16.5</code> each occur twice — <a href="https://loadorderlibrary.com/lists/wunduniik-chapter-v" target="_blank" rel="noreferrer">Wunduniik</a>.</li>
+<li><strong>Numbered parents only, with reserved high numbers:</strong> Licentia uses <code>1 - BASE</code> through <code>14 - LIGHNTING OVERHAUL</code>, then jumps to <code>98 - PATCHES</code> and <code>99 - LN CUSTOM PATCHES AND OUTPUTS</code>. Children such as <code>Weathers</code> are unnumbered — <a href="https://loadorderlibrary.com/lists/licentia-next" target="_blank" rel="noreferrer">Licentia NEXT</a>.</li>
+<li><strong>Decorated empty headers, unnumbered:</strong> Apostasy has <code>--- VISUALS ---</code> — <a href="https://loadorderlibrary.com/lists/apostasy" target="_blank" rel="noreferrer">Apostasy</a>. Living Skyrim has <code>---------- ║ NATURE ║ ---…</code> — <a href="https://loadorderlibrary.com/lists/living-skyrim-5" target="_blank" rel="noreferrer">Living Skyrim</a>. Twisted has <code>~~AUDIO~~</code> — <a href="https://loadorderlibrary.com/lists/twisted-skyrim-4" target="_blank" rel="noreferrer">Twisted</a>. LoreRim and CSVP use plain capitals such as <code>CORE</code> — <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim</a>.</li>
+<li><strong>Path-style names:</strong> Gate to Sovngarde repeats the full path, such as <code>Exterior Overhauls - Major Cities - Whiterun - Patches &#x26; Add-ons</code>, and appends <code>===== ALL CONFLICTS WORK AS INTENDED (V115) =====</code> or <code>===== NO CONFLICTS =====</code> to record conflict status — <a href="https://loadorderlibrary.com/lists/gate-to-sovngarde-ae-wabbajack-conversion" target="_blank" rel="noreferrer">GTS v115</a>.</li>
+<li><strong>Decoration without numbers on every separator:</strong> Lexy’s wraps every category as <code>++++Weather Systems++++</code> and uses <code>MOD INSTALLATION PART 2</code> as a stage banner. Part 1 is spelled <code>MOD INTALLATION PART 1</code> in the file — <a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">Lexy’s</a>.</li>
+<li><strong>Bare <code>[NOLVUS] CATEGORY</code> style:</strong> this form did not appear in any Nolvus file parsed; Nolvus uses the decimal outline above — <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 upload</a>.</li>
+<li><strong>Operational instructions in separator names</strong> are common: <code>ENB Options (ONLY PICK 1)</code> and <code>DO NOT DISABLE - DUMMY PLUGINS</code> (LoreRim), <code>FWMF MAPS (MUST LOAD LAST)</code> (Eldergleam), <code>Licentia NEXT - Bodyslide Output - Needs to always stay at the end</code> (Licentia), <code>Enable for Rudy ENB</code> (Halls of Sovngarde) — <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim</a>; <a href="https://loadorderlibrary.com/lists/eldergleam-a-next-gen-modlist-4-0-2" target="_blank" rel="noreferrer">Eldergleam</a>; <a href="https://loadorderlibrary.com/lists/licentia-next" target="_blank" rel="noreferrer">Licentia NEXT</a>; <a href="https://loadorderlibrary.com/lists/halls-of-sovngarde" target="_blank" rel="noreferrer">Halls</a>.</li>
+<li><strong>Version banner as the first separator:</strong> seen in LoreRim, Elysium, Eldergleam, Licentia, Apostasy, Living Skyrim, Masterstroke, Tempus, NGVO, CSVP, Keizaal, Lost Legacy, Septimus, Aurora, NEFARAM, Wunduniik and Tahrovin, for example <code>Elysium Remastered v3.3.0</code> (in Living Skyrim it follows a <code>DLC</code> header) — see the sequences above.</li>
+<li><strong>Inbox separator at the bottom for new mods:</strong> <code>NEWLY DOWNLOADED MODS (DO NOT LEAVE IT HERE!!)</code> (Eldergleam), <code>N E W - SORTING REQUIRED!</code> (GTS), <code>99. ___ NEW &#x26; UNSORTED ___</code> (Wunduniik), <code>ADDED MODS - Make your additions below this line</code> (Licentia), <code>Not Yet Installed…</code> (NGVO) — see the sequences above.</li>
+</ul>
+<h3 id="inferences-1">Inferences</h3>
+<ul>
+<li>Numbers work as stable labels and support the guide-to-pane mapping in Nolvus and Step. They carry a renumbering cost, shown by Wunduniik’s out-of-order and duplicate numbers and by Licentia’s jump to 98 and 99.</li>
+<li>Empty parents are the most common way of simulating nesting among high-separator lists. Nolvus shows that a decimal outline can do it with almost no empty separators (1 of 69).</li>
+</ul>
+<h3 id="gaps-1">Gaps</h3>
+<ul>
+<li>No list documents why it chose its scheme in the sources read, so the motives above are inferred from structure.</li>
+<li>An “empty” separator is either a deliberate header or an unused category. Gate to Sovngarde has many unused path entries, so its 59 is not all headers.</li>
+</ul>
+<h2 id="what-is-the-top-level-category-order-and-is-it-by-function-or-by-conflict-priority">What is the top-level category order, and is it by function or by conflict priority?</h2>
+<h3 id="takeaway-2">Takeaway</h3>
+<p>The two ends of the pane are nearly universal: foundation and fixes at the top; patches, outputs, then ENB, maps and optional items at the bottom. The middle is grouped by function, and its order varies. Conflict priority shows up as explicit early, late and override sections wrapped around those functional groups.</p>
+<h3 id="cited-findings-2">Cited Findings</h3>
+<ul>
+<li><strong>Nolvus v6:</strong> <code>0. MASTER FILES</code>, then 1.x core and fixes, 2.x UI, <code>3. MUSIC &#x26; SOUNDS</code>, 4.x quests and content, 5.x visuals, 6.x animations, 7.x gameplay, <code>8. IMMERSION</code>, <code>9. LATE LOADERS</code>, <code>10. OUTPUTS</code>, <code>11. ENB &#x26; RESHADE</code> — <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 upload</a>.</li>
+<li><strong>LoreRim:</strong> <code>CORE</code>, SKSE and fixes, <code>Mod Tools &#x26; Resources</code>, <code>USER INTERFACE</code>, audio, visuals, character visuals, gameplay and gear, quests, animations, <code>Requiem &#x26; Late Loaders</code>, <code>Finishing Line</code>, <code>Late Patches</code>, <code>Settings Loaders</code>, <code>Outputs &#x26; Final Overwrites</code>, ENB and optional items — <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim</a>.</li>
+<li><strong>Elysium:</strong> root and masters, utilities, fixes, tweaks, interface, graphics baseline, weather and lighting, landscape, overhauls, NPCs, architecture, clutter, gear, creatures, gameplay, quests, music, animations, <code>39 ENB PARTICLE LIGHTS</code>, <code>40 FINAL PATCHES</code>, <code>41 MERGES</code>, <code>42 PATCHER OUTPUT</code> — <a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">Elysium</a>.</li>
+<li><strong>Lexy’s:</strong> frameworks and fixes, interface, new lands and quest fixes, weather and world visuals, gameplay systems, city overhauls, characters and animation, followers, armor, effects and lights, patch collections, <code>Consistency Patches</code>, <code>Conflict Resolution</code>, <code>Merge Page</code>, <code>Finishing Line</code>, tool outputs — <a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">Lexy’s</a>.</li>
+<li><strong>Step:</strong> extenders, resources, foundation, animation, models and textures, sound, character, fixes, gameplay, interface, locations, lighting and weather, utilities, patches, post-processing — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step</a>.</li>
+<li><strong>Step’s stated rule:</strong> mods should be arranged in the order listed so later ones overwrite earlier ones — <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step</a>.</li>
+<li><strong>Priority-named separators:</strong> <code>10 - EARLY LOADERS</code>, <code>27 - LATE LOADERS</code>, <code>27.1 - LATE PATCHES -</code> (Eldergleam); <code>04.1 BASE MESHES &#x26; TEXTURES - EARLY LOADERS</code>, <code>08. ___ LATE GRAPHICS ___</code>, <code>15.4 LATE LOADERS</code> (Wunduniik); <code>Visuals - Late Loaders</code>, <code>Gameplay - Late Loaders</code> (LoreRim); <code>Misc. Low Priority</code>, <code>Misc. High Priority (Large Patch Hubs etc.)</code>, <code>PRIORITY OVERRIDE</code> (GTS) — see the sequences above.</li>
+<li><strong>Approximate mean position of mods, as a percentage down the pane.</strong> This is computed by matching separator names with keyword patterns, so it is rough and has false matches. “Quests” also catches names such as <code>Quest Bug Fixes</code>, so Quests is left out here:</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>List</th><th align="right">UI</th><th align="right">Audio</th><th align="right">Landscape</th><th align="right">Weather</th><th align="right">Architecture/cities</th><th align="right">Clutter</th><th align="right">Armor/weapons</th><th align="right">NPC/character</th><th align="right">Lighting/VFX</th><th align="right">Animation</th><th align="right">Gameplay</th><th align="right">Outputs</th></tr></thead><tbody><tr><td>Nolvus v6</td><td align="right">4</td><td align="right">7</td><td align="right">20</td><td align="right">25</td><td align="right">43</td><td align="right">70</td><td align="right">58</td><td align="right">38</td><td align="right">77</td><td align="right">77</td><td align="right">90</td><td align="right">100</td></tr><tr><td>LoreRim</td><td align="right">8</td><td align="right">11</td><td align="right">14</td><td align="right">13</td><td align="right">29</td><td align="right">35</td><td align="right">56</td><td align="right">61</td><td align="right">47</td><td align="right">73</td><td align="right">67</td><td align="right">97</td></tr><tr><td>Elysium</td><td align="right">15</td><td align="right">89</td><td align="right">23</td><td align="right">19</td><td align="right">46</td><td align="right">56</td><td align="right">61</td><td align="right">48</td><td align="right">63</td><td align="right">92</td><td align="right">74</td><td align="right">98</td></tr><tr><td>Eldergleam</td><td align="right">19</td><td align="right">24</td><td align="right">31</td><td align="right">89</td><td align="right">48</td><td align="right">57</td><td align="right">72</td><td align="right">80</td><td align="right">91</td><td align="right">58</td><td align="right">83</td><td align="right">99</td></tr><tr><td>GTS v115</td><td align="right">11</td><td align="right">43</td><td align="right">16</td><td align="right">15</td><td align="right">79</td><td align="right">20</td><td align="right">36</td><td align="right">66</td><td align="right">52</td><td align="right">57</td><td align="right">60</td><td align="right">98</td></tr><tr><td>Lexy’s</td><td align="right">24</td><td align="right">51</td><td align="right">26</td><td align="right">23</td><td align="right">51</td><td align="right">33</td><td align="right">80</td><td align="right">68</td><td align="right">61</td><td align="right">59</td><td align="right">55</td><td align="right">99</td></tr><tr><td>Licentia NEXT</td><td align="right">21</td><td align="right">17</td><td align="right">34</td><td align="right">29</td><td align="right">-</td><td align="right">37</td><td align="right">65</td><td align="right">70</td><td align="right">88</td><td align="right">83</td><td align="right">73</td><td align="right">99</td></tr><tr><td>Wunduniik</td><td align="right">9</td><td align="right">12</td><td align="right">24</td><td align="right">25</td><td align="right">15</td><td align="right">36</td><td align="right">67</td><td align="right">69</td><td align="right">33</td><td align="right">74</td><td align="right">55</td><td align="right">100</td></tr><tr><td>Apostasy</td><td align="right">12</td><td align="right">15</td><td align="right">20</td><td align="right">19</td><td align="right">28</td><td align="right">36</td><td align="right">71</td><td align="right">63</td><td align="right">50</td><td align="right">71</td><td align="right">82</td><td align="right">98</td></tr><tr><td>Living Skyrim 5</td><td align="right">14</td><td align="right">16</td><td align="right">26</td><td align="right">93</td><td align="right">35</td><td align="right">23</td><td align="right">34</td><td align="right">76</td><td align="right">93</td><td align="right">90</td><td align="right">79</td><td align="right">99</td></tr><tr><td>Journals of Jyggalag</td><td align="right">7</td><td align="right">78</td><td align="right">12</td><td align="right">11</td><td align="right">16</td><td align="right">29</td><td align="right">48</td><td align="right">81</td><td align="right">74</td><td align="right">74</td><td align="right">72</td><td align="right">98</td></tr><tr><td>NGVO 7.2</td><td align="right">18</td><td align="right">83</td><td align="right">27</td><td align="right">26</td><td align="right">35</td><td align="right">49</td><td align="right">67</td><td align="right">61</td><td align="right">75</td><td align="right">79</td><td align="right">91</td><td align="right">97</td></tr></tbody></table>
+<h3 id="inferences-2">Inferences</h3>
+<ul>
+<li><strong>Shared by most lists:</strong> masters and fixes first, UI in the first quarter, outputs in the last few percent, and visual replacers before patches.</li>
+<li><strong>Notable disagreements:</strong> audio is early in Nolvus and LoreRim but late in Elysium, NGVO and Journals. Gameplay comes before visuals in Wildlander, Masterstroke and Halls of Sovngarde, but after in Nolvus and LoreRim. Quests and new content come before visuals in Nolvus, Lexy’s and Licentia, but after in LoreRim, Apostasy and Wunduniik. Step places interface, locations and weather late, unlike most lists.</li>
+<li>The middle order looks like list history and author preference as much as conflict logic, since lists with opposite middle orders all ship. This is an inference; none of the sources tests it.</li>
+</ul>
+<h3 id="gaps-2">Gaps</h3>
+<ul>
+<li>I did not inspect file-level conflicts, so I cannot say how much a given order actually changes in-game results.</li>
+</ul>
+<h2 id="where-do-patches-and-outputs-go">Where do patches and outputs go?</h2>
+<h3 id="takeaway-3">Takeaway</h3>
+<p>Patches are mostly spread out. Across 25 lists, a median of 82% of patch-named mods sit within six positions of a mod sharing a word in their name, and a median of only 36% fall in the last quarter of the pane. Most lists also have a late patch section for what cannot sit next to one mod. Only Wunduniik, Keizaal and Halls of Sovngarde centralize most patches. Outputs are always in the end zone.</p>
+<h3 id="cited-findings-3">Cited Findings</h3>
+<ul>
+<li><strong>Metric definition:</strong> a “patch” is a mod whose name contains <code>patch</code> or <code>compat</code>. “Nearby” means it shares a significant word with one of the previous six mods. A uniform spread would put 25% in the last quarter. This is a name heuristic, not conflict analysis; computed from the files linked in the first table.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="doc-table"><thead><tr><th>List</th><th align="right">Patch-named mods</th><th align="right">Nearby related mod</th><th align="right">In last 25% of pane</th></tr></thead><tbody><tr><td>Nolvus v6</td><td align="right">558</td><td align="right">93%</td><td align="right">34%</td></tr><tr><td>LoreRim 5.0.2</td><td align="right">426</td><td align="right">90%</td><td align="right">23%</td></tr><tr><td>Lexy’s</td><td align="right">281</td><td align="right">83%</td><td align="right">48%</td></tr><tr><td>Elysium</td><td align="right">152</td><td align="right">86%</td><td align="right">41%</td></tr><tr><td>Eldergleam</td><td align="right">115</td><td align="right">74%</td><td align="right">43%</td></tr><tr><td>GTS v115</td><td align="right">310</td><td align="right">91%</td><td align="right">32%</td></tr><tr><td>Licentia NEXT</td><td align="right">263</td><td align="right">80%</td><td align="right">46%</td></tr><tr><td>Apostasy</td><td align="right">330</td><td align="right">89%</td><td align="right">42%</td></tr><tr><td>Journals of Jyggalag</td><td align="right">442</td><td align="right">83%</td><td align="right">30%</td></tr><tr><td>Wunduniik</td><td align="right">438</td><td align="right">72%</td><td align="right">92%</td></tr><tr><td>Keizaal 9 beta</td><td align="right">69</td><td align="right">52%</td><td align="right">91%</td></tr><tr><td>Halls of Sovngarde</td><td align="right">285</td><td align="right">54%</td><td align="right">78%</td></tr></tbody></table>
+<ul>
+<li><strong>No patch-named separator:</strong> Nolvus has none, and <code>9. LATE LOADERS</code> holds hubs such as <code>Legacy of the Dragonborn Patches (Official)</code> and <code>eFPS - Official Patch Hub</code> — <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 upload</a>.</li>
+<li><strong>Patches as children of the patched category:</strong> GTS uses <code>New Quests - VIGILANT</code> followed by <code>New Quests - VIGILANT - Patches &#x26; Add-ons</code> — <a href="https://loadorderlibrary.com/lists/gate-to-sovngarde-ae-wabbajack-conversion" target="_blank" rel="noreferrer">GTS v115</a>.</li>
+<li><strong>Late section plus nearby patches:</strong> LoreRim has <code>Finishing Line</code> then <code>Late Patches</code> (71 mods) — <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim</a>. Elysium has <code>40 FINAL PATCHES</code> then <code>41 MERGES</code> — <a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">Elysium</a>. Licentia has <code>98 - PATCHES</code> — <a href="https://loadorderlibrary.com/lists/licentia-next" target="_blank" rel="noreferrer">Licentia NEXT</a>. Apostasy has <code>--- FINISHING LINE ---</code> with <code>GDPR Patches</code> and <code>Final Patches</code> — <a href="https://loadorderlibrary.com/lists/apostasy" target="_blank" rel="noreferrer">Apostasy</a>.</li>
+<li><strong>Named patch collections at the end:</strong> Lexy’s Part 10 has <code>Kryptopyr's Patch Hub Collection</code>, <code>Unofficial Skyrim Modders Patch Emporium</code>, <code>Owl Patch Collection</code>, then <code>Consistency Patches</code> and <code>Conflict Resolution</code> — <a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">Lexy’s</a>.</li>
+<li><strong>Strong centralization:</strong> Wunduniik’s <code>15.2 MISCELLANEOUS PATCH HUBS</code> holds 394 mods and <code>15.6 MODS FIXES</code> holds 158 — <a href="https://loadorderlibrary.com/lists/wunduniik-chapter-v" target="_blank" rel="noreferrer">Wunduniik</a>.</li>
+<li><strong>Domain patch sections in mid-list:</strong> <code>Ancient Dwemer Metal Patches</code> (LoreRim, NGVO, CSVP), <code>Lux Mesh Patches</code> and <code>UI Patches &#x26; Tweaks</code> (Apostasy), <code>Path of Sorcery Patches</code> (Licentia) — see the sequences above.</li>
+<li><strong>Outputs are near the end in all lists with an output section,</strong> but what follows them varies:
+<ul>
+<li>ENB after outputs: Nolvus <code>10. OUTPUTS</code>, <code>11. ENB &#x26; RESHADE</code>; LoreRim <code>Outputs &#x26; Final Overwrites</code>, then dummy plugins, <code>Optional - ReShade</code>, <code>Flat Map Framework &#x26; LOD Overwrites</code>, <code>ENB Core Files</code>.</li>
+<li>Support and optional items after outputs: Elysium <code>42 PATCHER OUTPUT</code>, then <code>43 PERFORMANCE MODE</code>, <code>44 WIDESCREEN SUPPORT</code>, <code>45 DLAA SUPPORT</code>.</li>
+<li>Late loaders after outputs: Apostasy <code>Outputs</code>, then <code>Late Loaders</code> and <code>--- OPTIONAL ADDONS ---</code>.</li>
+<li>Outputs truly last: Lexy’s ends with <code>++++DynDOLOD - Dynamic Distant LOD Generation++++</code>; Wildlander ends with <code>Wildlander - Full Output</code>.</li>
+<li>Sources: <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 upload</a>; <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim</a>; <a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">Elysium</a>; <a href="https://loadorderlibrary.com/lists/apostasy" target="_blank" rel="noreferrer">Apostasy</a>; <a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">Lexy’s</a>; <a href="https://loadorderlibrary.com/lists/wildlander-ultra-profile" target="_blank" rel="noreferrer">Wildlander</a>.</li>
+</ul>
+</li>
+<li><strong>Order inside outputs:</strong>
+<ul>
+<li>Terrain LOD, then TexGen, then DynDOLOD is the common chain: LoreRim, Elysium, Eldergleam, Licentia, Apostasy, Living Skyrim, Wildlander and Lexy’s all keep it, and Nolvus uses <code>LODGEN</code>, <code>Grass Cache</code>, then <code>DynDOLOD</code>.</li>
+<li>Synthesis usually comes before the LOD chain (Nolvus, LoreRim, Elysium, Lexy’s, Licentia) but after DynDOLOD in Eldergleam and Living Skyrim.</li>
+<li>Licentia puts BodySlide output at the very end; most others put it early in outputs.</li>
+<li>Wunduniik’s <code>17. TOOL OUTPUTS</code> is nearly alphabetical, so its order does not express a tool sequence.</li>
+<li>Sources: <a href="https://loadorderlibrary.com/lists/licentia-next" target="_blank" rel="noreferrer">Licentia NEXT</a>; <a href="https://loadorderlibrary.com/lists/eldergleam-a-next-gen-modlist-4-0-2" target="_blank" rel="noreferrer">Eldergleam</a>; <a href="https://loadorderlibrary.com/lists/living-skyrim-5" target="_blank" rel="noreferrer">Living Skyrim</a>; <a href="https://loadorderlibrary.com/lists/wunduniik-chapter-v" target="_blank" rel="noreferrer">Wunduniik</a>.</li>
+</ul>
+</li>
+<li><strong>Maps</strong> are placed late: inside <code>10. OUTPUTS</code> in Nolvus, after outputs in LoreRim and GTS, and in <code>FWMF MAPS (MUST LOAD LAST)</code> in Eldergleam — see the sequences above.</li>
+</ul>
+<h3 id="inferences-3">Inferences</h3>
+<ul>
+<li>The evidence favors a hybrid over either pure rule: keep single-mod patches near what they patch, and use a late section for hubs, multi-mod patches and final conflict resolution.</li>
+<li>LOD outputs generally sit below the things they were generated from, which fits a tool-run sequence. Grouping outputs in one place is effectively unanimous.</li>
+</ul>
+<h3 id="gaps-3">Gaps</h3>
+<ul>
+<li>The share of patches that sit nearby is a name-based estimate. It can count unrelated mods sharing a word and can miss real relations.</li>
+<li>Some uploads may contain later user edits to these late sections.</li>
+</ul>
+<h2 id="is-the-left-pane-ordered-so-visuals-overwrite-each-other-in-a-deliberate-sequence">Is the left pane ordered so visuals overwrite each other in a deliberate sequence?</h2>
+<h3 id="takeaway-4">Takeaway</h3>
+<p>Yes, in most detailed lists, though the exact sequence differs. At least 12 of 24 SE lists follow nature, then built structures, then small objects, with lights and VFX toward the end of the visual block. Weather placement and the position of characters and gear are the main disagreements.</p>
+<h3 id="cited-findings-4">Cited Findings</h3>
+<ul>
+<li><strong>Nolvus v6:</strong> <code>5.1 BASE TEXTURES &#x26; MODELS</code>, <code>5.2 LODS</code>, <code>5.3 LANDSCAPE</code>, <code>5.4 ICE SNOW &#x26; ASHES</code>, <code>5.5 MOUNTAINS &#x26; ROCKS</code>, trees, grass, plants, weather, sky, water, NPCs, cities, lands and ruins, interiors, gear, creatures, clutter and statues, <code>5.17 LIGHTING EFFECTS &#x26; PARTICLES</code> — <a href="https://loadorderlibrary.com/lists/nolvus-v6-ultimate-open-beta-start" target="_blank" rel="noreferrer">Nolvus v6 upload</a>.</li>
+<li><strong>LoreRim:</strong> <code>Weather and Sky</code>, <code>Landscapes and World Improvements</code>, <code>Grass</code>, <code>Trees</code>, <code>Flora</code>, locations and cities, <code>Architecture</code>, <code>Smaller Architecture</code>, <code>Visuals - Late Loaders</code>, <code>Underground &#x26; Ice</code>, <code>Shrines and Statues</code>, <code>Animals</code>, <code>Creatures</code>, <code>Clutter</code>, <code>Furniture</code>, small items and gear, <code>Water</code>, <code>Visual FX &#x26; Decals</code>, <code>Dragons &#x26; Dragonpriests</code>, <code>Embers, Lux, Via, Orbis &#x26; Lighting Overwrites</code>, <code>Ancient Dwemer Metal Patches</code>, <code>ENB Particle Lights</code> — <a href="https://loadorderlibrary.com/lists/lorerim" target="_blank" rel="noreferrer">LoreRim</a>.</li>
+<li><strong>Elysium:</strong> <code>09 GRAPHICS BASELINE</code>, <code>10 WEATHER</code>, <code>11 LIGHTING</code>, <code>12 VISUAL FX</code>, <code>13 LANDSCAPE</code>, <code>14 TREES &#x26; PLANTS</code>, <code>15 EXTERIOR OVERHAULS</code>, <code>16 INTERIOR OVERHAULS</code>, NPCs, <code>19 ARCHITECTURE</code>, <code>20 MISC STRUCTURES</code>, <code>21 INTERIORS</code>, <code>22 DUNGEONS</code>, <code>23 CLUTTER</code>, <code>24 FOOD &#x26; INGREDIENTS</code>, gear, creatures, and much later <code>39 ENB PARTICLE LIGHTS</code> — <a href="https://loadorderlibrary.com/lists/elysium-remastered-332" target="_blank" rel="noreferrer">Elysium</a>.</li>
+<li><strong>Lexy’s:</strong> <code>Weather Systems</code>, <code>Stargazing</code>, <code>General World Improvement</code>, <code>Lighting Improvements and Mesh Fixes</code>, <code>Grass</code>, <code>Roads and Bridges</code>, <code>Landscape and Environment</code>, <code>Mountains</code>, <code>Glaciers, Ice, Snow and Ash</code>, <code>Trees and Flora</code>, <code>Architecture &#x26; Settlements</code>, <code>Dungeons and Ruins</code>, <code>Dwemer Tech</code>, <code>Clutter and Miscellaneous</code>, <code>Water</code>, <code>Mesh Fixes Patches</code>, <code>Effects</code> — <a href="https://loadorderlibrary.com/lists/lexys-lotd-a-skyrim-modding-guide" target="_blank" rel="noreferrer">Lexy’s</a>.</li>
+<li><strong>Lists following the broad nature, structures, objects sequence:</strong> Nolvus, LoreRim, Elysium, Eldergleam, Lexy’s, Apostasy, Journals of Jyggalag, NGVO, CSVP, Aurora, Twisted and NEFARAM, per the position table and sequences above.</li>
+<li><strong>Exceptions:</strong> Wunduniik puts <code>06.</code> cities and <code>07.</code> worldspace before <code>05.</code> environment and <code>04.</code> meshes and textures — <a href="https://loadorderlibrary.com/lists/wunduniik-chapter-v" target="_blank" rel="noreferrer">Wunduniik</a>. Living Skyrim puts <code>VISUALS</code> (architecture, furniture, clutter) before <code>NATURE</code> — <a href="https://loadorderlibrary.com/lists/living-skyrim-5" target="_blank" rel="noreferrer">Living Skyrim</a>. GTS has replacers first (roads, trees, snow, cities, statics, creatures, clothing, plants) and places location and exterior overhauls far later — <a href="https://loadorderlibrary.com/lists/gate-to-sovngarde-ae-wabbajack-conversion" target="_blank" rel="noreferrer">GTS v115</a>.</li>
+<li><strong>Too coarse to compare:</strong> Keizaal <code>Visuals</code>, Septimus <code>Graphics Improvements</code>, Lost Legacy <code>Graphics Improvements</code>, Step <code>06-Models and Textures</code>, and Wildlander <code>Core Audiovisual Enhancements</code> hold their visual mods in one or few groups — see the sequences above and <a href="https://stepmodifications.org/wiki/SkyrimSE:2.3" target="_blank" rel="noreferrer">Step</a>.</li>
+<li><strong>ENB particle lights near the end of visuals:</strong> <code>39 ENB PARTICLE LIGHTS</code> (Elysium), <code>26.2 - ENB PARTICLE LIGHTS -</code> (Eldergleam), <code>++++ENB Particle Lights++++</code> (Lexy’s), <code>ENB Particle Lights</code> (LoreRim, NGVO, CSVP), <code>Particle Lights</code> (Apostasy) — see the sequences above.</li>
+<li><strong>Disagreement on weather:</strong> it comes before landscape in LoreRim, Elysium, Lexy’s, Licentia, Apostasy, NGVO, CSVP, Journals and Twisted, but after flora in Nolvus, and near the end of the list in Eldergleam (<code>25 - WEATHER -</code>) and Living Skyrim (<code>ATMOSPHERE</code>) — see the position table above.</li>
+<li><strong>Disagreement on water:</strong> after flora and before settlements in Nolvus, but late among visuals in LoreRim, Elysium has no separate water separator, and Lexy’s places it after clutter — see the sequences above.</li>
+</ul>
+<h3 id="inferences-4">Inferences</h3>
+<ul>
+<li>A deliberate landscape, then architecture, then clutter order is supported. It is a majority habit, not a rule, because several established lists depart from it.</li>
+<li>The sequence is coherent with broad surfaces first and specific objects later, and with light and VFX tweaks late. This is inferred from order and names, and no list source states it as a rationale.</li>
+<li>Weather’s position probably matters less for overwrites than for grouping, but this was not tested.</li>
+</ul>
+<h3 id="gaps-4">Gaps</h3>
+<ul>
+<li>No file-level check was done to show which visual layers actually overwrite which.</li>
+</ul>
+<h2 id="evidence-based-observations-for-the-decision-repository">Evidence-based observations for the decision repository</h2>
+<h3 id="takeaway-5">Takeaway</h3>
+<p>A defensible structure is a stable functional outline with a fixed end zone, a hybrid patch rule, and a default visual sequence from broad to specific. The evidence supports each of these as common practice, and it does not prove any of them best.</p>
+<h3 id="cited-findings-5">Cited Findings</h3>
+<p>All figures below come from the per-list table and tables above; each list’s source link is in those tables.</p>
+<ol>
+<li><strong>Numbering is optional.</strong> 18 of 24 SE lists do not number. Lists with numbers include some of the largest (Nolvus, Wunduniik) and lists without include others (LoreRim, Twisted).</li>
+<li><strong>If numbering, expect drift.</strong> Wunduniik has out-of-order top-level numbers and duplicates; Licentia reserves <code>98</code> and <code>99</code>; Step’s guide starts at <code>02</code>.</li>
+<li><strong>Size has no standard.</strong> Separators range from 13 to 289, and mods per separator from about 7 (GTS) to about 52 (Halls of Sovngarde), with a median near 22.</li>
+<li><strong>Nesting is simulated.</strong> Empty parents (Apostasy, Licentia, Living Skyrim, LoreRim, Twisted), decimal labels (Nolvus), or path prefixes (GTS) are the three working forms.</li>
+<li><strong>The end zone is the most consistent part:</strong> late patches, then outputs, then ENB, maps and optional items, usually with an inbox separator at the bottom.</li>
+<li><strong>Output order:</strong> terrain LOD, TexGen, then DynDOLOD is close to universal; Synthesis placement varies.</li>
+<li><strong>Patches:</strong> the median list keeps 82% of patch-named mods near a related mod and 36% in the last quarter of the pane, while also having a late section. Wunduniik, Keizaal and Halls of Sovngarde are the centralized exceptions.</li>
+<li><strong>Visual order:</strong> nature, then structures, then objects, with particle lights late, is the majority pattern. Wunduniik and Living Skyrim show that other orders ship.</li>
+<li><strong>Priority sections are explicit.</strong> Early loader, late loader, finishing line and override separators are how lists express conflict priority without abandoning functional groups.</li>
+<li><strong>Separators also carry operating instructions.</strong> Version banners, <code>DO NOT DISABLE</code>, <code>ONLY PICK 1</code> and conflict-status tags are common, so the pane doubles as documentation.</li>
+</ol>
+<h3 id="inferences-5">Inferences</h3>
+<ul>
+<li>A sensible default for a new list: an unnumbered or lightly numbered functional outline, empty parents only where a section gets large, a hybrid patch rule, and a fixed, documented end zone. This is my reading of the common practice.</li>
+<li>Avoid citing “most lists do X” as independent confirmation, given the shared template families noted above.</li>
+<li>The middle-section order should be decided by the list’s own conflicts, because the reference lists do not converge on one.</li>
+</ul>
+<h3 id="gaps-5">Gaps</h3>
+<ul>
+<li>This evidence shows what lists do, not what works best. No source here measures stability or visual results by structure.</li>
+<li>Viva Skyrim is unverified, and official files for Nolvus and Step were not found.</li>
+</ul></article><nav aria-label="On this page" class="order-first text-sm lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"><h2 class="mb-2 text-xs font-semibold text-secondary">On this page</h2><ul class="grid gap-1.5"><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-separators-do-the-top-lists-use-in-what-order-and-how-many-mods-and-plugins-do-they-have">What separators do the top lists use, in what order, and how many mods and plugins do they have?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#do-they-number-separators-and-what-naming-and-nesting-schemes-appear">Do they number separators, and what naming and nesting schemes appear?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#what-is-the-top-level-category-order-and-is-it-by-function-or-by-conflict-priority">What is the top-level category order, and is it by function or by conflict priority?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#where-do-patches-and-outputs-go">Where do patches and outputs go?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#is-the-left-pane-ordered-so-visuals-overwrite-each-other-in-a-deliberate-sequence">Is the left pane ordered so visuals overwrite each other in a deliberate sequence?</a></li><li><a class="block text-pretty text-secondary hover:text-accent-text" href="#evidence-based-observations-for-the-decision-repository">Evidence-based observations for the decision repository</a></li></ul></nav></div></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>

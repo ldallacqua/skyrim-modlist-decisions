@@ -1,0 +1,348 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="What changed in each version of the list, and whether it's save-safe."><meta name="theme-color" content="#12161B"><link rel="icon" href="/skyrim-modlist-decisions/favicon.svg" type="image/svg+xml"><title>Changelog · Skyrim Modlist Decisions</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/skyrim-modlist-decisions/_astro/ClientRouter.astro_astro_type_script_index_0_lang.DXqcZz58.js"></script><link rel="stylesheet" href="/skyrim-modlist-decisions/_astro/Base.B4PtZnUk.css"></head><body><a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-bg-3 focus:px-3 focus:py-2">Skip to content</a><header data-astro-transition-persist="astro-gyrtbwwo-1" class="sticky top-0 z-40 border-b border-line-subtle bg-bg-0/85 backdrop-blur-md"><div class="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4 sm:gap-6 sm:px-6"><a href="/skyrim-modlist-decisions/" class="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight text-strong"><img src="/skyrim-modlist-decisions/favicon.svg" alt="" class="size-6"><span class="hidden md:inline">Skyrim Modlist Decisions</span></a><nav aria-label="Main" class="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto sm:gap-1"><a href="/skyrim-modlist-decisions/modlist/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Modlist</a><a href="/skyrim-modlist-decisions/decisions/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Decisions</a><a href="/skyrim-modlist-decisions/playbook/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Playbook</a><a href="/skyrim-modlist-decisions/research/" class="rounded-md px-2 py-1.5 text-sm whitespace-nowrap transition-colors sm:px-3 text-secondary hover:bg-bg-2 hover:text-strong">Research</a></nav></div></header><main id="main" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6 sm:pt-14"><h1 class="mb-8 text-4xl font-bold tracking-[-0.03em] text-strong">Changelog</h1><article class="doc">
+<p>Each version says whether it’s safe for an existing save. Mods are marked <strong>Added</strong>, <strong>Moved</strong>, <strong>Updated</strong>, <strong>Incorporated</strong> or <strong>Dropped</strong>, the legend Step uses.</p>
+<h2 id="unversioned-2026-11-02-save-safety-not-assessed">Unversioned (2026-11-02), save safety not assessed</h2>
+<p>Snapshot of the list: 161 mods under 23 separators.</p>
+<ul>
+<li>
+<p><strong>Fixed:</strong> DLSS 5 Neural Rendering stopped working in Skyrim on 2026-11-03.</p>
+<ul>
+<li><strong>The cause:</strong> the owner ran Bethini (preset High, then recommended), which set <code>bFull Screen=0</code> and <code>bBorderless=1</code> in the profile’s <code>SkyrimPrefs.ini</code>. Community Shaders 1.9.1 ships Frame Generation on (<code>frameGenerationMode=1</code>), and it needs windowed mode, so exclusive fullscreen had kept it off without anyone noticing. In borderless mode it came on, and CS presented through its Direct3D 12 proxy, AMD FSR frame generation.</li>
+<li><strong>Why that broke NR:</strong> the RenoDX add-on serves Skyrim’s DLSS through its Direct3D 11 bridge only when the game presents through Direct3D 11. With the proxy it took the Direct3D 12 route, and no DLSS call reached it. <code>ReShade.log</code> shows <code>NR-VERDICT state=NOT_ENGAGED</code>, <code>evals=0</code>, for the whole session.</li>
+<li><strong>Evidence:</strong> Bethini’s backup and log, <code>CommunityShaders.log</code> (<code>Frame Generation enabled, using D3D12 proxy</code>), <code>SSEDisplayTweaks.log</code> and <code>ReShade.log</code>. A capture from 20:35, before Bethini ran, shows NR working on the compat runtime.</li>
+<li><strong>Not the cause:</strong> Effects 11 and the PI-CHO ENB, both disabled, and no file collisions next to the exe.</li>
+<li><strong>The fix, on 2026-11-04:</strong> CS Frame Generation is off (<code>frameGenerationMode=0</code> in <code>SKSE - Outputs</code>), so the RenoDX route works again. The owner gets frame generation from NVIDIA Smooth Motion instead. Smooth Motion is a driver setting the owner turns on in the NVIDIA App, outside the list. The old <code>SettingsUser.json</code> and <code>modlist.txt</code> are backed up in <code>C:\Modding\_cleanup-backup\2026-11-04-dlss5-smoothmotion</code>.</li>
+<li><strong>Seen in game on 2026-11-04, and the owner calls it perfect.</strong> The setup is CS’s DLSS upscaling, DLSS 5 NR through ReShade, and Smooth Motion with VSync turned on in the NVIDIA control panel.</li>
+<li><strong>Also changed by the owner:</strong> VSync is off in SSE Display Tweaks (<code>EnableVSync=false</code>). Its 120 fps limit stays.</li>
+<li><strong>The log:</strong> <code>ReShade.log</code> shows <code>api=d3d11 path=bridge</code> and <code>NR-VERDICT state=ENGAGED</code>. NR ran on 99.99% of eligible frames, about 7,900 evaluations, while the owner switched it on and off with F6. The swap chain is 8-bit <code>R8G8B8A8_UNORM</code> and windowed.</li>
+<li><strong>Frame rate:</strong> the game itself presents at about 60 fps (16.6 ms a frame), and Smooth Motion adds its frames in the driver on top.</li>
+</ul>
+</li>
+<li>
+<p><strong>Added, then disabled:</strong> Community Shaders Neural Rendering Addon 1.2.1 (<a href="https://www.nexusmods.com/skyrimspecialedition/mods/197720" target="_blank" rel="noreferrer">Nexus 197720</a>) in <code>Shaders</code>, and a runtime mod made here, <code>Community Shaders NR - Runtime compat 310.9.16</code>. The add-on is an SKSE plugin meant to run NR inside Community Shaders, alongside CS’s Frame Generation. On this list it never started.</p>
+<ul>
+<li><strong>Why it failed:</strong> on 1.5.97 its own version check failed: <code>Game compatibility check failed; no hooks installed: SKSE and the executable report different Skyrim versions</code> (<code>CommunityShadersNR.log</code>). SKSE then reported it as incompatible. Its author tested only 1.7.104, on an RTX 5080.</li>
+<li><strong>Kept:</strong> both folders are kept, disabled. The runtime mod holds a copy of the compat <code>nvngx_dlssnr.dll</code> (sha256 <code>cdfa6c1e…</code>). The add-on’s INI has <code>ResolutionPercent=67</code> and the overlay on. <a href="/skyrim-modlist-decisions/research/dlss5_neural_rendering/#community-shaders-nr-tried-on-2026-11-03">The DLSS 5 note</a> has the details.</li>
+</ul>
+</li>
+<li>
+<p><strong>Disabled, then enabled again:</strong> DLSS 5 - ReShade and RenoDX, which was off while the add-on above was tried.</p>
+</li>
+<li>
+<p><strong>Added by the owner, recorded here:</strong> HDR - Community Shaders 1.2.2, Effects 11 1.0.0 and PI-CHO ENB N9.7 for Obsidian, all in <code>Shaders</code> and all disabled now. The ENB mod holds only preset files, with no ENB binary, and ENB doesn’t fit a Community Shaders list.</p>
+<ul>
+<li><strong>HDR:</strong> the owner found CS’s HDR output looked broken. It was disabled on 2026-11-04 to return to the 8-bit swap chain that DLSS 5 last worked on. The HDR mod makes the swap chain 10-bit even with HDR output off.</li>
+</ul>
+</li>
+<li>
+<p><strong>Changed by the owner through Bethini:</strong> besides the window mode, <code>fGrassStartFadeDistance</code> 40000 to 4096, <code>iMaxDesired</code> 10000 to 2000 and <code>iNumFocusShadow</code> 0 to 4, in <code>SkyrimPrefs.ini</code>. Not reverted. Bethini’s own game path points at the Steam copy, though it wrote only the profile’s INI.</p>
+</li>
+<li>
+<p><strong>Moved:</strong> 26 shader cache files from the owner’s last three game runs, from Overwrite into <code>ShaderCache - Outputs</code>.</p>
+</li>
+<li>
+<p><strong>Updated:</strong> the DLSS 5 Neural Rendering runtime (<code>nvngx_dlssnr.dll</code>) in <code>DLSS 5 - ReShade and RenoDX</code> and <code>Upscaling - Community Shaders</code>, from 310.8.0 to ShortFuse’s <code>compat-fp16-310.9.16-cuda13.4.3</code> build for RTX 20, 30 and 40 cards. It costs about 7 ms per frame at 4K on the RTX 4090, against 10 to 12 ms for 310.8.0 (measured in Conan Exiles). Safe for an existing save. Not yet seen in Skyrim. <a href="/skyrim-modlist-decisions/research/dlss5_neural_rendering/">The DLSS 5 note</a> explains the whole setup.</p>
+</li>
+<li>
+<p><strong>Added:</strong> Northern Roads - Road Debris, last in <code>Landscape</code>, with its plugin <code>Northern Roads - Road Debris.esp</code> (ESL-flagged), built here by the new <code>tools/road_debris.py</code>. It puts sparse pebbles and small rocks on Northern Roads’ dirt roads, which had no grass or debris at all. Decided in <a href="/skyrim-modlist-decisions/decisions/0015-keep-tomatorim-ground-and-northern-roads/">0015</a>. Safe for an existing save. Not yet seen in game.</p>
+<ul>
+<li><strong>Records:</strong> four new grass records using DrJacopo’s <code>PebbleGrass01</code>, <code>03</code> and <code>06</code> and <code>RockGrass02_Small</code>, at densities 6, 5, 4 and 2, with vanilla rock grass placement. Overrides of Northern Roads’ 10 dirt road textures and Whiterun’s outer road add the four to each.</li>
+<li><strong>Load order:</strong> LOOT put it after Northern Roads.esp and moved nothing else.</li>
+<li><strong>Not rerun:</strong> no grass cache in this list, and no meshes or textures in the mod, so nothing to regenerate.</li>
+</ul>
+</li>
+<li>
+<p><strong>Added, then disabled:</strong> Terrain Depth - Outputs, in <code>Outputs</code>, generated by the new <code>tools/terrain_depth.py</code>, and listed in <code>rules/rules.json</code> as an output mod. It deepened the PBR ground’s parallax toward the converted road’s, as the owner asked after a look in game. In game the ground smeared into streaks, so it was disabled the same day and the ground is back to TomatoRim’s own maps. The folder is kept. See <a href="/skyrim-modlist-decisions/research/road_edges_and_debris/#deeper-ground-instead-of-a-shallower-road">the road edges note</a> and <a href="/skyrim-modlist-decisions/decisions/0015-keep-tomatorim-ground-and-northern-roads/">0015</a>.</p>
+<ul>
+<li><strong>What it holds:</strong> 59 of the winning ground height maps, stretched around their own average toward a relief of 0.09, at most 3 times. Also 9 texture set files whose <code>displacementScale</code> rose toward 1.0 with the average re-centred: TomatoRim’s pine forest 02 (0.325) and Reach grass (0.627), and seven of Faultier’s Soul Cairn sets.</li>
+<li><strong>Why not raise the scales:</strong> height blending weighs layers by <code>(height - 0.5) * displacementScale</code>. Raising the scale alone would also lift the ground’s average and let it swallow the road’s edges and faint trails.</li>
+<li><strong>Conflicts on purpose:</strong> it wins over TomatoRim PBR Landscapes, TomatoRim PBR - Northern Roads, Faultier’s PBR Skyrim, Tomato’s Riften and Ratway and Vanaheimr Mines and Caves, on those files only.</li>
+<li><strong>Why it smeared:</strong> the files were as intended (averages kept, spread raised, every mip checked). TomatoRim’s height maps carry little real height detail, and a 1.6 to 3 times stretch made their small bumps too steep for the shader’s 16-step parallax march.</li>
+</ul>
+</li>
+<li>
+<p><strong>Changed:</strong> the converted Omen Apollo road’s <code>displacementScale</code> from 1.0 to 0.5, then back to 1.0 the same day. At 0.5 the owner found the road flat. 1.0 is the value TomatoRim’s own files give this set. The ground stays TomatoRim’s and the roads stay Northern Roads, rather than a move to Vanaheimr or back to Blended Roads (<a href="/skyrim-modlist-decisions/decisions/0015-keep-tomatorim-ground-and-northern-roads/">0015</a>).</p>
+</li>
+<li>
+<p><strong>Fixed:</strong> Northern Roads’ stone spike pillars and Reach bridges looked furry and smeared. PBR Hub - Northern Roads PBR ships its own copies of <code>stonespike01</code>, <code>stonespike02</code>, <code>reachbridge01</code> and <code>reachbridge02</code> that swap their textures for the vanilla mountain slab. PGPatcher then gave them TomatoRim’s mountain material, made for whole mountains, with glint, parallax and 75° normal smoothing. Those four meshes are now hidden in MO2 (<code>.mohidden</code>). The Patches Compendium meshes win again, and PGPatcher gives them the PBR textures PBR Hub made for them. Found from the owner’s screenshot. Not yet seen in game.</p>
+</li>
+<li>
+<p><strong>Regenerated:</strong> PGPatcher, for the pillar and bridge fix, through <code>mo2-run.ps1 -RegeneratePGPatcher</code>. It ran fully unattended for the first time since its OK window fix. 2,542 TruePBR entries, 2 warnings (an unused Creation Club BSA, and a voice file name with non-ASCII characters), no errors. LOOT made no changes, and <code>mo2.py pgpatcher-check</code> found its 15,592 files matching their winning sources. The four models now use <code>textures\pbr\cotnrchitecture\stonespike01</code>, <code>02</code>, <code>reachbridge01</code> and <code>02</code>.</p>
+</li>
+<li>
+<p><strong>Moved:</strong> two shader cache files from the owner’s last two game runs, from Overwrite into <code>ShaderCache - Outputs</code>.</p>
+</li>
+<li>
+<p><strong>Added:</strong> Northern Roads - Omen Apollo Dirt PBR (converted), at the top of <code>Landscape</code>. It’s a PBR conversion, made here, of <a href="https://www.nexusmods.com/skyrimspecialedition/mods/93860" target="_blank" rel="noreferrer">Complex Parallax Texture for Northern Roads</a> 4K 1.02 by Omen Apollo, for rougher, trampled dirt roads with deep parallax. Not yet seen in game.</p>
+<ul>
+<li><strong>Why a conversion:</strong> the original is an ENB complex parallax texture. TomatoRim’s road plugin points the road texture sets at <code>textures\pbr\</code>, so the game never loads it. Community Shaders couldn’t draw it next to PBR ground anyway. PGPatcher 2.3.1 converts only parallax to complex material, and only on meshes.</li>
+<li><strong>The maps:</strong> made by the new <code>tools/terrain_to_pbr.py</code>.
+<ul>
+<li>The colour map became a 4K BC7 sRGB albedo, raised 2.86 times in linear light to TomatoRim’s road brightness.</li>
+<li>The height, from the colour map’s alpha, became a 2K BC4 map.</li>
+<li>The normal is kept at 4K.</li>
+<li>RMAOS is 2K, with roughness 0.86 to 0.96, no metal and AO 1.</li>
+<li>The 8 trail colour maps are copies of the base, as they are in the original.</li>
+</ul>
+</li>
+<li><strong>Texture set files:</strong> copies of TomatoRim’s 10 files for these sets, values unchanged, so the parallax depth can be tuned in this mod.</li>
+<li><strong>Conflicts on purpose:</strong> it wins over TomatoRim PBR - Northern Roads and PBR Hub - Northern Roads PBR, on 12 textures and 10 texture set files.</li>
+<li><strong>Not rerun:</strong> it has no plugin, so LOOT stays as it was. AutoBlend has no Northern Roads textures, and PGPatcher’s meshes point at the same paths, so neither ran again.</li>
+<li><strong>Also changes:</strong> Whiterun’s outer road, which TomatoRim points at the same maps. The winter road sets stay as they were; they belong to Seasons of Skyrim, which isn’t installed.</li>
+<li><strong>Moved:</strong> a shader cache file from the owner’s last game run, from Overwrite into <code>ShaderCache - Outputs</code>.</li>
+<li><strong>Fixed, after the first in-game test:</strong> the road showed black at a distance and at low angles, with dark patches close up.
+<ul>
+<li>Every albedo mip below full size was black, because Texconv weighted colour by the albedo’s alpha, which was 0.</li>
+<li>The albedo is now opaque, and <code>terrain_to_pbr.py</code> checks every mip of every map.</li>
+<li>All 12 textures were rebuilt and replaced. Not yet seen in game since.</li>
+</ul>
+</li>
+<li>For this setup only. The converted files aren’t to be shared.</li>
+</ul>
+</li>
+<li>
+<p><strong>Added:</strong> Northern Roads in place of Blended Roads, from <a href="/skyrim-modlist-decisions/research/roads/">the roads research</a>, in <code>Landscape</code>. Not yet seen in game.</p>
+<ul>
+<li><strong>Order in Landscape:</strong>
+<ul>
+<li>Blended Roads (disabled), Enhanced Rocks and Mountains, Icy Mesh Remaster.</li>
+<li>Northern Roads, then its patches and fixes: Northern Roads - Patches Compendium, Collision and Placement Fix, Floating Objects Fix, Collision Box Fix in Whiterun, Northern Roads Patch Collection.</li>
+<li>TomatoRim PBR Landscapes, then PBR Hub - Northern Roads PBR, then TomatoRim PBR - Northern Roads.</li>
+<li>TomatoRim’s main landscapes moved below the Northern Roads set, as TomatoRim’s install steps order them.</li>
+</ul>
+</li>
+<li><strong>Northern Roads 1.3.1:</strong> no installer. Its <code>seasons</code> folder, for Seasons of Skyrim, was left out. It’s one full plugin with 18,681 records, HEDR 1.70 and vanilla masters only.</li>
+<li><strong>Patches Compendium 8.0.0:</strong>
+<ul>
+<li>Fixes and Optimization: 129 fixed and optimized meshes.</li>
+<li>The Compendium itself, with these choices: “Regular Northern Roads” rather than “Lux Via Clutter”, the Rocks Patch, Additional Roads, USSEP Additions and the Floating Plants Fix.</li>
+<li>No Ultimate Grass Fix, which its author advises against. Its Lux Via combination patches all need mods this list doesn’t have.</li>
+</ul>
+</li>
+<li><strong>Patch Collection 1.41.1:</strong>
+<ul>
+<li>The Lux, Lux Orbis and Lux Via patches, and the six Creation Club patches: Farming, Fishing, Myrwatch, Saints and Seducers, The Cause and Tundra Homestead.</li>
+<li>The Blended Roads Solitude Bridge Fix, because TomatoRim’s Blended Roads-based Solitude bridge stays.</li>
+<li>Not the experimental “Lux Via - NR bridges”, so Lux Via’s bridges stay where both mods have one. Not its Better Dynamic Snow patch, which is for BDS 2.11 and older.</li>
+</ul>
+</li>
+<li><strong>Fixes:</strong> Collision and Placement Fix 2.1.1, the Floating Objects Fix 1.4 with its Lux Via file, and the Collision Box Fix in Whiterun 1.0.0. The floating objects files are the Base Object Swapper versions, with no plugin.</li>
+<li><strong>Road textures:</strong> PBR Hub’s Northern Roads PBR 1.0.3 for the bridges, buildings and clutter. Then TomatoRim PBR - Northern Roads 1.0, whose 16 road texture sets win over PBR Hub’s. Every road texture has a height map at full strength.</li>
+<li><strong>Nordic Cut’s Patch Collection:</strong> reinstalled from the archive already in downloads, with its Northern Roads patch. It also adds its Lux Via and Lux patches, which the lighting install missed because Nordic Cut went in before Lux.</li>
+<li><strong>Lux Via:</strong> its “Via Bridges for Blended Roads” option came out. That was a texture set plugin and 6 bridge meshes.</li>
+<li><strong>Plugins:</strong> 23 new, all ESL-flagged except <code>Northern Roads.esp</code>, and one gone with Lux Via’s option. That makes 217 in all, 40 of them full.</li>
+<li><strong>Conflicts on purpose:</strong>
+<ul>
+<li>Solitude’s bridge: TomatoRim’s Blended Roads-based copy wins, with the Collection’s fix for its cobbles. It beats the SMIM-based copy in Northern Roads, and the copies in the Compendium, Assorted Mesh Fixes and SMIM.</li>
+<li>Dragon Bridge: PBR Hub’s copy, whose deck uses Northern Roads’ stone road, wins over TomatoRim’s.</li>
+<li>Northern Roads’ meshes: the Compendium’s 129 fixed copies win, and the collision fix’s 3 win over both. PBR Hub’s 4 Reach bridge and stone spike meshes win over both.</li>
+<li>Obsidian keeps six distant cloud models that Northern Roads disables or nudges.</li>
+</ul>
+</li>
+<li><strong>LOOT rules:</strong>
+<ul>
+<li><code>Northern Roads.esp</code> loads after Nordic Cut and Lux Via’s plugin, as both patch packs ask. Without the rule, LOOT loaded Northern Roads first. That left a tree standing on the new road in Eastmarch, and Lux Via’s terrain over two Northern Roads blocks. LOOT met the rule by moving Lux Via’s plugin up, which changes nothing else.</li>
+<li>TomatoRim’s road plugin loads after PBR Hub’s.</li>
+<li>Tried and dropped: the Collection’s Lux Via patch after Nordic Cut’s Lux Via patch. LOOT met it by moving the Lux Via patch past five other Northern Roads patches.</li>
+</ul>
+</li>
+<li><strong>Checked:</strong>
+<ul>
+<li>Northern Roads and its patches edit 13,087 landscape, navmesh and reference records. Only 10 end up won by a plugin that doesn’t list Northern Roads as a master: Obsidian’s six clouds and the four below.</li>
+<li>Shared cells carry the same regions throughout.</li>
+<li>Northern Roads’ Lux patches share no references with Lux CS, Lux Orbis CS or CS Light.</li>
+</ul>
+</li>
+<li><strong>Found, not fixed:</strong>
+<ul>
+<li>No patch covers Nordic Cut, Lux Via and Northern Roads together. In 4 references Nordic Cut’s Lux Via patch wins: two trees stay where Lux Via moved them (Skyrim.esm 0C3936, 0C3937), and a Lux Via object that the Northern Roads patch disables stays (Lux Via.esp 0009AD).</li>
+<li>PBR Hub’s plugin points a Windhelm wall texture set at maps from a Windhelm PBR mod this list doesn’t have. It points a dragon totem set at textures nobody ships. Nothing in the list places either object.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Dropped:</strong> Blended Roads, disabled and kept in MO2 until Northern Roads has been seen in game. No plugin had it as a master.</p>
+</li>
+<li>
+<p><strong>Regenerated:</strong> AutoBlend, then PGPatcher, each with its output disabled first.</p>
+<ul>
+<li>The owner ran AutoBlend. It blended 87 meshes, created 24 texture sets and assigned 679 alternate textures, as before.</li>
+<li>Its one new warning: a Lux Via bridge in the Collection’s patch points one shape at a base-game form that isn’t a texture set, and AutoBlend left that shape alone.</li>
+<li>PGPatcher found 2,542 PBR entries, up from 2,497, with no errors. Its check matched all 15,592 patched files to their winning source.</li>
+</ul>
+</li>
+<li>
+<p><strong>Moved:</strong> two shader cache files from a game run, out of Overwrite and into <code>ShaderCache - Outputs</code>.</p>
+</li>
+<li>
+<p><strong>Fixed:</strong></p>
+<ul>
+<li><code>tools/mo2.py install</code> stopped after copying files when an archive left read-only folders in staging. It now clears the flag when it cleans up.</li>
+<li><code>tools/mo2-run.ps1</code> couldn’t close PGPatcher’s completion window. Its OK is a pane that UI Automation can’t click, so the script now closes that window directly.</li>
+</ul>
+</li>
+<li>
+<p><strong>Added:</strong> a lighting and weather set from <a href="/skyrim-modlist-decisions/research/lighting/">the lighting research</a> and <a href="/skyrim-modlist-decisions/research/weather/">the weather research</a>, in a new <code>Lighting &#x26; Weather</code> separator between Architecture and Gameplay. Not yet seen in game.</p>
+<ul>
+<li><strong>Frameworks:</strong> Light Placer 5.0.0 at the end of SKSE &#x26; Frameworks, with its SE 1.5.97 DLL, and ISL Helper SKSE 1.0.6 in Shaders. Both DLLs export the entry point SKSE needs on 1.5.97.</li>
+<li><strong>Order in Lighting &#x26; Weather:</strong> Lux Via, Lux via - Patch Hub, Lux, Lux - Patch Hub, Lux Orbis, Lux Orbis - Patch Hub, Lux CS, CS Light, First person magic hand light fix, Embers XD, Embers XD - Light Placer Add-On, Obsidian Weathers and Seasons, Moons and Stars, Obsidian CS.</li>
+<li><strong>Lux Via 2.2:</strong>
+<ul>
+<li>The No ENB light resource pack, since Community Shaders dropped ENB lights in 1.4, and the Blended Roads bridges.</li>
+<li>No brighter lighting, lantern density, He-Man or Morthal crash fix plugins, and not its Better Dynamic Snow 2 patch.</li>
+<li>Its three update files on top: the meshes BSA (the same 208 files), <code>Lux Via.esp</code> and <code>Lux - Resources.esp</code>.</li>
+</ul>
+</li>
+<li><strong>Lux 7.1:</strong>
+<ul>
+<li>The effects the Lux CS author uses: beams and mists with effect lighting instead of particles, and webs. The vanilla window models, and the USSEP patch for the version before the update, which matches USSEP 4.2.5b record for record.</li>
+<li>None of the optimized rugs, pelts, tables, chandeliers or meshes, since Light Limit Fix is in Community Shaders.</li>
+<li>Not the ice cave fixes, since PGPatcher already rebuilds those 160 meshes for PBR. Not the Embers XD fireplace or flame options: Embers XD ships the same fireplace mesh and loads later, and Orbis overrides the flame mesh. No brighter templates, since Lux CS brightens them.</li>
+<li>The 7.1 plugin update on top. Its six vanilla window masks were removed, so the masks Faultier’s and Tomato’s Whiterun ship for their own windows win.</li>
+</ul>
+</li>
+<li><strong>Lux Orbis 4.5:</strong>
+<ul>
+<li>The “optimized meshes” its installer requires, SMIM’s Solitude meshes and the vanilla Whiterun well. No giant campfires, since Embers XD has its own. Its Embers XD and USSEP patches.</li>
+<li>Then the 108 meshes without a “Lux” prefix were removed, as Lux CS says. They were vanilla-path meshes split for the old light limit. They would have overridden Assorted Mesh Fixes (33), Faultier’s (8), SMIM, Particle Patch, TomatoRim, Blended Roads and 9 of AutoBlend’s meshes. The 5 prefixed meshes stay.</li>
+</ul>
+</li>
+<li><strong>Patch hubs:</strong> what each installer detects. Lux Via’s hub adds its CC Farming patch, Lux’s adds 22 Creation Club patches and Skyrim Unbound, and Orbis’s adds 10 Creation Club patches. None covers Tomato’s Riften, Imperial Forts or farmhouses, or Vanaheimr’s caves.</li>
+<li><strong>Lux CS 2.6.0:</strong> No Effect 11, which brings the tone mapping and bulbs plugins and its Light Placer configs. Also the Lux Orbis tweaks and the default templates. Its SKSE plugin is now ISL Helper SKSE.</li>
+<li><strong>CS Light 2.0.1:</strong>
+<ul>
+<li>The author’s recommended configs, regular soulgems, dim potions, both Creation Club configs, and its magic light plugin.</li>
+<li>Not Furniture, which Lux CS lights. Not Deathbell: one of DrJacopo’s two deathbell meshes lacks the node it attaches to. Not the interior window lights, since Lux lights windows. No patches for mods that aren’t installed.</li>
+</ul>
+</li>
+<li><strong>Embers XD 3.3.0 2K:</strong>
+<ul>
+<li>Community Shaders flames, no particle lights, the Lux Orbis plugin, subtle smoke and Solitude braziers. No add-ons.</li>
+<li>Not its Lux Via patch, which its author says not to use with the Orbis plugin.</li>
+<li>Its Light Placer add-on lights only Embers XD’s own fires, because Lux CS already lights the vanilla ones. The two configs still share one brazier model.</li>
+</ul>
+</li>
+<li><strong>Weather:</strong> Obsidian Weathers 1.07a, Moons and Stars 2.1.0 with its 1.5.97 DLL, and Obsidian CS 1.1.2 above Moons and Stars. Those two share no files or records.</li>
+<li><strong>INI:</strong> <code>iMaxDesired</code> went from 2000 to 10000 under <code>[Particles]</code> in the profile’s SkyrimPrefs.ini, as Embers XD asks. Its own <code>Embers XD.ini</code> sets the same.</li>
+<li><strong>Plugins:</strong> 55 new. Four take full slots: <code>Lux Via.esp</code> (ESM-flagged), <code>Lux.esp</code>, <code>Embers XD.esp</code> and <code>Obsidian Weathers.esp</code>. The rest are ESL-flagged.</li>
+<li><strong>Conflicts on purpose:</strong>
+<ul>
+<li>Lux’s effects and the hand light fix replace Particle Patch’s copies of 176 and 16 meshes. Community Shaders ignores Particle Patch’s ENB lights.</li>
+<li>Embers XD replaces fire-related meshes from Particle Patch (14), SMIM (8) and Faultier’s (4).</li>
+<li>Lux wins 47 interior fire references over Embers XD, and Blackreach’s weather and three light records (torches and Candlelight) over Obsidian. LOOT’s masterlist puts Lux in its late cell lighting group on purpose.</li>
+<li>SMIM’s loose files win over the copies of SMIM textures inside Lux Via’s BSAs.</li>
+</ul>
+</li>
+<li><strong>LOOT rules:</strong> the list’s first <code>userlist.yaml</code>. Lux Orbis and Lux CS’s Orbis plugin load after Lux Via’s plugin, as Via’s author asks, so Orbis wins their 33 shared lantern references.
+<ul>
+<li>Lux CS’s installer also asks for its Orbis plugin after every Orbis patch. That rule was tried and dropped: it shares no references with them, and its copies of their cells undid the patches’ and IcyFixes’ region and water fixes.</li>
+<li><code>tools/snapshot.py</code> now copies <code>userlist.yaml</code> into <code>list/</code>, as <a href="/skyrim-modlist-decisions/decisions/0010-loot-with-metadata/">0010</a> asks.</li>
+</ul>
+</li>
+<li><strong>Hidden:</strong> Faultier’s Lux mask for Whiterun windows, with the owner’s OK. It was beating Tomato’s, though Tomato’s Whiterun Remake supplies those windows. The conflict predates this set but only matters with Lux. The file is renamed <code>.mohidden</code>, so MO2 can unhide it.</li>
+<li><strong>Found, not fixed:</strong> <code>Lux - Resources.esp</code> points 10 lantern post base objects at <code>mlos\</code> meshes that no file ships, and Lux Via places 3 of those posts. That’s Lux’s own plugin, in both its original and updated versions.</li>
+</ul>
+</li>
+<li>
+<p><strong>Regenerated:</strong> AutoBlend, then PGPatcher, each with its output disabled first.</p>
+<ul>
+<li>The owner ran AutoBlend. It blended 87 meshes, created 24 texture sets and assigned 679 alternate textures, against 85, 23 and 668 before. Its 5 new warnings are two texture sets on a Lux Via arrow it left untouched, and the 3 missing lantern post meshes above.</li>
+<li>PGPatcher found 2,497 PBR entries, as before, with no errors. <code>PG_1.esp</code> now also patches Lux, Lux Via, Orbis and Embers XD. Its check matched all 15,536 patched files to their winning source.</li>
+<li>LOOT sorted before and after, and the last sort made no changes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Fixed:</strong> <code>tools/mo2.py</code> crashed checking whether MO2 was closed, because Windows answers <code>tasklist</code> in Portuguese and UTF-8 mode can’t decode it.</p>
+</li>
+<li>
+<p><strong>Added:</strong> a plant overhaul from <a href="/skyrim-modlist-decisions/research/plants/">the plant research</a>, in a new <code>Plants</code> separator between Trees &#x26; Grass and Architecture. Not yet seen in game.</p>
+<ul>
+<li><strong>Meshes:</strong> DrJacopo’s 3D plants. That’s Deathbell, Dragons Tongue (Dark Orange), Cathedral Mountain Flowers, Nightshade, Pine Shrubs, Snow Berries (Green), Stonecrop, Sword Ferns, Thicket and Dead Shrub, Thistle, Tundra Cotton, Tundra Shrubs, Lavender (Vanilla Size) and Clover (Full 3D PBR). Also Cathedral - Mushrooms, A Nirnroot with its PBR version, and snowy mountain flowers through Base Object Swapper.</li>
+<li><strong>Textures:</strong>
+<ul>
+<li><strong>Cathedral PBR Plants:</strong> non-seasonal, default colors, Faultier’s sword ferns and dry mushrooms, no glow.</li>
+<li><strong>PBR Flora Overhaul:</strong> every non-seasonal default except clover (DrJacopo’s covers it), cabbage (Faultier’s covers it), and the Reach tree and driftwood options, which ship tree meshes that would fight Nature of the Wild Lands.</li>
+</ul>
+</li>
+<li><strong>Shrubs:</strong> Diverse high-quality PBR shrubs for the Reach, yellow and fall forest shrubs and the vine maple. DrJacopo’s keeps tundra shrubs, thickets and dead shrubs.</li>
+<li><strong>Ivy:</strong> Animated Ivy (farmhouse and stonewall, through Base Object Swapper) and Tomato’s PBR Vanilla Ivy.</li>
+<li><strong>Conflicts on purpose:</strong>
+<ul>
+<li>Faultier’s keeps the tendril vines and the ruin ivy, since it loads after its gap fillers.</li>
+<li>The new nirnroot and creep cluster meshes replace the copies Nature of the Wild Lands ships.</li>
+<li>PBR Flora’s glowing mushroom mesh replaces Particle Patch’s.</li>
+</ul>
+</li>
+<li><strong>Result:</strong> six new plugins, all ESL-flagged. Vanilla plant textures still in use by path fell from 103 to 44, and most of the rest are grass, which Merethic handles.</li>
+</ul>
+</li>
+<li>
+<p><strong>Regenerated:</strong> PGPatcher with its output disabled first, as rule 14 says. PGPatcher itself refuses to run otherwise. It found 2,497 PBR entries, up from 2,365, with no errors. LOOT sorted before and after.</p>
+</li>
+<li>
+<p><strong>Added:</strong> USSEP 4.2.5b, the last build for 1.5.97, at the top of Fixes.</p>
+</li>
+<li>
+<p><strong>Added:</strong> a PBR visual set from <a href="/skyrim-modlist-decisions/research/pbr_trees_and_grass/">the research</a>. The owner tried it in game on 2026-11-03 and reports it working well.</p>
+<ul>
+<li>Four new separators sit between Armor and Gameplay: Models, Landscape, Trees &#x26; Grass, and Architecture. That’s nature before structures, as decision 0003 suggests, with the order inside each one set by what the authors ask:
+<ul>
+<li>Better Dynamic Snow wins over SMIM.</li>
+<li>Icy Mesh Remaster loads after Better Dynamic Snow.</li>
+<li>TomatoRim loads after Icy Mesh, ERM and Blended Roads.</li>
+<li>Vanaheimr’s caves load after TomatoRim, whose cave ground they share.</li>
+<li>Faultier’s AIO comes after the mods that fill its gaps.</li>
+</ul>
+</li>
+<li><strong>Models:</strong> SMIM, Assorted Mesh Fixes, and Better Dynamic Snow 3.6 (brighter snow, no glacier snow).</li>
+<li><strong>Landscape:</strong> Blended Roads, ERM meshes, Icy Mesh Remaster with its fixes, and TomatoRim PBR Landscapes 2K with its 1.7 update. TomatoRim ships its own road meshes and projected snow texture.</li>
+<li><strong>Trees &#x26; Grass:</strong> Nature of the Wild Lands with Autumn Rift, its Nordic Cut and Nordic Cut’s CC Tundra Homestead patch, NOTWL PBR, DrJacopo’s grass library meshes, Merethic Grasslands, and Merethic Grasslands PBR.</li>
+<li><strong>Architecture:</strong> Tomato’s Imperial Forts Remake, TomatoRim Farmhouses, Tomato’s Whiterun Remake, Tomato’s Riften and Ratway, Vanaheimr Mines and Caves (PBR 2k with blending meshes), and Faultier’s PBR Skyrim AIO 2k.</li>
+<li><strong>Tools and frameworks:</strong> Base Object Swapper (the 1.5.97 build, for IcyFixes’ swaps) and AutoBlend, with its output in <code>AutoBlend - Outputs</code> before PGPatcher’s.</li>
+</ul>
+</li>
+<li>
+<p><strong>Generated:</strong> AutoBlend, then PGPatcher, for the new set. Both logs show no errors.</p>
+<ul>
+<li>AutoBlend wrote <code>AutoBlend.esp</code> and blended 85 landscape meshes.</li>
+<li>PGPatcher found 2,365 PBR entries and wrote <code>PGPatcher.esp</code> and <code>PG_1.esp</code>. The 3,707 loose files it patched match the winning mod’s copy, so it didn’t read its own old output.</li>
+<li>All three plugins are ESL-flagged. The order already matches LOOT’s rule that PGPatcher’s plugins load after <code>AutoBlend.esp</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Moved:</strong> the files new in Overwrite to their homes. PGPatcher’s and AutoBlend’s settings and log went into their tool mods, Pandora’s <code>Settings.json</code> into Pandora’s mod, and the shader cache into <code>ShaderCache - Outputs</code>. Only <code>Root</code> is left.</p>
+</li>
+<li>
+<p><strong>Moved:</strong> Assorted Mesh Fixes from Fixes to just after SMIM, because its author says it already includes SMIM’s changes and should load after it.</p>
+</li>
+<li>
+<p><strong>Updated:</strong> Community Shaders 1.8.4 to 1.9.1, which Grass Optimizations needs. NGIO now has a <code>GrassControl.ini</code> for extended grass. See <a href="/skyrim-modlist-decisions/decisions/0014-extended-grass-without-cache/">0014</a>.</p>
+</li>
+<li>
+<p><strong>Added:</strong> Animation Queue Fix 1.0.2 and Paired Animation Improvements 1.0.3, under Animation. Both are SKSE plugins that export the entry point SKSE needs on 1.5.97.</p>
+</li>
+<li>
+<p><strong>Updated:</strong> Pandora 4.4.0-beta to 5.0.0-beta, Open Animation Replacer to 3.2.1, and Dyn FNIS AA functions to 3.1.1. Pandora was rerun, and its behavior files came out identical to 4.4’s. See <a href="/skyrim-modlist-decisions/decisions/0005-pandora-behavior-engine/">0005</a>.</p>
+</li>
+<li>
+<p><strong>Adopted:</strong> decisions 0003, 0008, 0009, 0010 and 0012.</p>
+</li>
+<li>
+<p><strong>Moved:</strong> <code>Recently Added</code> below <code>Outputs</code>.</p>
+</li>
+<li>
+<p><strong>Changed:</strong> Pandora now writes to <code>Pandora - Outputs</code> through its own <code>-o</code> argument and finds the game with <code>--tesv</code>. MO2’s redirects for Pandora and BodySlide were removed.</p>
+</li>
+<li>
+<p><strong>Moved:</strong> Overwrite’s SKSE and shader cache files into <code>SKSE - Outputs</code> and <code>ShaderCache - Outputs</code>.</p>
+</li>
+<li>
+<p><strong>Cleaned:</strong> 44 plugins with Clean Load Order. The game hasn’t been launched since. See <a href="/skyrim-modlist-decisions/decisions/0011-clean-plugins-with-backups/">0011</a>.</p>
+</li>
+<li>
+<p><strong>Moved:</strong> BodySlide output to <code>Bodyslide - Outputs</code>.</p>
+</li>
+<li>
+<p><strong>Updated:</strong> JContainers SE to 4.3.4 and MCM Helper to 1.4.0.</p>
+</li>
+</ul></article></main><footer class="border-t border-line-subtle"><div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-6 text-sm text-inactive sm:px-6"><p>One person's list, not a guide to follow. Mods belong to their authors; no mod files are hosted here.</p><div class="flex gap-4"><a class="hover:text-primary" href="/skyrim-modlist-decisions/changelog/">Changelog</a><a class="hover:text-primary" href="https://github.com/ldallacqua/skyrim-modlist-decisions" target="_blank" rel="noreferrer">GitHub</a></div></div></footer></body></html>
